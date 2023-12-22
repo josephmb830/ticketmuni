@@ -73,9 +73,58 @@ $pdf->Ln();
 $pdf->Cell (0,5,utf8_decode('Información de Ticket #'.utf8_decode($reg['serie'])),0,1,'C');
 
 
+$pdf->SetFont('Helvetica', 'b', 10);
+$pdf->Cell(185.9, 7, 'SOPORTE TECNICO A EQUIPOS INFORMATICOS', 1, 1, 'C', true);
+$pdf->Ln(2);
+$pdf->SetFont('Helvetica', 'b', 9);
+$pdf->Cell(185.9, 7, 'DATOS DEL USUARIO DEL EQUIPO', 1, 1, 'C', true);
+$pdf->SetFont('Helvetica', '', 9);
+$pdf->Cell(35, 7, 'Gerencia:      ', 1, 0, 'L');
+$pdf->Cell (0,7,utf8_decode('-'),1,1,'L');
+$pdf->Cell(35, 7, 'Departamento:      ', 1, 0, 'L');
+$pdf->Cell (0,7,utf8_decode($reg['departamento']),1,1,'L');
+$pdf->Cell(35, 7, 'Nombre del usuario:      ', 1, 0, 'L');
+$pdf->Cell (0,7,utf8_decode($reg['nombre_usuario']),1,1,'L');
+$pdf->Ln(4);
+$pdf->SetFont("Arial","b",9);
+$pdf->Cell(185.9, 7, 'TIPO DE SERVICIO', 1, 1, 'C', true);
+$pdf->SetFont("Arial","",9);
+$pdf->Cell (185.9,7,utf8_decode('-'),1,1,'C');
+$pdf->Ln(2);
+$pdf->SetFont("Arial","b",9);
+$pdf->Cell(185.9, 7, 'DATOS DEL EQUIPO/COMPONENTE', 1, 1, 'C', true);
+$pdf->Cell (35,7,'No.',1,0,'C');
+$pdf->Cell (0,7,'-',1,1,'L');
+$pdf->Cell (35,7,'DESCRIPCION',1,0,'C');
+$pdf->Cell (0,7,'-',1,1,'L');
+$pdf->SetFont("Arial","b",8.5);
+$pdf->Cell (35,7,'CODIGO PATRIMONIAL',1,0,'C');
+$pdf->SetFont("Arial","b",9);
+$pdf->Cell (0,7,'-',1,1,'L');
+$pdf->Cell (35,7,'No. DE SERIE',1,0,'C');
+$pdf->Cell (0,7,'-',1,1,'L');
+$pdf->Cell (35,7,'FALLA PRESENTADA',1,0,'C');
+$pdf->Cell (0,7,'-',1,1,'L');
+$pdf->Cell (35,7,'SOLUCION',1,0,'C');
+$pdf->Cell (0,7,'-',1,1,'L');
+$pdf->Cell (40,21,'CODIGO PATRIMONIAL',1,0,'C');
+$pdf->Cell (40,21,'No. DE SERIE',1,0,'C');
+$pdf->Cell (61.9,21,'CARACTERISTICAS/PROBLEMA',1,1,'C');
+$pdf->Ln(2);
 
-$pdf->Cell(190, 10, 'SOPORTE TÉCNICO A EQUIPOS INFORMÁTICOS', 1, 1, 'A');
-$pdf->Cell (35,10,'Fecha',1,0,'C',true);
+/*$pdf->Cell(185.9, 7, 'DATOS DEL EQUIPO/COMPONENTE', 1, 1, 'C', true);
+$pdf->Cell (9,7,'No.',1,0,'C');
+$pdf->Cell (35,7,'DESCRIPCION',1,0,'C');
+$pdf->Cell (40,7,'CODIGO PATRIMONIAL',1,0,'C');
+$pdf->Cell (40,7,'No. DE SERIE',1,0,'C');
+$pdf->Cell (61.9,7,'CARACTERISTICAS/PROBLEMA',1,1,'C');
+$pdf->Cell (9,21,'No.',1,0,'C');
+$pdf->Cell (35,21,'DESCRIPCION',1,0,'C');
+$pdf->Cell (40,21,'CODIGO PATRIMONIAL',1,0,'C');
+$pdf->Cell (40,21,'No. DE SERIE',1,0,'C');
+$pdf->Cell (61.9,21,'CARACTERISTICAS/PROBLEMA',1,1,'C');*/
+
+/*$pdf->Cell (35,10,'Fecha',1,0,'C',true);
 $pdf->Cell (0,10,utf8_decode($reg['fecha']),1,1,'L');
 $pdf->Cell (35,10,'Serie',1,0,'C',true);
 $pdf->Cell (0,10,utf8_decode($reg['serie']),1,1,'L');
@@ -94,7 +143,7 @@ $pdf->Cell (0,15,utf8_decode($reg['mensaje']),1,1,'L');
 $pdf->Cell (35,15,'Solucion',1,0,'C',true);
 $pdf->Cell (0,15,utf8_decode($reg['solucion']),1,1,'L');
 $pdf->Cell (35,15,'tecnico',1,0,'C',true);
-$pdf->Cell (0,15,utf8_decode($reg['tecnico']),1,1,'L');
+$pdf->Cell (0,15,utf8_decode($reg['tecnico']),1,1,'L');*/
 
 $pdf->Ln();
 
