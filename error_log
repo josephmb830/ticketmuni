@@ -1,0 +1,12 @@
+[15-Jun-2021 13:50:45 America/Lima] PHP Warning:  mysqli_connect(): (HY000/1045): Access denied for user 'root'@'localhost' (using password: NO) in /home/cquctpih/public_html/soporte/TICKET/lib/class_mysql.php on line 6
+[15-Jun-2021 13:50:45 America/Lima] PHP Warning:  mysqli_set_charset() expects parameter 1 to be mysqli, boolean given in /home/cquctpih/public_html/soporte/TICKET/lib/class_mysql.php on line 10
+[15-Jun-2021 13:50:45 America/Lima] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, boolean given in /home/cquctpih/public_html/soporte/TICKET/lib/class_mysql.php on line 15
+[15-Jun-2021 13:50:45 America/Lima] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, null given in /home/cquctpih/public_html/soporte/TICKET/process/login.php on line 8
+[15-Jun-2021 13:56:31 America/Lima] PHP Warning:  mysqli_connect(): (HY000/1045): Access denied for user 'root'@'localhost' (using password: NO) in /home/cquctpih/public_html/ticket/lib/class_mysql.php on line 6
+[15-Jun-2021 13:56:31 America/Lima] PHP Warning:  mysqli_set_charset() expects parameter 1 to be mysqli, boolean given in /home/cquctpih/public_html/ticket/lib/class_mysql.php on line 10
+[15-Jun-2021 13:56:31 America/Lima] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, boolean given in /home/cquctpih/public_html/ticket/lib/class_mysql.php on line 15
+[15-Jun-2021 13:56:31 America/Lima] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, null given in /home/cquctpih/public_html/ticket/process/login.php on line 8
+[15-Jun-2021 13:56:36 America/Lima] PHP Warning:  mysqli_connect(): (HY000/1045): Access denied for user 'root'@'localhost' (using password: NO) in /home/cquctpih/public_html/ticket/lib/class_mysql.php on line 6
+[15-Jun-2021 13:56:36 America/Lima] PHP Warning:  mysqli_set_charset() expects parameter 1 to be mysqli, boolean given in /home/cquctpih/public_html/ticket/lib/class_mysql.php on line 10
+[15-Jun-2021 13:56:36 America/Lima] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, boolean given in /home/cquctpih/public_html/ticket/lib/class_.php on line 15
+[15-Jun-2021 13:56:36 America/Lima] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, null given in /home/cquctpih/public_html/ticket/process/login.php on line 8
