@@ -101,47 +101,44 @@ header('Content-Type: text/html; charset=UTF-8');
           <div class="col-md-6">
             <div class="w-50 mx-auto border-login p-2 sombra">
               <div class="col-md-12 text-center mb-4">
-                <img src="./img/bloqueado.png" width="150" alt="">
+                <img src="./img/boleto.png" width="150" alt="">
               </div>
             <form action="" method="POST" style="margin: 20px;">
+              <label><span class=""></span>Nuevo Registro</label>
               <div class="form-group">
-                  <label><span class=""></span>Nombre</label>
+                  <label><span class=""></span>DNI</label>
+                  <input type="text" class="form-control" name="dni_login" placeholder="Escribe tu DNI" required=""/>
+              </div>
+              <div class="form-group">
+                  <label><span class=""></span>Nombres</label>
                   <input type="text" class="form-control" name="nombre_login" placeholder="Escribe tu nombre" required=""/>
+              </div>
+              <div class="form-group">
+                  <label><span class=""></span>Apellido Paterno</label>
+                  <input type="text" class="form-control" name="a_paterno_login" placeholder="Escribe tu Apellido Paterno" required=""/>
+              </div>
+              <div class="form-group">
+                  <label><span class=""></span>Apellido Materno</label>
+                  <input type="text" class="form-control" name="a_materno_login" placeholder="Escribe tu Apellido Materno" required=""/>
               </div>
               <div class="form-group">
                   <label><span class=""></span>Contraseña</label>
                   <input type="password" class="form-control" name="contrasena_login" placeholder="Escribe tu contraseña" required=""/>
               </div>
-              
-              <p>¿Cómo iniciarás sesión?</p>
-              <div style="display:flex;align-items: end;justify-content: space-around;width: 100%;margin-bottom:20px;">
-              <div class="radio">
-                <label>
-                    <input type="radio" name="optionsRadios" value="user" checked>
-                    Usuario
-                </label>
-             </div>
-             <div class="radio">
-                <label>
-                    <input type="radio" name="optionsRadios" value="admin">
-                     Administrador
-                </label>
-             </div>
+              <div class="form-group">
+                  <label><span class=""></span>Cargo</label>
+                  <input type="password" class="form-control" name="contrasena_login" placeholder="Escribe tu contraseña" required=""/>
               </div>
+              <div class="form-group">
+                  <label><span class=""></span>Correo Electrónico</label>
+                  <input type="password" class="form-control" name="contrasena_login" placeholder="Escribe tu contraseña" required=""/>
+              </div>  
               
               
-              <div class="text-center d-flex">
-                <div class="col-sm-2">
-                </div>
-                <div class="col-sm-4">
-                  <button type="button" class="btn btn-primary btn-sm mr-2" onclick="redirigirARegistro()">Registrarse</button>
-                </div>
-                <div class="col-sm-4">
-                  <button type="submit" class="btn btn-primary btn-sm">Iniciar sesión</button>
-                  <!-- <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cancelar</button> -->
-                </div>
-                <div class="col-sm-2">
-                </div>
+              
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary btn-sm">Registrarse</button>
+                <!-- <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cancelar</button> -->
               </div>
           </form>
             </div>
@@ -187,9 +184,7 @@ header('Content-Type: text/html; charset=UTF-8');
 </body>
 <script>
           
-      function redirigirARegistro() {
-      window.location.href = 'formulario_registro.php';
-      }
+
       let newTicket= document.getElementById("newTicket");
       let ticket=document.getElementById("ticket");
       <?php if(isset($_SESSION['nombre'])){?>

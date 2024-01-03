@@ -129,7 +129,7 @@ $pdf->Cell (185.9,7,utf8_decode('-'),1,1,'C');
 $pdf->Ln(2);
 $pdf->SetFont("Arial","b",9);
 $pdf->Cell(185.9, 7, 'DATOS DEL EQUIPO/COMPONENTE', 1, 1, 'C', true);
-$pdf->Cell (35,7,'No.',1,0,'C');
+$pdf->Cell (35,7,'CANTIDAD',1,0,'C');
 $pdf->Cell (57.95,7,'-',1,0,'L');
 $pdf->Cell (35,7,'Estado',1,0,'C');
 $pdf->Cell (57.95,7,utf8_decode($reg['estado_ticket']),1,1,'L');
@@ -223,7 +223,7 @@ $pdf->SetXY($xCeldaPrincipal, $yCeldaPrincipal);
 
 $pdf->Ln(2);
 
-$pdf->cell(0,5,utf8_decode("Oficina General de Tecnologia de la Información"),0,0,'C');
+$pdf->cell(0,5,utf8_decode("Oficina General de Tecnología de la Información"),0,0,'C');
 
 // $pdf->AddPage(); // Agregar una nueva página
 /*$pdf->Cell(185.9, 7, 'DATOS DEL EQUIPO/COMPONENTE', 1, 1, 'C', true);
