@@ -260,6 +260,15 @@ footer {
 .input-group-addon {
     padding: 6px 30px;
 }
+.flex-center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.custom-flex-container {
+    display: flex;
+    justify-content: space-between;
+  }
 
 @media ((min-width: 1400px)) {
     .container,
