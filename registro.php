@@ -13,6 +13,7 @@ header('Content-Type: text/html; charset=UTF-8');
         $clave_reg2=MysqlQuery::RequestPost('clave_reg');
         $email_reg=MysqlQuery::RequestPost('email_reg');
         $area_reg=MysqlQuery::RequestPost('area_reg');
+        $asunto2=MysqlQuery::RequestPost('asunto2');
 
 
 
@@ -22,7 +23,7 @@ header('Content-Type: text/html; charset=UTF-8');
         $mensaje_mail="Hola ".$nombre_reg.", Tu reagistro fue exitoso . Los datos de cuenta son los siguientes:\nNombre Completo: ".$nombre_reg."\nNombre de usuario: ".$user_reg."\nClave: ".$clave_reg2."\nEmail: ".$email_reg."\n Página";
 
         
-        if(MysqlQuery::Guardar("cliente", "nombre_completo, nombre_usuario, email_cliente, clave, area", "'$nombre_reg', '$user_reg', '$email_reg', '$clave_reg','$area_reg'")){
+        if(MysqlQuery::Guardar("cliente", "nombre_completo, nombre_usuario, email_cliente, clave, area, asunto2", "'$nombre_reg', '$user_reg', '$email_reg', '$clave_reg','$area_reg', '$asunto2'")){
 
             /*----------  Enviar correo con los datos de la cuenta ----*/
                 
@@ -101,6 +102,10 @@ header('Content-Type: text/html; charset=UTF-8');
                 <label>area</label>
                 <input type="text" id="input_user" class="form-control" name="area_reg" placeholder="Escriba su area"
                   required="">
+              </div>
+              <div class="form-group col-md-12">
+                    <label><span class=""></span>Asunto</label>
+                    <input type="text" class="form-control col-md-12" name="asunto2" placeholder="Escribe el asunto" required=""/>
               </div>
               <button type="submit" class="btn btn-danger">Crear cuenta</button>
             </form>

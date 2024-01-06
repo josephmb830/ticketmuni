@@ -4,6 +4,99 @@ include './lib/class_mysql.php';
 include './lib/config.php';
 header('Content-Type: text/html; charset=UTF-8');  
 
+
+if(isset($_POST['dni_contacto']) && isset($_POST['asunto']) && isset($_POST['descripcion'])){
+  $dni_contacto=MysqlQuery::RequestPost('dni_contacto');
+  $nombres_contacto=MysqlQuery::RequestPost('nombres_contacto');
+  $a_paterno_contacto=md5(MysqlQuery::RequestPost('a_paterno_contacto'));
+  $a_materno_contacto=MysqlQuery::RequestPost('a_materno_contacto');
+  $cargo_contacto=MysqlQuery::RequestPost('cargo_contacto');
+  $correo_contacto=MysqlQuery::RequestPost('correo_contacto');
+  $asunto=MysqlQuery::RequestPost('asunto');
+  $descripcion=MysqlQuery::RequestPost('descripcion');
+  $archivos=MysqlQuery::RequestPost('archivos');
+
+
+
+  //correo
+  $asunto="Registro de cuenta en la Plataforma de Soporte Tecnico";
+  $cabecera="From: Area de Desarollo de la Municipalidad de la Magdalena del Mar <soporte02@munimagdalena.com>";
+  $mensaje_mail="Hola ".$nombre_reg.", Tu reagistro fue exitoso . Los datos de cuenta son los siguientes:\nNombre Completo: ".$nombre_reg."\nNombre de usuario: ".$user_reg."\nClave: ".$clave_reg2."\nEmail: ".$email_reg."\n Página";
+
+  
+  if(MysqlQuery::Guardar("ticket2", "dni_contacto, nombres_contacto, a_paterno_contacto, a_materno_contacto, cargo_contacto, correo_contacto, asunto, descripcion, archivos", "'$dni_contacto', '$nombres_contacto', '$a_paterno_contacto', '$a_materno_contacto','$cargo_contacto', '$correo_contacto', '$asunto', '$descripcion', '$archivos'")){
+
+      /*----------  Enviar correo con los datos de la cuenta ----*/
+          
+      
+
+      echo '
+          <div class="alert alert-info alert-dismissible fade in col-sm-3 animated bounceInDown" role="alert" style="position:fixed; top:70px; right:10px; z-index:10000;"> 
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+              <h4 class="text-center">REGISTRO EXITOSO</h4>
+              <p class="text-center">
+                  Cuenta creada exitosamente, ahora puedes iniciar sesión, ya eres usuario.
+              </p>
+          </div>
+      ';
+  }else{
+      echo '
+          <div class="alert alert-danger alert-dismissible fade in col-sm-3 animated bounceInDown" role="alert" style="position:fixed; top:70px; right:10px; z-index:10000;"> 
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+              <h4 class="text-center">OCURRIÓ UN ERROR</h4>
+              <p class="text-center">
+                  ERROR AL REGISTRARSE: Por favor intente nuevamente.
+              </p>
+          </div>
+      '; 
+  }
+}
+
+
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  // Procesar otros campos del formulario
+
+  // Obtener la información de los archivos
+  $archivos = $_FILES['archivos'];
+
+  // Procesar y guardar los archivos en el servidor
+
+  // Guardar las rutas de los archivos en la base de datos
+  $rutaArchivos = "/ruta/del/servidor/a/tu/carpeta/archivos/"; // ajusta la ruta según tu configuración
+
+  $rutasGuardadasEnBD = array();
+
+  for ($i = 0; $i < count($archivos['name']); $i++) {
+      $nombreArchivo = $archivos['name'][$i];
+      $rutaGuardadaEnBD = $rutaArchivos . $nombreArchivo;
+      $rutasGuardadasEnBD[] = $rutaGuardadaEnBD;
+  }
+
+  // Ahora $rutasGuardadasEnBD contiene las rutas de los archivos que puedes almacenar en tu base de datos
+
+  // ... continuar con el resto del código ...
+
+  // ... después de obtener las rutas $rutasGuardadasEnBD ...
+
+// Convierte el array de rutas en una cadena para almacenar en la base de datos
+$rutasString = implode(',', $rutasGuardadasEnBD);
+
+// Consulta SQL para actualizar la columna archivos_ruta en la tabla cliente
+$sqlUpdate = "UPDATE ticket.cliente SET archivos_ruta = '$rutasString' WHERE id_cliente = 123;"; // ajusta el id_cliente según tu caso
+
+// Ejecutar la consulta SQL
+$resultado = mysqli_query($conexion, $sqlUpdate);
+
+// Verificar si la actualización fue exitosa
+if ($resultado) {
+    echo "Datos de archivos almacenados exitosamente en la base de datos.";
+} else {
+    echo "Error al almacenar datos de archivos en la base de datos: " . mysqli_error($conexion);
+}
+
+}
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -100,7 +193,7 @@ header('Content-Type: text/html; charset=UTF-8');
       <?php }else{?>
 
       <div class="col-md-12 border-login p-2 sombra w-50 mx-auto  ">
-          <form action="" method="POST" style="margin: 20px;">
+          <form action="" method="POST" style="margin: 20px;" enctype="multipart/form-data">
           <div class="row">
             <div class="d-flex justify-content-center align-items-center col-md-12">
             <img class="  " src="./img/boleto.png" width="150" alt="">
