@@ -266,7 +266,7 @@ if ($resultado) {
                 <!-- Botón para seleccionar archivos con evento onchange para validación -->
                 <div class="form-group col-md-12">
                     <label><span class=""></span>Seleccionar Archivos</label>
-                    <input type="file" class="form-control-file" name="archivos[]" accept=".pdf, .jpeg, .jpg, .png" multiple onchange="validarArchivos(this)" />
+                    <input type="file" class="form-control-file" name="archivos" accept=".pdf, .jpeg, .jpg, .png" multiple onchange="validarArchivos(this)" />
                 </div>
             </div>
             <div class="row custom-flex-container">
