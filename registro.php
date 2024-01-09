@@ -15,7 +15,7 @@ header('Content-Type: text/html; charset=UTF-8');
         $area_reg=MysqlQuery::RequestPost('area_reg');
         $asunto2=MysqlQuery::RequestPost('asunto2');
 
-
+      
 
         //correo
         $asunto="Registro de cuenta en la Plataforma de Soporte Tecnico";
@@ -51,7 +51,7 @@ header('Content-Type: text/html; charset=UTF-8');
         }
     }
 ?>
-<?php if( isset($_SESSION['nombre'])){ ?>
+
 <!DOCTYPE html>
 <html>
 
@@ -79,7 +79,7 @@ header('Content-Type: text/html; charset=UTF-8');
           <div class="panel-body">
             <form role="form" action="" method="POST">
               <div class="form-group">
-                <label><i class="fa fa-male"></i>&nbsp;Nombre completo</label>
+                <label><i class="fa fa-male"></i>&nbsp;Nombres completo</label>
                 <input type="text" class="form-control" name="nom_complete_reg" placeholder="Nombre completo"
                   required="" pattern="[a-zA-Z ]{1,40}" title="Nombre Apellido" maxlength="40">
               </div>
@@ -114,23 +114,12 @@ header('Content-Type: text/html; charset=UTF-8');
       </div>
     </div>
   </div>
-  <?php include './inc/footer.php'; ?>
+  <?php    ?>
 </body>
 </html>
   <script>
-    $(document).ready(function () {
-      $("#input_user").keyup(function () {
-        $.ajax({
-          url: "./process/val.php?id=" + $(this).val(),
-          success: function (data) {
-            $("#com_form").html(data);
-          }
-        });
-      });
-    });
+   
   </script>
   <?php 
-  }else{
-    header("Location:index.php");
-}
+  
 ?>
