@@ -6,24 +6,28 @@ header('Content-Type: text/html; charset=UTF-8');
 
 ?>
 <?php
-    if(isset($_POST['user_reg']) && isset($_POST['clave_reg']) && isset($_POST['nom_complete_reg'])){
-        $nombre_reg=MysqlQuery::RequestPost('nom_complete_reg');
+    if(isset($_POST['user_reg']) && isset($_POST['clave_reg']) && isset($_POST['nombres'])){
         $user_reg=MysqlQuery::RequestPost('user_reg');
         $clave_reg=md5(MysqlQuery::RequestPost('clave_reg'));
         $clave_reg2=MysqlQuery::RequestPost('clave_reg');
         $email_reg=MysqlQuery::RequestPost('email_reg');
         $area_reg=MysqlQuery::RequestPost('area_reg');
-        $asunto2=MysqlQuery::RequestPost('asunto2');
+        $dni=MysqlQuery::RequestPost('dni');
+        $nombresx=MysqlQuery::RequestPost('nombres');
+        $a_paterno=MysqlQuery::RequestPost('a_paterno');
+        $a_materno=MysqlQuery::RequestPost('a_materno');
+        $cargo=MysqlQuery::RequestPost('cargo');
+        $email=MysqlQuery::RequestPost('email');
+        $asunto=MysqlQuery::RequestPost('asunto');
+        $descripcion=MysqlQuery::RequestPost('descripcion');
 
       
 
         //correo
-        $asunto="Registro de cuenta en la Plataforma de Soporte Tecnico";
-        $cabecera="From: Area de Desarollo de la Municipalidad de la Magdalena del Mar <soporte02@munimagdalena.com>";
-        $mensaje_mail="Hola ".$nombre_reg.", Tu reagistro fue exitoso . Los datos de cuenta son los siguientes:\nNombre Completo: ".$nombre_reg."\nNombre de usuario: ".$user_reg."\nClave: ".$clave_reg2."\nEmail: ".$email_reg."\n Página";
+        
 
         
-        if(MysqlQuery::Guardar("ticket2", "nombre_completo, nombre_usuario, email_cliente, clave, area, asunto2", "'$nombre_reg', '$user_reg', '$email_reg', '$clave_reg','$area_reg', '$asunto2'")){
+        if(MysqlQuery::Guardar("cliente", "nombre_usuario, email_cliente, clave, area, dni, nombres, a_paterno, a_materno, cargo, email, asunto, descripcion", "'$user_reg', '$email_reg', '$clave_reg','$area_reg', '$dni', '$nombresx', '$a_paterno', '$a_materno', '$cargo', '$email', '$asunto', '$descripcion' ")){
 
             /*----------  Enviar correo con los datos de la cuenta ----*/
                 
@@ -78,11 +82,8 @@ header('Content-Type: text/html; charset=UTF-8');
               formulario</strong></div>
           <div class="panel-body">
             <form role="form" action="" method="POST">
-              <div class="form-group">
-                <label><i class="fa fa-male"></i>&nbsp;Nombres completo</label>
-                <input type="text" class="form-control" name="nom_complete_reg" placeholder="Nombre completo"
-                  required="" pattern="[a-zA-Z ]{1,40}" title="Nombre Apellido" maxlength="40">
-              </div>
+            <label><span class=""></span>INFORMACIÓN DEL CONTACTO</label>
+              
               <div class="form-group has-success has-feedback">
                 <label class="control-label"><i class="fa fa-user"></i>&nbsp;Nombre de usuario</label>
                 <input type="text" id="input_user" class="form-control" name="user_reg" placeholder="Nombre de usuario"
@@ -99,13 +100,42 @@ header('Content-Type: text/html; charset=UTF-8');
                 <input type="email" class="form-control" name="email_reg" placeholder="Escriba su email" required="">
               </div>
               <div class="form-group">
-                <label>area</label>
+                <label>Area</label>
                 <input type="text" id="input_user" class="form-control" name="area_reg" placeholder="Escriba su area"
                   required="">
               </div>
-              <div class="form-group col-md-12">
+              <div class="form-group ">
+                    <label><span class=""></span>DNI</label>
+                    <input type="text" class="form-control" name="dni" placeholder="Escribe tu dni" required=""/>
+              </div>
+              <div class="form-group">
+                <label><span class="fa fa-male"></span>&nbsp;Nombres</label>
+                <input type="text" class="form-control" name="nombres" placeholder="Escribe tus nombres" required="" />
+              </div>
+              <div class="form-group">
+                <label><span class=""></span>Apellido Paterno</label>
+                <input type="text" class="form-control" name="a_paterno" placeholder="Escribe tu Apellido Paterno" required="" />
+              </div>
+              <div class="form-group">
+                <label><span class=""></span>Apellido Materno</label>
+                <input type="text" class="form-control" name="a_materno" placeholder="Escribe tu Apellido Materno" required="" />
+              </div>
+              <div class="form-group">
+                <label><span class=""></span>Cargo</label>
+                <input type="text" class="form-control" name="cargo" placeholder="Escribe el cargo" required="" />
+              </div>
+              <div class="form-group">
+                <label><span class="fa fa-envelope"></span>&nbsp;Correo Electrónico</label>
+                <input type="email" class="form-control" name="email" placeholder="Escribe tu correo electrónico" required="" />
+              </div>
+              <label><span class=""></span>INFORMACIÓN DEL TICKET</label>
+              <div class="form-group ">
                     <label><span class=""></span>Asunto</label>
-                    <input type="text" class="form-control col-md-12" name="asunto2" placeholder="Escribe el asunto" required=""/>
+                    <input type="text" class="form-control" name="asunto" placeholder="Escribe el asunto" required=""/>
+              </div>
+              <div class="form-group">
+                    <label><span class=""></span>Descripción del Problema</label>
+                    <textarea class="form-control" name="descripcion" rows="4" placeholder="Escribe la descripción del problema" required=""></textarea>
               </div>
               <button type="submit" class="btn btn-danger">Crear cuenta</button>
             </form>
