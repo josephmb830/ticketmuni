@@ -23,7 +23,7 @@ header('Content-Type: text/html; charset=UTF-8');
         $mensaje_mail="Hola ".$nombre_reg.", Tu reagistro fue exitoso . Los datos de cuenta son los siguientes:\nNombre Completo: ".$nombre_reg."\nNombre de usuario: ".$user_reg."\nClave: ".$clave_reg2."\nEmail: ".$email_reg."\n Página";
 
         
-        if(MysqlQuery::Guardar("cliente", "nombre_completo, nombre_usuario, email_cliente, clave, area, asunto2", "'$nombre_reg', '$user_reg', '$email_reg', '$clave_reg','$area_reg', '$asunto2'")){
+        if(MysqlQuery::Guardar("ticket2", "nombre_completo, nombre_usuario, email_cliente, clave, area, asunto2", "'$nombre_reg', '$user_reg', '$email_reg', '$clave_reg','$area_reg', '$asunto2'")){
 
             /*----------  Enviar correo con los datos de la cuenta ----*/
                 
