@@ -4,14 +4,17 @@ include './lib/class_mysql.php';
 include './lib/config.php';
 header('Content-Type: text/html; charset=UTF-8');  
 
+// Asegúrate de tener la conexión a la base de datos disponible
+$conexion = mysqli_connect(SERVER, USER, PASS, BD);
+
+if (!$conexion) {
+    die("Error en la conexión a la base de datos: " . mysqli_connect_error());
+}
+
 ?>
+
 <?php
-    if(isset($_POST['user_reg']) && isset($_POST['clave_reg']) && isset($_POST['nombres'])){
-        $user_reg=MysqlQuery::RequestPost('user_reg');
-        $clave_reg=md5(MysqlQuery::RequestPost('clave_reg'));
-        $clave_reg2=MysqlQuery::RequestPost('clave_reg');
-        $email_reg=MysqlQuery::RequestPost('email_reg');
-        $area_reg=MysqlQuery::RequestPost('area_reg');
+    if(isset($_POST['dni']) && isset($_POST['email']) && isset($_POST['descripcion'])){
         $dni=MysqlQuery::RequestPost('dni');
         $nombresx=MysqlQuery::RequestPost('nombres');
         $a_paterno=MysqlQuery::RequestPost('a_paterno');
@@ -20,41 +23,81 @@ header('Content-Type: text/html; charset=UTF-8');
         $email=MysqlQuery::RequestPost('email');
         $asunto=MysqlQuery::RequestPost('asunto');
         $descripcion=MysqlQuery::RequestPost('descripcion');
-
-      
-
-        //correo
         
+        $rutasGuardadasEnBD = array();
 
-        
-        if(MysqlQuery::Guardar("cliente", "nombre_usuario, email_cliente, clave, area, dni, nombres, a_paterno, a_materno, cargo, email, asunto, descripcion", "'$user_reg', '$email_reg', '$clave_reg','$area_reg', '$dni', '$nombresx', '$a_paterno', '$a_materno', '$cargo', '$email', '$asunto', '$descripcion' ")){
+    // Obtener la información de los archivos
+    $archivos = $_FILES['archivos'];
 
-            /*----------  Enviar correo con los datos de la cuenta ----*/
-                
-            
+    if (isset($archivos['name']) && !is_array($archivos['name'])) {
+        // Procesar y guardar el archivo único en el servidor
+        $rutaArchivos = "./storage/";
 
-            echo '
-                <div class="alert alert-info alert-dismissible fade in col-sm-3 animated bounceInDown" role="alert" style="position:fixed; top:70px; right:10px; z-index:10000;"> 
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="text-center">REGISTRO EXITOSO</h4>
-                    <p class="text-center">
-                        Cuenta creada exitosamente, ahora puedes iniciar sesión, ya eres usuario.
-                    </p>
-                </div>
-            ';
-        }else{
-            echo '
-                <div class="alert alert-danger alert-dismissible fade in col-sm-3 animated bounceInDown" role="alert" style="position:fixed; top:70px; right:10px; z-index:10000;"> 
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="text-center">OCURRIÓ UN ERROR</h4>
-                    <p class="text-center">
-                        ERROR AL REGISTRARSE: Por favor intente nuevamente.
-                    </p>
-                </div>
-            '; 
+        $nombreArchivo = $archivos['name'];
+        $rutaGuardadaEnServidor = $rutaArchivos . $nombreArchivo;
+
+        // Mueve el archivo desde la ubicación temporal a la carpeta deseada
+        if (move_uploaded_file($archivos['tmp_name'], $rutaGuardadaEnServidor)) {
+            $rutasGuardadasEnBD[] = $rutaGuardadaEnServidor;
+        } else {
+            // Manejar el caso en que haya un error al mover el archivo
+            echo "Error al mover el archivo: $nombreArchivo. Detalles: " . error_get_last()['message'];
         }
+    } elseif (isset($archivos['name']) && is_array($archivos['name'])) {
+        // Procesar y guardar los archivos múltiples en el servidor
+        $rutaArchivos = "./storage/";
+
+        for ($i = 0; $i < count($archivos['name']); $i++) {
+            $nombreArchivo = $archivos['name'][$i];
+            $rutaGuardadaEnServidor = $rutaArchivos . $nombreArchivo;
+
+            // Mueve el archivo desde la ubicación temporal a la carpeta deseada
+            if (move_uploaded_file($archivos['tmp_name'][$i], $rutaGuardadaEnServidor)) {
+                $rutasGuardadasEnBD[] = $rutaGuardadaEnServidor;
+            } else {
+                // Manejar el caso en que haya un error al mover el archivo
+                echo "Error al mover el archivo: $nombreArchivo. Detalles: " . error_get_last()['message'];
+            }
+        }
+    } else {
+        // Imprimir $archivos en el bloque else
+        echo '<pre>';
+        var_dump($archivos);
+        echo '</pre>';
+        // o
+        // print_r($archivos);
+        // Manejar el caso en que $archivos no es un array
     }
+
+    // Continuar con el resto del código
+
+    // Convertir el array de rutas en una cadena para almacenar en la base de datos
+    $rutasString = implode(',', $rutasGuardadasEnBD);
+
+    // Verificar si la conexión a la base de datos se estableció correctamente
+    if (!$conexion) {
+        die("Error en la conexión a la base de datos: " . mysqli_connect_error());
+    }
+
+    // Consulta SQL para insertar datos en la tabla cliente
+    $sqlInsert = "INSERT INTO cliente (dni, nombres, a_paterno, a_materno, cargo, email, asunto, descripcion, archivos) 
+                  VALUES ('$dni', '$nombresx', '$a_paterno', '$a_materno', '$cargo', '$email', '$asunto', '$descripcion', '$rutasString')";
+
+    // Ejecutar la consulta SQL
+    $resultado = mysqli_query($conexion, $sqlInsert);
+
+    // Verificar si la inserción fue exitosa
+    if ($resultado) {
+        echo "Datos insertados exitosamente en la base de datos.";
+    } else {
+        echo "Error al insertar datos en la base de datos: " . mysqli_error($conexion);
+    }
+}
 ?>
+
+
+
+
 
 <!DOCTYPE html>
 <html>
@@ -66,7 +109,7 @@ header('Content-Type: text/html; charset=UTF-8');
 </head>
 
 <body>
-  <?php include "./inc/slidebar.php"; ?>
+  <?php // include "./inc/slidebar.php"; ?>
 
 
   <div class="container mt-100">
@@ -81,32 +124,13 @@ header('Content-Type: text/html; charset=UTF-8');
           <div class="panel-heading text-center"><strong>Para poder registrarte debes de llenar todos los campos de este
               formulario</strong></div>
           <div class="panel-body">
-            <form role="form" action="" method="POST">
+            <form role="form" action="" method="POST" enctype="multipart/form-data">
             <label><span class=""></span>INFORMACIÓN DEL CONTACTO</label>
               
+          
               <div class="form-group has-success has-feedback">
-                <label class="control-label"><i class="fa fa-user"></i>&nbsp;Nombre de usuario</label>
-                <input type="text" id="input_user" class="form-control" name="user_reg" placeholder="Nombre de usuario"
-                  required="" pattern="[a-zA-Z0-9]{1,15}" title="Ejemplo7 maximo 15 caracteres" maxlength="20">
-                <div id="com_form"></div>
-              </div>
-
-              <div class="form-group">
-                <label><i class="fa fa-key"></i>&nbsp;Contraseña</label>
-                <input type="password" class="form-control" name="clave_reg" placeholder="Contraseña" required="">
-              </div>
-              <div class="form-group">
-                <label><i class="fa fa-envelope"></i>&nbsp;Email</label>
-                <input type="email" class="form-control" name="email_reg" placeholder="Escriba su email" required="">
-              </div>
-              <div class="form-group">
-                <label>Area</label>
-                <input type="text" id="input_user" class="form-control" name="area_reg" placeholder="Escriba su area"
-                  required="">
-              </div>
-              <div class="form-group ">
                     <label><span class=""></span>DNI</label>
-                    <input type="text" class="form-control" name="dni" placeholder="Escribe tu dni" required=""/>
+                    <input type="text" class="form-control" name="dni" placeholder="Escribe tu dni" required="" maxlength="9"/>
               </div>
               <div class="form-group">
                 <label><span class="fa fa-male"></span>&nbsp;Nombres</label>
@@ -137,6 +161,24 @@ header('Content-Type: text/html; charset=UTF-8');
                     <label><span class=""></span>Descripción del Problema</label>
                     <textarea class="form-control" name="descripcion" rows="4" placeholder="Escribe la descripción del problema" required=""></textarea>
               </div>
+               <!-- Texto "Adjuntar archivo (Opcional)" en cursiva -->
+               <div class="form-group col-md-12">
+                    <label class="font-italic">Adjuntar archivos (Opcional)</label>
+                </div>
+
+                <!-- Cuadro de información -->  
+                <div class="form-group col-md-12">
+                    <div class="alert alert-info">
+                        <strong>ℹ Información:</strong> Puede subir hasta 3 archivos (4MB cada uno).<br>
+                        Formatos permitidos: .pdf, .jpeg, .jpg, .png
+                    </div>
+                </div>
+
+                <!-- Botón para seleccionar archivos con evento onchange para validación -->
+                <div class="form-group col-md-12">
+                    <label><span class=""></span>Seleccionar Archivos</label>
+                    <input type="file" class="form-control-file" name="archivos" accept=".pdf, .jpeg, .jpg, .png" multiple onchange="validarArchivos(this)" />
+                </div>
               <button type="submit" class="btn btn-danger">Crear cuenta</button>
             </form>
           </div>
@@ -148,7 +190,31 @@ header('Content-Type: text/html; charset=UTF-8');
 </body>
 </html>
   <script>
-   
+    function validarArchivos(input) {
+        var archivos = input.files;
+        var totalSize = 0;
+
+        // Verificar la cantidad máxima de archivos
+        if (archivos.length > 3) {
+            alert("Por favor, seleccione un máximo de 3 archivos.");
+            input.value = ''; // Limpiar la selección
+            return;
+        }
+
+        // Calcular el tamaño total de los archivos
+        for (var i = 0; i < archivos.length; i++) {
+            totalSize += archivos[i].size;
+        }
+
+        // Verificar el tamaño total de los archivos
+        var maxSizeMB = 4; // Tamaño máximo permitido en MB
+        var maxSizeBytes = maxSizeMB * 1024 * 1024;
+        if (totalSize > maxSizeBytes) {
+            alert("El tamaño total de los archivos no debe superar los 4 MB en total.");
+            input.value = ''; // Limpiar la selección
+            return;
+        }
+    }
   </script>
   <?php 
   
