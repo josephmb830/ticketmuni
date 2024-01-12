@@ -28,6 +28,7 @@ if (!$conexion) {
 
     // Obtener la información de los archivos
     $archivos = $_FILES['archivos'];
+   
 
     if (isset($archivos['name']) && !is_array($archivos['name'])) {
         // Procesar y guardar el archivo único en el servidor
@@ -169,7 +170,7 @@ if (!$conexion) {
                 <!-- Cuadro de información -->  
                 <div class="form-group col-md-12">
                     <div class="alert alert-info">
-                        <strong>ℹ Información:</strong> Puede subir hasta 3 archivos (4MB cada uno).<br>
+                        <strong>ℹ Información:</strong> Puede subir hasta 3 archivos (4MB en total).<br>
                         Formatos permitidos: .pdf, .jpeg, .jpg, .png
                     </div>
                 </div>
