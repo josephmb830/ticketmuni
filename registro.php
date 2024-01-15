@@ -28,7 +28,7 @@ if (!$conexion) {
 
     // Obtener la información de los archivos
     $archivos = $_FILES['archivos'];
-   
+    
 
     if (isset($archivos['name']) && !is_array($archivos['name'])) {
         // Procesar y guardar el archivo único en el servidor
@@ -178,11 +178,11 @@ if (!$conexion) {
                 <!-- Botón para seleccionar archivos con evento onchange para validación -->
                 <div class="form-group col-md-12">
                     <label><span class=""></span>Seleccionar Archivos</label>
-                    <input type="file" class="form-control-file" name="archivos" accept=".pdf, .jpeg, .jpg, .png" multiple onchange="validarArchivos(this)" />
+                    <input type="file" class="form-control-file" name="archivos[]" accept=".pdf, .jpeg, .jpg, .png" multiple onchange="validarArchivos(this)" />
                 </div>
               <button type="submit" class="btn btn-danger">Crear cuenta</button>
             </form>
-          </div>
+          </    div>
         </div>
       </div>
     </div>
