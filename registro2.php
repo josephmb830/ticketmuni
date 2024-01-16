@@ -117,10 +117,10 @@ if (!$conexion) {
   <div class="container mt-50">
 
     <div class="d-flex justify-content-center">
-      <h4>
+      <h4 class="panel-title" data-ticket="1" onclick="changeStyle(this)">
         <strong><i class="fa fa-ticket"></i>&nbsp;&nbsp;&nbsp;Registrar Ticket&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>
       </h4>
-      <h4>
+      <h4 class="panel-title" data-ticket="2" onclick="changeStyle(this)">
         <strong><i class="fa fa-search"></i>&nbsp;&nbsp;&nbsp;Consultar Ticket</strong>
       </h4>
     </div>
@@ -246,33 +246,23 @@ if (!$conexion) {
         }
     }
 
-    $(document).ready(function() {
-      // Establecer inicialmente el primer elemento como coloreado
-      $('.panel-title[data-ticket="1"]').addClass('colored');
-
-      $('.panel-title').click(function() {
-        var ticketNumber = $(this).data('ticket');
-        $('.panel-title').removeClass('colored grayed');
-
-        // Simular una solicitud AJAX, puedes ajustar esto según tus necesidades reales
-        $.ajax({
-          url: 'tu_servidor/tu_script.php',
-          type: 'POST',
-          data: { ticket: ticketNumber },
-          success: function(response) {
-            // Manejar la respuesta del servidor (si es necesario)
-          },
-          error: function(error) {
-            console.log(error);
-          }
-        });
-
-        // Establecer el elemento clicado como coloreado
-        $(this).addClass('colored');
-        // Establecer el otro elemento como gris
-        $('.panel-title[data-ticket="' + (3 - ticketNumber) + '"]').addClass('grayed');
-      });
+    function changeStyle(element) {
+    var ticketNumber = element.getAttribute('data-ticket');
+    var elements = document.querySelectorAll('.panel-title');
+    
+    elements.forEach(function(el) {
+      el.classList.remove('colored', 'grayed');
     });
+
+    // Simular una solicitud AJAX, puedes ajustar esto según tus necesidades reales
+    // ...
+
+    element.classList.add('colored');
+    var otherElement = document.querySelector('.panel-title[data-ticket="' + (3 - ticketNumber) + '"]');
+    if (otherElement) {
+      otherElement.classList.add('grayed');
+    }
+  }
   </script>
   <?php 
   
