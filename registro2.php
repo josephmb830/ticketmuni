@@ -107,23 +107,35 @@ if (!$conexion) {
   <title>Sistema de Ticket MDMM</title>
   <link rel="shortcut icon" href="img/logomuni.png">
   <?php include "./inc/links.php"; ?>
+  <link rel="stylesheet" href="./css/style.css">
 </head>
 
 <body>
   <?php // include "./inc/slidebar.php"; ?>
 
 
-  <div class="container mt-100">
+  <div class="container mt-50">
+
+    <div class="d-flex justify-content-center">
+      <h4>
+        <strong><i class="fa fa-ticket"></i>&nbsp;&nbsp;&nbsp;Registrar Ticket&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>
+      </h4>
+      <h4>
+        <strong><i class="fa fa-search"></i>&nbsp;&nbsp;&nbsp;Consultar Ticket</strong>
+      </h4>
+    </div>
+
     <div class="flex h-screen">
-      <div class="col-sm-4 text-center hidden-xs">
-        
-      </div>
-      <div class="col-sm-8">
+
+
         <div class="panel panel-info">
           <div class="panel-heading text-center">
-            <h3 class="panel-title text-center">
-              <strong><i class="fa fa-ticket"></i>&nbsp;&nbsp;&nbsp;Registrar nuevo Ticket</strong>
-            </h3>
+            <div class="d-flex justify-content-center">
+              <h3 class="panel-title text-center">
+                <strong><i class="fa fa-ticket"></i>&nbsp;&nbsp;&nbsp;Registrar Ticket</strong>
+              </h3>
+            </div>
+            
           </div>
           <div class="panel-body">
             <form role="form" action="" method="POST" enctype="multipart/form-data">
@@ -201,7 +213,7 @@ if (!$conexion) {
             </form>
           </    div>
         </div>
-      </div>
+      
     </div>
   </div>
   <?php    ?>
@@ -233,6 +245,34 @@ if (!$conexion) {
             return;
         }
     }
+
+    $(document).ready(function() {
+      // Establecer inicialmente el primer elemento como coloreado
+      $('.panel-title[data-ticket="1"]').addClass('colored');
+
+      $('.panel-title').click(function() {
+        var ticketNumber = $(this).data('ticket');
+        $('.panel-title').removeClass('colored grayed');
+
+        // Simular una solicitud AJAX, puedes ajustar esto según tus necesidades reales
+        $.ajax({
+          url: 'tu_servidor/tu_script.php',
+          type: 'POST',
+          data: { ticket: ticketNumber },
+          success: function(response) {
+            // Manejar la respuesta del servidor (si es necesario)
+          },
+          error: function(error) {
+            console.log(error);
+          }
+        });
+
+        // Establecer el elemento clicado como coloreado
+        $(this).addClass('colored');
+        // Establecer el otro elemento como gris
+        $('.panel-title[data-ticket="' + (3 - ticketNumber) + '"]').addClass('grayed');
+      });
+    });
   </script>
   <?php 
   
