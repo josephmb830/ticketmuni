@@ -107,25 +107,38 @@ if (!$conexion) {
   <title>Sistema de Ticket MDMM</title>
   <link rel="shortcut icon" href="img/logomuni.png">
   <?php include "./inc/links.php"; ?>
-  <link rel="stylesheet" href="./css/style.css">
+  
+  <style>
+  .colored{
+    color: blue;
+  }
+  .grayed{
+    color: brown;
+  }
+  </style>
 </head>
 
 <body>
-  <?php // include "./inc/slidebar.php"; ?>
+  
 
 
   <div class="container mt-50">
+    
 
     <div class="d-flex justify-content-center">
-      <h4 class="panel-title" data-ticket="1" onclick="changeStyle(this)">
+      <h4 class="panel-title colored" data-ticket="1" onclick="changeStyle(this)">
         <strong><i class="fa fa-ticket"></i>&nbsp;&nbsp;&nbsp;Registrar Ticket&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>
       </h4>
-      <h4 class="panel-title" data-ticket="2" onclick="changeStyle(this)">
+      <h4 class="panel-title grayed" data-ticket="2" onclick="changeStyle(this)">
         <strong><i class="fa fa-search"></i>&nbsp;&nbsp;&nbsp;Consultar Ticket</strong>
       </h4>
     </div>
 
-    <div class="flex h-screen">
+    <div id="viewTicket" class="ticket-section none">
+        <?php include "./user/consulta-view.php"; ?>
+    </div>
+
+    <div id="newTicket" class="ticket-section flex h-screen">
 
 
         <div class="panel panel-info">
@@ -253,16 +266,30 @@ if (!$conexion) {
     elements.forEach(function(el) {
       el.classList.remove('colored', 'grayed');
     });
-
-    // Simular una solicitud AJAX, puedes ajustar esto según tus necesidades reales
-    // ...
-
+    
     element.classList.add('colored');
     var otherElement = document.querySelector('.panel-title[data-ticket="' + (3 - ticketNumber) + '"]');
     if (otherElement) {
       otherElement.classList.add('grayed');
     }
+
+    // Mostrar/Ocultar secciones según el ticket seleccionado
+    if (ticketNumber === '1') {
+      showSection('newTicket');
+      hideSection('viewTicket');
+    } else if (ticketNumber === '2') {
+      showSection('viewTicket');
+      hideSection('newTicket');
+    }
   }
+
+  function showSection(sectionId) {
+  document.getElementById(sectionId).classList.remove('none');
+}
+
+function hideSection(sectionId) {
+  document.getElementById(sectionId).classList.add('none');
+}
   </script>
   <?php 
   

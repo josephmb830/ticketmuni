@@ -270,25 +270,7 @@ footer {
     justify-content: space-between;
   }
 
-  .container {
-    margin-top: 50px;
-  }
 
-  .panel-title {
-    cursor: pointer;
-    padding: 10px;
-    margin: 5px;
-  }
-
-  .colored {
-    background-color: #3498db; /* Color para el primer elemento */
-    color: #fff; /* Color del texto para el primer elemento */
-  }
-
-  .grayed {
-    background-color: #ccc; /* Color de fondo gris para el segundo elemento */
-    color: #555; /* Color del texto para el segundo elemento */
-  }
 
 @media ((min-width: 1400px)) {
     .container,
