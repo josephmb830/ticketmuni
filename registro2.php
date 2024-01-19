@@ -97,7 +97,7 @@ if (!$conexion) {
     }
 
     // Consulta SQL para insertar datos en la tabla cliente
-    $sqlInsert = "INSERT INTO ticket2 (serie, dni, nombres, a_paterno, a_materno, cargo, email, asunto, descripcion, archivos) 
+    $sqlInsert = "INSERT INTO ticket (serie, dni, nombre_usuario, a_paterno, a_materno, cargo, email_cliente, asunto, mensaje, archivos) 
                   VALUES ('$id_ticket', '$dni', '$nombresx', '$a_paterno', '$a_materno', '$cargo', '$email', '$asunto', '$descripcion', '$rutasString')";
 
     // Ejecutar la consulta SQL
@@ -105,7 +105,7 @@ if (!$conexion) {
 
     // Verificar si la inserción fue exitosa
     if ($resultado) {
-        echo "Datos insertados exitosamente en la base de datos.";
+        echo "Datos insertados exitosamente en la base de datos. Consulte el estado de su ticket con su número de serie: $id_ticket ";
     } else {
         echo "Error al insertar datos en la base de datos: " . mysqli_error($conexion);
     }
@@ -150,12 +150,14 @@ if (!$conexion) {
       </h4>
     </div>
 
+    
+
     <div id="viewTicket" class="ticket-section none">
         <?php include "./user/consulta-view.php"; ?>
     </div>
 
+    
     <div id="newTicket" class="ticket-section flex h-screen">
-
 
         <div class="panel panel-info">
           <div class="panel-heading text-center">
@@ -238,13 +240,50 @@ if (!$conexion) {
                     <label><span class=""></span>Seleccionar Archivos</label>
                     <input type="file" class="form-control-file" name="archivos[]" accept=".pdf, .jpeg, .jpg, .png" multiple onchange="validarArchivos(this)" />
                 </div>
-              <button type="submit" class="btn btn-danger">Crear cuenta</button>
+              <button type="submit" class="btn btn-danger">Abrir Ticket</button>
             </form>
-          </    div>
+          </div>
         </div>
       
     </div>
   </div>
+
+
+  
+
+
+        <div class="">
+          <?php
+                if(isset($_GET['view'])){
+                    $content=$_GET['view'];
+                    $WhiteList=["index","soporte","ticket","ticketcon","registro","configuracion","ticketusuario"];
+                    if(in_array($content, $WhiteList) && is_file("./user/".$content."-view.php")){
+                      include "./user/".$content."-view.php";
+                    }else{
+                ?>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <img src="./img/Stop.png" alt="Image" class="img-responsive"/><br>
+                                <img src="./img/SadTux.png" alt="Image" class="img-responsive"/>
+                            </div>
+                            <div class="col-sm-7 text-center">
+                                <h1 class="text-danger">Lo sentimos, la opción que ha seleccionado no se encuentra disponible</h1>
+                                <h3 class="text-info">Por favor intente nuevamente</h3>
+                            </div>
+                            <div class="col-sm-1">&nbsp;</div>
+                        </div>
+                    </div>
+                  <?php
+                    }
+                      }else{
+                          include "./user/index-view.php";
+                      }
+                  ?>
+        </div> 
+
+
+
   <?php    ?>                
 
 </body>
@@ -307,6 +346,8 @@ if (!$conexion) {
 function hideSection(sectionId) {
   document.getElementById(sectionId).classList.add('none');
 }
+
+
   </script>
   <?php 
   

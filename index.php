@@ -153,6 +153,8 @@ header('Content-Type: text/html; charset=UTF-8');
         <?php } ?>
       
     </div>
+    
+    
     <div class="">
       <?php
             if(isset($_GET['view'])){
@@ -181,7 +183,7 @@ header('Content-Type: text/html; charset=UTF-8');
                       include "./user/index-view.php";
                   }
               ?>
-    </div>    
+    </div> 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
