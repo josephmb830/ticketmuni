@@ -15,6 +15,22 @@ if (!$conexion) {
 
 <?php
     if(isset($_POST['dni']) && isset($_POST['email']) && isset($_POST['descripcion'])){
+
+        /*Este codigo nos servira para generar un numero diferente para cada ticket*/
+        $codigo = ""; 
+        $longitud = 2; 
+        for ($i=1; $i<=$longitud; $i++){ 
+          $numero = rand(0,9); 
+          $codigo .= $numero; 
+        } 
+        $num=Mysql::consulta("SELECT * FROM ticket");
+        $numero_filas = mysqli_num_rows($num);
+
+        $numero_filas_total=$numero_filas+1;
+        $id_ticket="TK".$codigo."N".$numero_filas_total;
+        /*Fin codigo numero de ticket*/
+
+
         $dni=MysqlQuery::RequestPost('dni');
         $nombresx=MysqlQuery::RequestPost('nombres');
         $a_paterno=MysqlQuery::RequestPost('a_paterno');
@@ -81,8 +97,8 @@ if (!$conexion) {
     }
 
     // Consulta SQL para insertar datos en la tabla cliente
-    $sqlInsert = "INSERT INTO cliente (dni, nombres, a_paterno, a_materno, cargo, email, asunto, descripcion, archivos) 
-                  VALUES ('$dni', '$nombresx', '$a_paterno', '$a_materno', '$cargo', '$email', '$asunto', '$descripcion', '$rutasString')";
+    $sqlInsert = "INSERT INTO ticket2 (serie, dni, nombres, a_paterno, a_materno, cargo, email, asunto, descripcion, archivos) 
+                  VALUES ('$id_ticket', '$dni', '$nombresx', '$a_paterno', '$a_materno', '$cargo', '$email', '$asunto', '$descripcion', '$rutasString')";
 
     // Ejecutar la consulta SQL
     $resultado = mysqli_query($conexion, $sqlInsert);
@@ -229,7 +245,8 @@ if (!$conexion) {
       
     </div>
   </div>
-  <?php    ?>
+  <?php    ?>                
+
 </body>
 </html>
   <script>

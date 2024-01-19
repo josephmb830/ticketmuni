@@ -103,6 +103,42 @@
                       </form>
                 </div>
               </div>
+
+
+
+
+              <div class="col-md-6 col-sm-12">
+                <div class="panel bg-gray-05">
+                  <div class="panel-body text-center">
+                    <img src="./img/consulta.png" width="50" alt="">
+                    <h4>Colsultar estado de ticket</h4>
+                    <form class="form-horizontal" role="form" method="GET" action="./index.php">
+                      <input type="hidden" name="view" value="ticketcon">
+                      <div class="form-group">
+                        <div class="col-sm-10">
+                          <!-- <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+                  <div class="col-sm-10">
+                      <input type="email" class="form-control" name="email_consul" placeholder="Email" required="">-->
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-sm-4 control-label">ID Ticket</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" name="id_consul" placeholder="ID Ticket" required="">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <div class="col-sm-12">
+                          <button type="submit" class="btn btn-gray-05">Colsultar</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+
+
             </div>
           </div>
         </div>
