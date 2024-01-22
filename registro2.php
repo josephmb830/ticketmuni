@@ -1,20 +1,27 @@
 <?php
+
 session_start();
 include './lib/class_mysql.php';
 include './lib/config.php';
 header('Content-Type: text/html; charset=UTF-8');  
 
+
 // Asegúrate de tener la conexión a la base de datos disponible
 $conexion = mysqli_connect(SERVER, USER, PASS, BD);
+
 
 if (!$conexion) {
     die("Error en la conexión a la base de datos: " . mysqli_connect_error());
 }
 
+date_default_timezone_set('America/Bogota');
+
+$hoy = date('d/m/Y   h:i:s  a', TIME());
+
 ?>
 
 <?php
-    if(isset($_POST['dni']) && isset($_POST['email']) && isset($_POST['descripcion'])){
+    if( isset($_POST['dni']) && isset($_POST['email']) && isset($_POST['descripcion'])){
 
         /*Este codigo nos servira para generar un numero diferente para cada ticket*/
         $codigo = ""; 
@@ -31,12 +38,14 @@ if (!$conexion) {
         /*Fin codigo numero de ticket*/
 
 
+        $fecha_ticket=MysqlQuery::RequestPost('fecha_ticket');
         $dni=MysqlQuery::RequestPost('dni');
         $nombresx=MysqlQuery::RequestPost('nombres');
         $a_paterno=MysqlQuery::RequestPost('a_paterno');
         $a_materno=MysqlQuery::RequestPost('a_materno');
         $cargo=MysqlQuery::RequestPost('cargo');
         $email=MysqlQuery::RequestPost('email');
+        $departamento_ticket=MysqlQuery::RequestPost('departamento_ticket');
         $asunto=MysqlQuery::RequestPost('asunto');
         $descripcion=MysqlQuery::RequestPost('descripcion');
         
@@ -97,17 +106,30 @@ if (!$conexion) {
     }
 
     // Consulta SQL para insertar datos en la tabla cliente
-    $sqlInsert = "INSERT INTO ticket (serie, dni, nombre_usuario, a_paterno, a_materno, cargo, email_cliente, asunto, mensaje, archivos) 
-                  VALUES ('$id_ticket', '$dni', '$nombresx', '$a_paterno', '$a_materno', '$cargo', '$email', '$asunto', '$descripcion', '$rutasString')";
+    $sqlInsert = "INSERT INTO ticket (fecha, serie, dni, nombre_usuario, a_paterno, a_materno, cargo, email_cliente, departamento, asunto, mensaje, archivos) 
+                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-    // Ejecutar la consulta SQL
-    $resultado = mysqli_query($conexion, $sqlInsert);
+    // Preparar la consulta
+    $stmt = mysqli_prepare($conexion, $sqlInsert);
 
-    // Verificar si la inserción fue exitosa
-    if ($resultado) {
-        echo "Datos insertados exitosamente en la base de datos. Consulte el estado de su ticket con su número de serie: $id_ticket ";
+    if ($stmt) {
+        // Vincular los parámetros
+        mysqli_stmt_bind_param($stmt, "ssssssssssss", $fecha_ticket, $id_ticket, $dni, $nombresx, $a_paterno, $a_materno, $cargo, $email, $departamento_ticket, $asunto, $descripcion, $rutasString);
+
+        // Ejecutar la consulta preparada
+        $resultado = mysqli_stmt_execute($stmt);
+
+        // Verificar si la inserción fue exitosa
+        if ($resultado) {
+            echo "Datos insertados exitosamente en la base de datos. Consulte el estado de su ticket con su número de serie: $id_ticket ";
+        } else {
+            echo "Error al insertar datos en la base de datos: " . mysqli_stmt_error($stmt);
+        }
+
+        // Cerrar la consulta preparada
+        mysqli_stmt_close($stmt);
     } else {
-        echo "Error al insertar datos en la base de datos: " . mysqli_error($conexion);
+        echo "Error al preparar la consulta: " . mysqli_error($conexion);
     }
 }
 ?>
@@ -169,8 +191,32 @@ if (!$conexion) {
             
           </div>
           <div class="panel-body">
-            <form role="form" action="" method="POST" enctype="multipart/form-data">
-            <label><span class=""></span>INFORMACIÓN DEL CONTACTO</label>
+
+          <form role="form" action="" method="POST" enctype="multipart/form-data">
+
+          <fieldset>
+
+              <label><span class=""></span>INFORMACIÓN DEL CONTACTO</label>
+
+           
+
+
+              <div class= "row d-flex">
+
+                <div class="form-group col-sm-5">
+                    <label class="control-label">Fecha</label>
+                    <div class=''>
+                        <div class="input-group">
+                            <input class="form-control" type="text" id="fechainput" placeholder="Fecha" name="fecha_ticket"  required=""   value ="<?php echo $hoy ?>" readonly>
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        </div>
+                    </div>
+                  
+                </div>  
+
+              </div>
+
+            
               
               <div class= "row d-flex">
 
@@ -210,6 +256,35 @@ if (!$conexion) {
               <label><span class=""></span>INFORMACIÓN DEL TICKET</label>
 
               <div class="row d-flex">
+                <div class="form-group col-sm-8">
+                  <label  class="control-label">Tipo de Insidente</label>
+                  <div class="">
+                      <div class='input-group'>
+                        <select class="form-control" name="departamento_ticket">
+                        <option value="Escoja una opcion">Escoja una opcion</option>
+                          <option value="Mantenimiento preventivo">Mantenimiento preventivo</option>
+                          <option value="Mantenimiento correctivo">Mantenimiento correctivo</option>
+                          <option value="Instalacion de accesorios">Instalacion de accesorios</option>
+                          <option value="Instalacion de equipo">Instalacion de equipo</option>
+                          <option value="Instalacion de red">Instalacion de red</option>
+                          <option value="Configuracion de equipo">Configuracion de equipo</option>
+                          <option value="Configuracion de servicio de red">Configuracion de servicio de red</option>
+                          <option value="Instalacicion, mantenimiento y actualizacion de software">Instalacicion, mantenimiento y actualizacion de software</option>
+                          <option value="Clave de usuario">Clave de usuario</option>
+                          <option value="Otros">Otros</option>
+
+
+
+
+                        </select>
+                        <span class="input-group-addon"><i class="fa fa-users"></i></span>
+                      </div> 
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="row d-flex">
 
                 <div class="form-group col-sm-8">
                       <label><span class=""></span>Asunto</label>
@@ -241,6 +316,7 @@ if (!$conexion) {
                     <input type="file" class="form-control-file" name="archivos[]" accept=".pdf, .jpeg, .jpg, .png" multiple onchange="validarArchivos(this)" />
                 </div>
               <button type="submit" class="btn btn-danger">Abrir Ticket</button>
+              </fieldset>
             </form>
           </div>
         </div>
@@ -288,7 +364,7 @@ if (!$conexion) {
 
 </body>
 </html>
-  <script>
+  <script  type="text/javascript">
     function validarArchivos(input) {
         var archivos = input.files;
         var totalSize = 0;
@@ -346,6 +422,11 @@ if (!$conexion) {
 function hideSection(sectionId) {
   document.getElementById(sectionId).classList.add('none');
 }
+
+
+$(document).ready(function(){
+      $("#fechainput").datepicker();
+  });
 
 
   </script>
