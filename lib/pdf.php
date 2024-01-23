@@ -138,7 +138,7 @@ $pdf->Cell (0,7,utf8_decode($reg['asunto']),1,1,'L');
 $pdf->SetFont("Arial","b",8.5);
 $pdf->Cell (35,7,utf8_decode('CÓDIGO PATRIMONIAL'),1,0,'C');
 $pdf->SetFont("Arial","b",9);
-$pdf->Cell (57.95,7,'-',1,0,'L');
+$pdf->Cell (57.95,7,utf8_decode($reg['codequipo']),1,0,'L');
 $pdf->Cell (35,7,'No. DE SERIE',1,0,'C');
 $pdf->Cell (57.95,7,utf8_decode($reg['serie']),1,1,'L');
 $partesSolucion = obtenerSolucion(utf8_decode($reg['mensaje']));
