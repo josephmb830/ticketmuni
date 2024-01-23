@@ -151,21 +151,48 @@ $pdf->Cell (0,7,utf8_decode($parte1),1,1,'L');
 $pdf->Cell (35,7,'',1,0,'C');
 $pdf->Cell (0,7,utf8_decode($parte2),1,1,'L');
 
-$partesSolucion = obtenerSolucion('');
-$parte1 = $partesSolucion['parte1'];
-$parte2 = $partesSolucion['parte2'];
-$pdf->Cell (35,7,utf8_decode('DIAGNÓSTICO'),1,0,'C');
-$pdf->Cell (0,7,utf8_decode('-'),1,1,'L');
-$pdf->Cell (35,7,utf8_decode(''),1,0,'C');
-$pdf->Cell (0,7,utf8_decode(''),1,1,'L');
+function obtenerTextoPartido($texto, $maxCaracteres = 100) {
+    // Convertir el texto a UTF-8 si no lo está
+    $texto = utf8_encode($texto);
 
-$partesSolucion = obtenerSolucion(utf8_decode($reg['solucion']));
+    // Inicializar variables para las dos partes del texto
+    $parte1 = '';
+    $parte2 = '';
+
+    // Verificar si la longitud del texto es mayor que el máximo
+    if (mb_strlen($texto, 'UTF-8') > $maxCaracteres) {
+        // Obtener la primera parte del texto (caracteres 0 a $maxCaracteres)
+        $parte1 = mb_substr($texto, 0, $maxCaracteres) . '-';
+
+        // Obtener la segunda parte del texto (caracteres $maxCaracteres en adelante)
+        $parte2 = mb_substr($texto, $maxCaracteres);
+    } else {
+        // Si el texto tiene $maxCaracteres o menos, asignarlo a la parte1
+        $parte1 = $texto;
+    }
+
+    // Devolver las dos partes del texto
+    return array('parte1' => $parte1, 'parte2' => $parte2);
+}
+
+// Uso de la función para DIAGNÓSTICO
+$partesDiagnostico = obtenerTextoPartido(utf8_decode($reg['diagnostico']));
+$parte1 = $partesDiagnostico['parte1'];
+$parte2 = $partesDiagnostico['parte2'];
+$pdf->Cell(35, 7, utf8_decode('DIAGNÓSTICO'), 1, 0, 'C');
+$pdf->Cell(0, 7, utf8_decode($parte1), 1, 1, 'L');
+$pdf->Cell(35, 7, utf8_decode(''), 1, 0, 'C');
+$pdf->Cell(0, 7, utf8_decode($parte2), 1, 1, 'L');
+
+
+// Uso de la función para SOLUCIÓN
+$partesSolucion = obtenerTextoPartido(utf8_decode($reg['solucion']));
 $parte1 = $partesSolucion['parte1'];
 $parte2 = $partesSolucion['parte2'];
-$pdf->Cell (35,7,utf8_decode('SOLUCIÓN'),1,0,'C');
-$pdf->Cell (0,7,utf8_decode($parte1),1,1,'L');
-$pdf->Cell (35,7,utf8_decode(''),1,0,'C');
-$pdf->Cell (0,7,utf8_decode($parte2),1,1,'L');
+$pdf->Cell(35, 7, utf8_decode('SOLUCIÓN'), 1, 0, 'C');
+$pdf->Cell(0, 7, utf8_decode($parte1), 1, 1, 'L');
+$pdf->Cell(35, 7, utf8_decode(''), 1, 0, 'C');
+$pdf->Cell(0, 7, utf8_decode($parte2), 1, 1, 'L');
 $pdf->Ln(2);
 
 $pdf->SetFillColor(0,255,255);
@@ -176,12 +203,16 @@ $pdf->Rect(15,  151,  185.9, 14);
 $pdf->Rect(15,  151,  35, 14);
 $pdf->Rect(15,  165,  185.9, 14);
 $pdf->Rect(15,  165,  35, 14);
+// Uso de la función para OBSERVACIONES
+$partesObservaciones = obtenerTextoPartido(utf8_decode($reg['observaciones']));
+$parte1 = $partesObservaciones['parte1'];
+$parte2 = $partesObservaciones['parte2'];
 $pdf->Cell(185.9, 7, 'OBSERVACIONES', 1, 1, 'C', true);
 $pdf->SetFont("Arial","",9);
 $pdf->SetDrawColor(255, 255, 255, 0); // Establecer el color de los bordes como transparente
 $pdf->SetFillColor(255, 255, 255, 0); // Establecer el color del fondo como transparente
-$pdf->Cell (185.9,7,utf8_decode('-'),1,1,'C');
-$pdf->Cell (185.9,7,utf8_decode(''),1,1,'C');
+$pdf->Cell (185.9,7,utf8_decode($parte1),1,1,'C');
+$pdf->Cell (185.9,7,utf8_decode($parte2),1,1,'C');
 $pdf->SetFillColor(0,255,255);
 $pdf->SetDrawColor(0,0,0);
 $pdf->Rect(15,  188,  185.9, 14);
