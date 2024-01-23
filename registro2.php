@@ -6,6 +6,7 @@ include './lib/config.php';
 header('Content-Type: text/html; charset=UTF-8');  
 
 
+
 // Asegúrate de tener la conexión a la base de datos disponible
 $conexion = mysqli_connect(SERVER, USER, PASS, BD);
 
@@ -44,10 +45,12 @@ $hoy = date('d/m/Y   h:i:s  a', TIME());
         $a_paterno=MysqlQuery::RequestPost('a_paterno');
         $a_materno=MysqlQuery::RequestPost('a_materno');
         $cargo=MysqlQuery::RequestPost('cargo');
+        $area_ticket=  MysqlQuery::RequestPost('area_ticket');
         $email=MysqlQuery::RequestPost('email');
         $departamento_ticket=MysqlQuery::RequestPost('departamento_ticket');
         $asunto=MysqlQuery::RequestPost('asunto');
         $descripcion=MysqlQuery::RequestPost('descripcion');
+        $estado_ticket="Pendiente";
         
         $rutasGuardadasEnBD = array();
 
@@ -106,15 +109,15 @@ $hoy = date('d/m/Y   h:i:s  a', TIME());
     }
 
     // Consulta SQL para insertar datos en la tabla cliente
-    $sqlInsert = "INSERT INTO ticket (fecha, serie, dni, nombre_usuario, a_paterno, a_materno, cargo, email_cliente, departamento, asunto, mensaje, archivos) 
-                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $sqlInsert = "INSERT INTO ticket (fecha, serie, dni, nombre_usuario, a_paterno, a_materno, cargo, area, email_cliente, departamento, asunto, mensaje, archivos, estado_ticket) 
+                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     // Preparar la consulta
     $stmt = mysqli_prepare($conexion, $sqlInsert);
 
     if ($stmt) {
         // Vincular los parámetros
-        mysqli_stmt_bind_param($stmt, "ssssssssssss", $fecha_ticket, $id_ticket, $dni, $nombresx, $a_paterno, $a_materno, $cargo, $email, $departamento_ticket, $asunto, $descripcion, $rutasString);
+        mysqli_stmt_bind_param($stmt, "ssssssssssssss", $fecha_ticket, $id_ticket, $dni, $nombresx, $a_paterno, $a_materno, $cargo, $area_ticket, $email, $departamento_ticket, $asunto, $descripcion, $rutasString, $estado_ticket);
 
         // Ejecutar la consulta preparada
         $resultado = mysqli_stmt_execute($stmt);
@@ -173,6 +176,10 @@ $hoy = date('d/m/Y   h:i:s  a', TIME());
     </div>
 
     
+    <div class="row d-flex" style="margin: 10px;">
+    <!-- Contenido de tu div aquí -->
+    </div>
+
 
     <div id="viewTicket" class="ticket-section none">
         <?php include "./user/consulta-view.php"; ?>
@@ -241,10 +248,21 @@ $hoy = date('d/m/Y   h:i:s  a', TIME());
 
               <div class="row d-flex">
 
-                <div class="form-group col-sm-7">
+                <div class="form-group col-sm-5">
                   <label><span class=""></span>Cargo</label>
                   <input type="text" class="form-control" name="cargo" placeholder="Escribe el cargo" required="" />
                 </div>
+
+                <div class="form-group col-sm-4">
+                  <label  class="control-label">Area</label>
+                  <div class="">
+                      <div class='input-group'>
+                      <input type="text" class="form-control" placeholder="Area" required="" pattern="[a-zA-Z ]{1,30}" name="area_ticket" title="Area" value="<?php echo $area_cli ?>" readonly>
+                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                      </div>
+                  </div>
+                </div>
+
                 <div class="form-group col-sm-3">
                   <label><span class="fa fa-envelope"></span>&nbsp;Correo Electrónico</label>
                   <input type="email" class="form-control" name="email" placeholder="Escribe tu correo electrónico" required="" />
