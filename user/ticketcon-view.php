@@ -50,7 +50,7 @@ if(mysqli_num_rows($consulta_tablaTicket)>=1){
                                           </div>
                                           <br>
                                           <div class="row">
-                                              <div class="col-sm-6"><strong>Nombre:</strong> <?php echo $lsT['nombre_usuario']; ?></div>
+                                              <div class="col-sm-6"><strong>Nombre:</strong> <?php echo $lsT['nombre_usuario'] . ' ' . $lsT['a_paterno'] . ' ' . $lsT['a_materno']; ?></div>
                                               <div class="col-sm-6"><strong>Email:</strong> <?php echo $lsT['email_cliente']; ?></div>
                                           </div>
                                           <br>

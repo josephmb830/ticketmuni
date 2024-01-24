@@ -81,8 +81,8 @@ if (!$conexion) {
     }
 
     // Consulta SQL para insertar datos en la tabla cliente
-    $sqlInsert = "INSERT INTO cliente (dni, nombres, a_paterno, a_materno, cargo, email, asunto, descripcion, archivos) 
-                  VALUES ('$dni', '$nombresx', '$a_paterno', '$a_materno', '$cargo', '$email', '$asunto', '$descripcion', '$rutasString')";
+    $sqlInsert = "INSERT INTO cliente (dni, nombre_usuario, a_paterno, a_materno, cargo, email_cliente) 
+                  VALUES ('$dni', '$nombresx', '$a_paterno', '$a_materno', '$cargo', '$email')";
 
     // Ejecutar la consulta SQL
     $resultado = mysqli_query($conexion, $sqlInsert);
@@ -98,7 +98,7 @@ if (!$conexion) {
 
 
 
-
+<?php if( isset($_SESSION['nombre'])){ ?>
 
 <!DOCTYPE html>
 <html>
@@ -110,7 +110,7 @@ if (!$conexion) {
 </head>
 
 <body>
-  <?php // include "./inc/slidebar.php"; ?>
+  <?php include "./inc/slidebar.php"; ?>
 
 
   <div class="container mt-100">
@@ -153,41 +153,15 @@ if (!$conexion) {
                 <label><span class="fa fa-envelope"></span>&nbsp;Correo Electrónico</label>
                 <input type="email" class="form-control" name="email" placeholder="Escribe tu correo electrónico" required="" />
               </div>
-              <label><span class=""></span>INFORMACIÓN DEL TICKET</label>
-              <div class="form-group ">
-                    <label><span class=""></span>Asunto</label>
-                    <input type="text" class="form-control" name="asunto" placeholder="Escribe el asunto" required=""/>
-              </div>
-              <div class="form-group">
-                    <label><span class=""></span>Descripción del Problema</label>
-                    <textarea class="form-control" name="descripcion" rows="4" placeholder="Escribe la descripción del problema" required=""></textarea>
-              </div>
-               <!-- Texto "Adjuntar archivo (Opcional)" en cursiva -->
-               <div class="form-group col-md-12">
-                    <label class="font-italic">Adjuntar archivos (Opcional)</label>
-                </div>
-
-                <!-- Cuadro de información -->  
-                <div class="form-group col-md-12">
-                    <div class="alert alert-info">
-                        <strong>ℹ Información:</strong> Puede subir hasta 3 archivos (4MB en total).<br>
-                        Formatos permitidos: .pdf, .jpeg, .jpg, .png
-                    </div>
-                </div>
-
-                <!-- Botón para seleccionar archivos con evento onchange para validación -->
-                <div class="form-group col-md-12">
-                    <label><span class=""></span>Seleccionar Archivos</label>
-                    <input type="file" class="form-control-file" name="archivos[]" accept=".pdf, .jpeg, .jpg, .png" multiple onchange="validarArchivos(this)" />
-                </div>
+              
               <button type="submit" class="btn btn-danger">Crear cuenta</button>
             </form>
-          </    div>
+          </div>
         </div>
       </div>
     </div>
   </div>
-  <?php    ?>
+  <?php  include './inc/footer.php';  ?>
 </body>
 </html>
   <script>
@@ -216,7 +190,21 @@ if (!$conexion) {
             return;
         }
     }
+
+    $(document).ready(function () {
+      $("#input_user").keyup(function () {
+        $.ajax({
+          url: "./process/val.php?id=" + $(this).val(),
+          success: function (data) {
+            $("#com_form").html(data);
+          }
+        });
+      });
+    });
   </script>
   <?php 
-  
+  }else{
+    header("Location:index.php");
+}
+
 ?>

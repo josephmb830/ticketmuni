@@ -241,7 +241,7 @@ $pdf->Text($xCeldaPrincipal + 113, $yCeldaPrincipal - 23, utf8_decode('_________
 $pdf->Text($xCeldaPrincipal + 135, $yCeldaPrincipal - 15, utf8_decode('FIRMA'));
 $pdf->Text($xCeldaPrincipal + 94, $yCeldaPrincipal - 7.5, utf8_decode('NOMBRE:'));
 $pdf->SetFont("Arial","B",9);
-$pdf->Text($xCeldaPrincipal + 110, $yCeldaPrincipal - 7.5, utf8_decode($reg['nombre_usuario']));
+$pdf->Text($xCeldaPrincipal + 110, $yCeldaPrincipal - 7.5, utf8_decode($reg['nombre_usuario'] . ' ' . $reg['a_paterno'] . ' ' . $reg['a_materno']));
 $pdf->SetFont("Arial","",9);
 $pdf->Text($xCeldaPrincipal + 94, $yCeldaPrincipal - 1, utf8_decode('FECHA:'));
 $pdf->Text($xCeldaPrincipal + 107, $yCeldaPrincipal - 1, utf8_decode($reg['fecha']));

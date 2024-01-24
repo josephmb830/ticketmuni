@@ -38,7 +38,7 @@ $hoy = date('d/m/Y   h:i:s  a', TIME());
         $id_ticket="TK".$codigo."N".$numero_filas_total;
         /*Fin codigo numero de ticket*/
 
-
+        $usuario=MysqlQuery::RequestPost('nombre_usuario');
         $fecha_ticket=MysqlQuery::RequestPost('fecha_ticket');
         $dni=MysqlQuery::RequestPost('dni');
         $nombresx=MysqlQuery::RequestPost('nombres');
@@ -109,15 +109,15 @@ $hoy = date('d/m/Y   h:i:s  a', TIME());
     }
 
     // Consulta SQL para insertar datos en la tabla cliente
-    $sqlInsert = "INSERT INTO ticket (fecha, serie, dni, nombre_usuario, a_paterno, a_materno, cargo, area, email_cliente, departamento, asunto, mensaje, archivos, estado_ticket) 
-                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $sqlInsert = "INSERT INTO ticket (nombre_usuario, fecha, serie, dni, nombres, a_paterno, a_materno, cargo, area, email_cliente, departamento, asunto, mensaje, archivos, estado_ticket) 
+                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     // Preparar la consulta
     $stmt = mysqli_prepare($conexion, $sqlInsert);
 
     if ($stmt) {
         // Vincular los parámetros
-        mysqli_stmt_bind_param($stmt, "ssssssssssssss", $fecha_ticket, $id_ticket, $dni, $nombresx, $a_paterno, $a_materno, $cargo, $area_ticket, $email, $departamento_ticket, $asunto, $descripcion, $rutasString, $estado_ticket);
+        mysqli_stmt_bind_param($stmt, "sssssssssssssss", $usuario, $fecha_ticket, $id_ticket, $dni, $nombresx, $a_paterno, $a_materno, $cargo, $area_ticket, $email, $departamento_ticket, $asunto, $descripcion, $rutasString, $estado_ticket);
 
         // Ejecutar la consulta preparada
         $resultado = mysqli_stmt_execute($stmt);
@@ -181,12 +181,51 @@ $hoy = date('d/m/Y   h:i:s  a', TIME());
     </div>
 
 
+
+   
+      
+
+
+
+
+
+
+
     <div id="viewTicket" class="ticket-section none">
         <?php include "./user/consulta-view.php"; ?>
     </div>
 
     
     <div id="newTicket" class="ticket-section flex h-screen">
+
+
+    <div class="row" style="margin-right: 10px;">
+            <div class="col-sm-12">
+              <div class="panel panel-success">
+              <div class="panel-heading text-center"><i class="fa fa-plus"></i>&nbsp;<strong>Consultar Datos de Usuario</strong></div>
+              <div class="panel-body">
+                    <form role="form" action="" method="post">
+                    
+                    <div class="form-group has-success has-feedback">
+                      <label class="control-label"><i class="fa fa-user"></i>&nbsp;Nombre de usuario</label>
+                      <input type="text" id="input_user" class="form-control" name="admin_reg" placeholder="Nombre de usuario" required="" pattern="[a-zA-Z0-9]{1,15}" title="Ejemplo7 maximo 15 caracteres" maxlength="15">
+                      <div id="com_form"></div>
+                    </div>
+                    
+                    
+                    <div class="col-md-6">
+                    <center><button type="submit" class="btn btn-success">Consultar datos</button></center>
+                    </div>
+                        
+                                                      
+                      
+                              </form>  
+                
+              </div>
+            </div>
+          </div>
+        </div>
+
 
         <div class="panel panel-info">
           <div class="panel-heading text-center">
@@ -199,16 +238,24 @@ $hoy = date('d/m/Y   h:i:s  a', TIME());
           </div>
           <div class="panel-body">
 
+          
+
           <form role="form" action="" method="POST" enctype="multipart/form-data">
 
           <fieldset>
 
-              <label><span class=""></span>INFORMACIÓN DEL CONTACTO</label>
+              <label><span class=""></span>INFORMACIÓN DEL USUARIO</label>
 
-           
-
+              
 
               <div class= "row d-flex">
+
+                <div class="form-group has-success has-feedback col-sm-3">
+                  <label class="control-label"><i class="fa fa-user"></i>&nbsp;Usuario</label>
+                  <input type="text" id="input_user" class="form-control" name="nombre_usuario" placeholder="Nombre de usuario" required="" pattern="[a-zA-Z0-9]{1,15}" title="Ejemplo7 maximo 15 caracteres" maxlength="15">
+                  <div id="com_form"></div>
+                </div>
+
 
                 <div class="form-group col-sm-5">
                     <label class="control-label">Fecha</label>
@@ -344,37 +391,9 @@ $hoy = date('d/m/Y   h:i:s  a', TIME());
 
 
   
+<!-- Antes consulta ticket section -->
 
-
-        <div class="">
-          <?php
-                if(isset($_GET['view'])){
-                    $content=$_GET['view'];
-                    $WhiteList=["index","soporte","ticket","ticketcon","registro","configuracion","ticketusuario"];
-                    if(in_array($content, $WhiteList) && is_file("./user/".$content."-view.php")){
-                      include "./user/".$content."-view.php";
-                    }else{
-                ?>
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <img src="./img/Stop.png" alt="Image" class="img-responsive"/><br>
-                                <img src="./img/SadTux.png" alt="Image" class="img-responsive"/>
-                            </div>
-                            <div class="col-sm-7 text-center">
-                                <h1 class="text-danger">Lo sentimos, la opción que ha seleccionado no se encuentra disponible</h1>
-                                <h3 class="text-info">Por favor intente nuevamente</h3>
-                            </div>
-                            <div class="col-sm-1">&nbsp;</div>
-                        </div>
-                    </div>
-                  <?php
-                    }
-                      }else{
-                          include "./user/index-view.php";
-                      }
-                  ?>
-        </div> 
+        
 
 
 

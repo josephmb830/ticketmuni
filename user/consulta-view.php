@@ -110,7 +110,7 @@
                   <div class="panel-body text-center">
                     <img src="./img/consulta.png" width="50" alt="">
                     <h4>Colsultar estado de ticket</h4>
-                    <form class="form-horizontal" role="form" method="GET" action="./registro2.php">
+                    <form class="form-horizontal" role="form" method="GET" action="./consulta.php">
                       <input type="hidden" name="view" value="ticketcon">
                       <div class="form-group">
                         <div class="col-sm-10">
