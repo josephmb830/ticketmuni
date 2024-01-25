@@ -108,21 +108,15 @@ $hoy = date('d/m/Y   h:i:s  a', TIME());
         die("Error en la conexión a la base de datos: " . mysqli_connect_error());
     }
 
-    // Consulta SQL para insertar datos en la tabla cliente
-    $sqlInsert = "INSERT INTO ticket (nombre_usuario, fecha, serie, dni, nombres, a_paterno, a_materno, cargo, area, email_cliente, departamento, asunto, mensaje, archivos, estado_ticket) 
-                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
 
     // Datos para la tabla cliente
     $sqlInsertCliente = "INSERT INTO cliente (nombre_usuario, dni, nombres, a_paterno, a_materno, cargo, area, email_cliente) 
                         VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
     // Datos para la tabla ticket
-    $sqlInsertTicket = "INSERT INTO ticket (fecha, serie, departamento, asunto, mensaje, archivos, estado_ticket) 
-                      VALUES (?, ?, ?, ?, ?, ?, ?)";
+    $sqlInsertTicket = "INSERT INTO ticket (id_cliente, fecha, serie, departamento, asunto, mensaje, archivos, estado_ticket) 
+                      VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-    // Preparar la consulta statement
-    $stmt = mysqli_prepare($conexion, $sqlInsert);
 
     // Preparar la consulta statement para cliente
     $stmtCliente = mysqli_prepare($conexion, $sqlInsertCliente);
@@ -132,21 +126,33 @@ $hoy = date('d/m/Y   h:i:s  a', TIME());
 
 
     if ($stmtCliente && $stmtTicket) {
-        // Vincular los parámetros
-        mysqli_stmt_bind_param($stmt, "sssssssssssssss", $usuario, $fecha_ticket, $id_ticket, $dni, $nombresx, $a_paterno, $a_materno, $cargo, $area_ticket, $email, $departamento_ticket, $asunto, $descripcion, $rutasString, $estado_ticket);
+        
+        // Vincular los parámetros para la tabla cliente
+        mysqli_stmt_bind_param($stmtCliente, "ssssssss", $usuario, $dni, $nombresx, $a_paterno, $a_materno, $cargo, $area_ticket, $email);
 
-        // Ejecutar la consulta preparada
-        $resultado = mysqli_stmt_execute($stmt);
+        // Ejecutar la consulta preparada para la tabla cliente
+        $resultadoCliente = mysqli_stmt_execute($stmtCliente);
 
-        // Verificar si la inserción fue exitosa
-        if ($resultado) {
-            echo "Datos insertados exitosamente en la base de datos. Consulte el estado de su ticket con su número de serie: $id_ticket ";
+        // Obtener el id_cliente generado por la inserción anterior
+        $id_cliente = mysqli_insert_id($conexion);
+
+        // Vincular los parámetros para la tabla ticket
+        mysqli_stmt_bind_param($stmtTicket, "isssssss", $id_cliente, $fecha_ticket, $id_ticket, $departamento_ticket, $asunto, $descripcion, $rutasString, $estado_ticket);
+
+
+        // Ejecutar la consulta preparada para la tabla ticket
+        $resultadoTicket = mysqli_stmt_execute($stmtTicket);
+
+        // Verificar si ambas inserciones fueron exitosas
+        if ($resultadoCliente && $resultadoTicket) {
+            echo "Datos insertados exitosamente en las tablas cliente y ticket. Consulte el estado de su ticket con su número de serie: $id_ticket";
         } else {
-            echo "Error al insertar datos en la base de datos: " . mysqli_stmt_error($stmt);
+            echo "Error al insertar datos en la base de datos: " . mysqli_stmt_error($stmtCliente) . " - " . mysqli_stmt_error($stmtTicket);
         }
 
-        // Cerrar la consulta preparada
-        mysqli_stmt_close($stmt);
+        // Cerrar las consultas preparadas
+        mysqli_stmt_close($stmtCliente);
+        mysqli_stmt_close($stmtTicket);
     } else {
         echo "Error al preparar la consulta: " . mysqli_error($conexion);
     }
