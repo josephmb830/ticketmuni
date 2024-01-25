@@ -17,6 +17,7 @@ if (!$conexion) {
         $a_paterno=MysqlQuery::RequestPost('a_paterno');
         $a_materno=MysqlQuery::RequestPost('a_materno');
         $cargo=MysqlQuery::RequestPost('cargo');
+        $area=MysqlQuery::RequestPost('area');
         $email=MysqlQuery::RequestPost('email');
         
         
@@ -30,13 +31,13 @@ if (!$conexion) {
     }
 
     // Consulta SQL para insertar datos en la tabla cliente
-    $sqlInsert = "INSERT INTO cliente (dni, nombre_usuario, nombres, a_paterno, a_materno, cargo, email_cliente) 
-    VALUES (?, ?, ?, ?, ?, ?, ?)";
+    $sqlInsert = "INSERT INTO cliente (dni, nombre_usuario, nombres, a_paterno, a_materno, cargo, area, email_cliente) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
     $stmt = mysqli_prepare($conexion, $sqlInsert);
 
     // Bind parameters
-    mysqli_stmt_bind_param($stmt, "sssssss", $dni, $nombresu, $nombresx, $a_paterno, $a_materno, $cargo, $email);
+    mysqli_stmt_bind_param($stmt, "ssssssss", $dni, $nombresu, $nombresx, $a_paterno, $a_materno, $cargo, $area, $email);
 
     // Execute the statement
     $resultado = mysqli_stmt_execute($stmt);
@@ -106,6 +107,10 @@ if (!$conexion) {
               <div class="form-group">
                 <label><span class=""></span>Cargo</label>
                 <input type="text" class="form-control" name="cargo" placeholder="Escribe el cargo" required="" />
+              </div>
+              <div class="form-group">
+                <label><span class=""></span>Area</label>
+                <input type="text" class="form-control" name="area" placeholder="Escribe el area" required="" />
               </div>
               <div class="form-group">
                 <label><span class="fa fa-envelope"></span>&nbsp;Correo Electrónico</label>
