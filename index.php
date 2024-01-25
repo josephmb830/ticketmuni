@@ -112,10 +112,26 @@ $hoy = date('d/m/Y   h:i:s  a', TIME());
     $sqlInsert = "INSERT INTO ticket (nombre_usuario, fecha, serie, dni, nombres, a_paterno, a_materno, cargo, area, email_cliente, departamento, asunto, mensaje, archivos, estado_ticket) 
                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-    // Preparar la consulta
+
+    // Datos para la tabla cliente
+    $sqlInsertCliente = "INSERT INTO cliente (nombre_usuario, dni, nombres, a_paterno, a_materno, cargo, area, email_cliente) 
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+    // Datos para la tabla ticket
+    $sqlInsertTicket = "INSERT INTO ticket (fecha, serie, departamento, asunto, mensaje, archivos, estado_ticket) 
+                      VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+    // Preparar la consulta statement
     $stmt = mysqli_prepare($conexion, $sqlInsert);
 
-    if ($stmt) {
+    // Preparar la consulta statement para cliente
+    $stmtCliente = mysqli_prepare($conexion, $sqlInsertCliente);
+
+    // Preparar la consulta statement para ticket
+    $stmtTicket = mysqli_prepare($conexion, $sqlInsertTicket);
+
+
+    if ($stmtCliente && $stmtTicket) {
         // Vincular los parámetros
         mysqli_stmt_bind_param($stmt, "sssssssssssssss", $usuario, $fecha_ticket, $id_ticket, $dni, $nombresx, $a_paterno, $a_materno, $cargo, $area_ticket, $email, $departamento_ticket, $asunto, $descripcion, $rutasString, $estado_ticket);
 
@@ -158,23 +174,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nombre_usuario_existen
     // Verifica si se encontró algún resultado
     if ($resultado->num_rows > 0) {
         // El usuario ya existe, puedes obtener los datos de contacto
-        while ($fila = $resultado->fetch_assoc()) {
-            $dni = $fila['dni'];
-            $nombres = $fila['nombres'];
-            $apellidoPaterno = $fila['a_paterno'];
-            $apellidoMaterno = $fila['a_materno'];
-            $cargo = $fila['cargo'];
-            $area = $fila['area'];
-            $email = $fila['email_cliente'];
-
-            // Ahora puedes utilizar estos datos según tus necesidades
-            // Por ejemplo, imprimirlos o almacenarlos en variables para su posterior uso
-            echo "Datos del usuario existente:<br>";
-            echo "DNI: $dni<br>";
-            echo "Nombres: $nombres<br>";
-            echo "Email: $email<br>";
-            // ... Continúa con los demás datos
-        }
+        $fila = $resultado->fetch_assoc();
+        $_SESSION['datos_usuario'] = $fila; // Almacena los datos del usuario en la sesión
     } else {
         // El usuario no existe, puedes continuar con el proceso de abrir un nuevo ticket
         // Aquí deberías agregar el código necesario para insertar los datos del nuevo ticket en la base de datos
@@ -183,7 +184,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nombre_usuario_existen
 
 } else {
     // Si el formulario no ha sido enviado, muestra un mensaje o realiza alguna acción
-    echo "Formulario no enviado. Puedes continuar con el proceso de abrir un nuevo ticket.";
+    echo "Formulario no enviado. Puedes autorellenar tus datos consultando tu usuario o abrir un nuevo registro.";
 }
 
 // Cierra la conexión a la base de datos
@@ -229,7 +230,7 @@ $conexion->close();
     </div>
 
     
-    <div class="row d-flex" style="margin: 10px;">
+    <div class="row d-flex" style="margin: 30px;">
     <!-- Contenido de tu div aquí -->
     </div>
 
@@ -251,11 +252,11 @@ $conexion->close();
     
     <div id="newTicket" class="ticket-section flex h-screen">
 
-
+    <!-- formulario 1 -->
     <div class="row" style="margin-right: 10px;">
             <div class="col-sm-12">
               <div class="panel panel-success">
-              <div class="panel-heading text-center"><i class="fa fa-plus"></i>&nbsp;<strong>Consultar Datos de Usuario</strong></div>
+              <div class="panel-heading text-center"><i class="fa fa-plus"></i>&nbsp;<strong>Autorellenar Datos</strong></div>
               <div class="panel-body">
                     <form role="form" action="" method="post">
                     
@@ -276,7 +277,7 @@ $conexion->close();
           </div>
         </div>
 
-
+        <!-- formulario 2 -->
         <div class="panel panel-info">
           <div class="panel-heading text-center">
             <div class="d-flex justify-content-center">
@@ -288,6 +289,21 @@ $conexion->close();
           </div>
           <div class="panel-body">
 
+          <?php
+          // Verifica si la variable de sesión está definida
+          if (isset($_SESSION['datos_usuario'])) {
+              $datosUsuario = $_SESSION['datos_usuario'];
+
+              // Muestra los datos del usuario
+              echo "Datos del usuario existente:<br>";
+              //echo "DNI: " . $datosUsuario['dni'] . "<br>";
+
+              // ... Continúa con los demás datos del formulario
+          } else {
+              // Si la variable de sesión no está definida, muestra un mensaje o realiza alguna acción
+              echo "No se han encontrado datos de usuario. Puedes continuar llenando el formulario.";
+          }
+          ?>
           
 
           <form role="form" action="" method="POST" enctype="multipart/form-data">
@@ -297,12 +313,12 @@ $conexion->close();
               <label><span class=""></span>INFORMACIÓN DEL USUARIO</label>
 
               
-
+              <!-- Rellenar los campos con los datos del usuario -->
               <div class= "row d-flex">
 
                 <div class="form-group has-success has-feedback col-sm-3">
                   <label class="control-label"><i class="fa fa-user"></i>&nbsp;Usuario</label>
-                  <input type="text" id="input_user" class="form-control" name="nombre_usuario_nuevo" placeholder="Nombre de usuario" required="" pattern="[a-zA-Z0-9]{1,15}" title="Ejemplo7 maximo 15 caracteres" maxlength="15">
+                  <input type="text" id="input_user" class="form-control" name="nombre_usuario_nuevo" placeholder="Nombre de usuario" required="" pattern="[a-zA-Z0-9]{1,15}" title="Ejemplo7 maximo 15 caracteres" maxlength="15" value="<?php echo $datosUsuario['nombre_usuario']; ?>">
                   <div id="com_form"></div>
                 </div>
 
@@ -321,24 +337,24 @@ $conexion->close();
               </div>
 
             
-              
+               
               <div class= "row d-flex">
 
                 <div class="form-group has-success has-feedback col-sm-3">
                       <label><span class=""></span>DNI</label>
-                      <input type="text" class="form-control" name="dni" placeholder="Escribe tu dni" required="" maxlength="9"/>
+                      <input type="text" class="form-control" name="dni" placeholder="Escribe tu dni" required="" maxlength="9" value="<?php echo $datosUsuario['dni']; ?>"/>
                 </div>
                 <div class="form-group col-sm-3">
                   <label><span class="fa fa-male"></span>&nbsp;Nombres</label>
-                  <input type="text" class="form-control" name="nombres" placeholder="Escribe tus nombres" required="" />
+                  <input type="text" class="form-control" name="nombres" placeholder="Escribe tus nombres" required="" value="<?php echo $datosUsuario['nombres']; ?>"/>
                 </div>
                 <div class="form-group col-sm-3">
                   <label><span class=""></span>Apellido Paterno</label>
-                  <input type="text" class="form-control" name="a_paterno" placeholder="Escribe tu Apellido Paterno" required="" />
+                  <input type="text" class="form-control" name="a_paterno" placeholder="Escribe tu Apellido Paterno" required="" value="<?php echo $datosUsuario['a_paterno']; ?>"/>
                 </div>
                 <div class="form-group col-sm-3">
                   <label><span class=""></span>Apellido Materno</label>
-                  <input type="text" class="form-control" name="a_materno" placeholder="Escribe tu Apellido Materno" required="" />
+                  <input type="text" class="form-control" name="a_materno" placeholder="Escribe tu Apellido Materno" required="" value="<?php echo $datosUsuario['a_materno']; ?>"/>
                 </div>
 
               </div>
@@ -347,14 +363,14 @@ $conexion->close();
 
                 <div class="form-group col-sm-5">
                   <label><span class=""></span>Cargo</label>
-                  <input type="text" class="form-control" name="cargo" placeholder="Escribe el cargo" required="" />
+                  <input type="text" class="form-control" name="cargo" placeholder="Escribe el cargo" required="" value="<?php echo $datosUsuario['cargo']; ?>"/>
                 </div>
 
                 <div class="form-group col-sm-4">
                   <label  class="control-label">Area</label>
                   <div class="">
                       <div class='input-group'>
-                      <input type="text" class="form-control" placeholder="Area" required="" pattern="[a-zA-Z ]{1,30}" name="area_ticket" title="Area" value="<?php echo $area_cli ?>" readonly>
+                      <input type="text" class="form-control" placeholder="Area" required="" pattern="[a-zA-Z ]{1,30}" name="area_ticket" title="Area" value="<?php echo $datosUsuario['area']; ?>" />
                         <span class="input-group-addon"><i class="fa fa-user"></i></span>
                       </div>
                   </div>
@@ -362,7 +378,7 @@ $conexion->close();
 
                 <div class="form-group col-sm-3">
                   <label><span class="fa fa-envelope"></span>&nbsp;Correo Electrónico</label>
-                  <input type="email" class="form-control" name="email" placeholder="Escribe tu correo electrónico" required="" />
+                  <input type="email" class="form-control" name="email" placeholder="Escribe tu correo electrónico" required="" value="<?php echo $datosUsuario['email_cliente']; ?>"/>
                 </div>
 
               </div>
