@@ -38,7 +38,7 @@ $hoy = date('d/m/Y   h:i:s  a', TIME());
         $id_ticket="TK".$codigo."N".$numero_filas_total;
         /*Fin codigo numero de ticket*/
 
-        $usuario=MysqlQuery::RequestPost('nombre_usuario');
+        $usuario=MysqlQuery::RequestPost('nombre_usuario_nuevo');
         $fecha_ticket=MysqlQuery::RequestPost('fecha_ticket');
         $dni=MysqlQuery::RequestPost('dni');
         $nombresx=MysqlQuery::RequestPost('nombres');
@@ -138,6 +138,59 @@ $hoy = date('d/m/Y   h:i:s  a', TIME());
 ?>
 
 
+<?php
+
+// Verifica la conexión
+if ($conexion->connect_error) {
+    die("Error de conexión a la base de datos: " . $conexion->connect_error);
+}
+
+// Verifica si se ha enviado el formulario
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nombre_usuario_existente'])) {
+
+    // Obtén los datos del formulario
+    $nombreUsuario = $_POST['nombre_usuario_existente'];
+
+    // Consulta para verificar si el usuario ya existe
+    $sql = "SELECT * FROM cliente WHERE nombre_usuario = '$nombreUsuario'";
+    $resultado = $conexion->query($sql);
+
+    // Verifica si se encontró algún resultado
+    if ($resultado->num_rows > 0) {
+        // El usuario ya existe, puedes obtener los datos de contacto
+        while ($fila = $resultado->fetch_assoc()) {
+            $dni = $fila['dni'];
+            $nombres = $fila['nombres'];
+            $apellidoPaterno = $fila['a_paterno'];
+            $apellidoMaterno = $fila['a_materno'];
+            $cargo = $fila['cargo'];
+            $area = $fila['area'];
+            $email = $fila['email_cliente'];
+
+            // Ahora puedes utilizar estos datos según tus necesidades
+            // Por ejemplo, imprimirlos o almacenarlos en variables para su posterior uso
+            echo "Datos del usuario existente:<br>";
+            echo "DNI: $dni<br>";
+            echo "Nombres: $nombres<br>";
+            echo "Email: $email<br>";
+            // ... Continúa con los demás datos
+        }
+    } else {
+        // El usuario no existe, puedes continuar con el proceso de abrir un nuevo ticket
+        // Aquí deberías agregar el código necesario para insertar los datos del nuevo ticket en la base de datos
+        echo "Usuario no encontrado. Puedes continuar con el proceso de abrir un nuevo ticket.";
+    }
+
+} else {
+    // Si el formulario no ha sido enviado, muestra un mensaje o realiza alguna acción
+    echo "Formulario no enviado. Puedes continuar con el proceso de abrir un nuevo ticket.";
+}
+
+// Cierra la conexión a la base de datos
+$conexion->close();
+
+?>
+
 
 
 
@@ -208,17 +261,14 @@ $hoy = date('d/m/Y   h:i:s  a', TIME());
                     
                     <div class="form-group has-success has-feedback">
                       <label class="control-label"><i class="fa fa-user"></i>&nbsp;Nombre de usuario</label>
-                      <input type="text" id="input_user" class="form-control" name="admin_reg" placeholder="Nombre de usuario" required="" pattern="[a-zA-Z0-9]{1,15}" title="Ejemplo7 maximo 15 caracteres" maxlength="15">
+                      <input type="text" id="input_user" class="form-control" name="nombre_usuario_existente" placeholder="Nombre de usuario" required="" pattern="[a-zA-Z0-9]{1,15}" title="Ejemplo7 maximo 15 caracteres" maxlength="15">
                       <div id="com_form"></div>
                     </div>
                     
                     
                     <div class="col-md-6">
                     <center><button type="submit" class="btn btn-success">Consultar datos</button></center>
-                    </div>
-                        
-                                                      
-                      
+                    </div>             
                               </form>  
                 
               </div>
@@ -252,7 +302,7 @@ $hoy = date('d/m/Y   h:i:s  a', TIME());
 
                 <div class="form-group has-success has-feedback col-sm-3">
                   <label class="control-label"><i class="fa fa-user"></i>&nbsp;Usuario</label>
-                  <input type="text" id="input_user" class="form-control" name="nombre_usuario" placeholder="Nombre de usuario" required="" pattern="[a-zA-Z0-9]{1,15}" title="Ejemplo7 maximo 15 caracteres" maxlength="15">
+                  <input type="text" id="input_user" class="form-control" name="nombre_usuario_nuevo" placeholder="Nombre de usuario" required="" pattern="[a-zA-Z0-9]{1,15}" title="Ejemplo7 maximo 15 caracteres" maxlength="15">
                   <div id="com_form"></div>
                 </div>
 

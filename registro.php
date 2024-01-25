@@ -3,77 +3,26 @@ session_start();
 include './lib/class_mysql.php';
 include './lib/config.php';
 header('Content-Type: text/html; charset=UTF-8');  
-
-// Asegúrate de tener la conexión a la base de datos disponible
 $conexion = mysqli_connect(SERVER, USER, PASS, BD);
-
 if (!$conexion) {
     die("Error en la conexión a la base de datos: " . mysqli_connect_error());
 }
-
 ?>
 
 <?php
-    if(isset($_POST['dni']) && isset($_POST['email']) && isset($_POST['descripcion'])){
+    if(isset($_POST['dni']) && isset($_POST['email']) && isset($_POST['nombre_usuario'])){
         $dni=MysqlQuery::RequestPost('dni');
+        $nombresu=MysqlQuery::RequestPost('nombre_usuario');
         $nombresx=MysqlQuery::RequestPost('nombres');
         $a_paterno=MysqlQuery::RequestPost('a_paterno');
         $a_materno=MysqlQuery::RequestPost('a_materno');
         $cargo=MysqlQuery::RequestPost('cargo');
         $email=MysqlQuery::RequestPost('email');
-        $asunto=MysqlQuery::RequestPost('asunto');
-        $descripcion=MysqlQuery::RequestPost('descripcion');
         
-        $rutasGuardadasEnBD = array();
+        
 
-    // Obtener la información de los archivos
-    $archivos = $_FILES['archivos'];
     
 
-    if (isset($archivos['name']) && !is_array($archivos['name'])) {
-        // Procesar y guardar el archivo único en el servidor
-        $rutaArchivos = "./storage/";
-
-        $nombreArchivo = $archivos['name'];
-        $rutaGuardadaEnServidor = $rutaArchivos . $nombreArchivo;
-
-        // Mueve el archivo desde la ubicación temporal a la carpeta deseada
-        if (move_uploaded_file($archivos['tmp_name'], $rutaGuardadaEnServidor)) {
-            $rutasGuardadasEnBD[] = $rutaGuardadaEnServidor;
-        } else {
-            // Manejar el caso en que haya un error al mover el archivo
-            echo "Error al mover el archivo: $nombreArchivo. Detalles: " . error_get_last()['message'];
-        }
-    } elseif (isset($archivos['name']) && is_array($archivos['name'])) {
-        // Procesar y guardar los archivos múltiples en el servidor
-        $rutaArchivos = "./storage/";
-
-        for ($i = 0; $i < count($archivos['name']); $i++) {
-            $nombreArchivo = $archivos['name'][$i];
-            $rutaGuardadaEnServidor = $rutaArchivos . $nombreArchivo;
-
-            // Mueve el archivo desde la ubicación temporal a la carpeta deseada
-            if (move_uploaded_file($archivos['tmp_name'][$i], $rutaGuardadaEnServidor)) {
-                $rutasGuardadasEnBD[] = $rutaGuardadaEnServidor;
-            } else {
-                // Manejar el caso en que haya un error al mover el archivo
-                echo "Error al mover el archivo: $nombreArchivo. Detalles: " . error_get_last()['message'];
-            }
-        }
-    } else {
-        // Imprimir $archivos en el bloque else
-        echo '<pre>';
-        var_dump($archivos);
-        echo '</pre>';
-        // o
-        // print_r($archivos);
-        // Manejar el caso en que $archivos no es un array
-    }
-
-    // Continuar con el resto del código
-
-    // Convertir el array de rutas en una cadena para almacenar en la base de datos
-    $rutasString = implode(',', $rutasGuardadasEnBD);
 
     // Verificar si la conexión a la base de datos se estableció correctamente
     if (!$conexion) {
@@ -81,11 +30,16 @@ if (!$conexion) {
     }
 
     // Consulta SQL para insertar datos en la tabla cliente
-    $sqlInsert = "INSERT INTO cliente (dni, nombre_usuario, a_paterno, a_materno, cargo, email_cliente) 
-                  VALUES ('$dni', '$nombresx', '$a_paterno', '$a_materno', '$cargo', '$email')";
+    $sqlInsert = "INSERT INTO cliente (dni, nombre_usuario, nombres, a_paterno, a_materno, cargo, email_cliente) 
+    VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-    // Ejecutar la consulta SQL
-    $resultado = mysqli_query($conexion, $sqlInsert);
+    $stmt = mysqli_prepare($conexion, $sqlInsert);
+
+    // Bind parameters
+    mysqli_stmt_bind_param($stmt, "sssssss", $dni, $nombresu, $nombresx, $a_paterno, $a_materno, $cargo, $email);
+
+    // Execute the statement
+    $resultado = mysqli_stmt_execute($stmt);
 
     // Verificar si la inserción fue exitosa
     if ($resultado) {
@@ -132,6 +86,10 @@ if (!$conexion) {
               <div class="form-group has-success has-feedback">
                     <label><span class=""></span>DNI</label>
                     <input type="text" class="form-control" name="dni" placeholder="Escribe tu dni" required="" maxlength="9"/>
+              </div>
+              <div class="form-group">
+                <label><span class="fa fa-male"></span>&nbsp;Nombre de usuario</label>
+                <input type="text" class="form-control" name="nombre_usuario" placeholder="Escribe tu nombre de usuario" required="" />
               </div>
               <div class="form-group">
                 <label><span class="fa fa-male"></span>&nbsp;Nombres</label>
