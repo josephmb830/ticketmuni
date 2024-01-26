@@ -296,8 +296,9 @@ $conexion->close();
           <div class="panel-body">
 
           <?php
-          // Verifica si la variable de sesión está definida
-          if (isset($_SESSION['datos_usuario'])) {
+
+          // Verifica si la variable de sesión está definida y no es nula
+          if (isset($_SESSION['datos_usuario']) && $_SESSION['datos_usuario'] !== null) {
               $datosUsuario = $_SESSION['datos_usuario'];
 
               // Muestra los datos del usuario
@@ -306,7 +307,7 @@ $conexion->close();
 
               // ... Continúa con los demás datos del formulario
           } else {
-              // Si la variable de sesión no está definida, muestra un mensaje o realiza alguna acción
+              // Si la variable de sesión no está definida o es nula, muestra un mensaje o realiza alguna acción
               echo "No se han encontrado datos de usuario. Puedes continuar llenando el formulario.";
           }
           ?>
