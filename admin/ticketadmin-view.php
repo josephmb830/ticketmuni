@@ -27,7 +27,8 @@
                 }
 
                 /* Todos los tickets*/
-                $num_ticket_all=Mysql::consulta("SELECT * FROM ticket");
+                //$num_ticket_all=Mysql::consulta("SELECT * FROM ticket");
+                $num_ticket_all=Mysql::consulta("SELECT ticket.*, cliente.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente WHERE ticket.estado_ticket = 'Pendiente';");
                 $num_total_all=mysqli_num_rows($num_ticket_all);
 
                 /* Tickets pendientes*/
