@@ -13,7 +13,7 @@
     <div class="l-navbar show" id="nav-bar">
         <nav class="nav">
             <div> <a href="#" class="nav_logo"><img class="img_logo" src="./img/logo_magda.png" alt=""></a>
-                <div class="nav_list"> <a href="./index.php" class="nav_link active"> <i class="fa fa-house"></i><span class="nav_name">Inicio</span> </a> 
+                <div class="nav_list"> <a href="./login.php" class="nav_link active"> <i class="fa fa-house"></i><span class="nav_name">Inicio</span> </a> 
                 <?php if($_SESSION['tipo']=="user"){?>
                 <a href="./ticketusuario.php" class="nav_link"> <i class="fa fa-ticket"></i> <span class="nav_name">Tickets</span> </a>                 
                 <a href="./configuracion-user.php" class="nav_link"> <i class="fas fa-cog"></i> <span class="nav_name">Configuracion</span> </a> 
