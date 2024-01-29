@@ -167,6 +167,9 @@ if ($conexion->connect_error) {
     die("Error de conexión a la base de datos: " . $conexion->connect_error);
 }
 
+// Inicializa $datosUsuario con valor predeterminado null
+$datosUsuario = null;
+
 // Verifica si se ha enviado el formulario
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nombre_usuario_existente'])) {
 
@@ -182,6 +185,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nombre_usuario_existen
         // El usuario ya existe, puedes obtener los datos de contacto
         $fila = $resultado->fetch_assoc();
         $_SESSION['datos_usuario'] = $fila; // Almacena los datos del usuario en la sesión
+        $datosUsuario = $fila; // Asigna los datos del usuario a $datosUsuario
     } else {
         // El usuario no existe, puedes continuar con el proceso de abrir un nuevo ticket
         // Aquí deberías agregar el código necesario para insertar los datos del nuevo ticket en la base de datos
@@ -325,7 +329,13 @@ $conexion->close();
 
                 <div class="form-group has-success has-feedback col-sm-3">
                   <label class="control-label"><i class="fa fa-user"></i>&nbsp;Usuario</label>
-                  <input type="text" id="input_user" class="form-control" name="nombre_usuario_nuevo" placeholder="Nombre de usuario" required="" pattern="[a-zA-Z0-9]{1,15}" title="Ejemplo7 maximo 15 caracteres" maxlength="15" value="<?php echo $datosUsuario['nombre_usuario']; ?>">
+                  <input type="text" id="input_user" class="form-control" name="nombre_usuario_nuevo" placeholder="Nombre de usuario" required="" pattern="[a-zA-Z0-9]{1,15}" title="Ejemplo7 máximo 15 caracteres" maxlength="15" 
+                    <?php if ($datosUsuario): ?>
+                        value="<?php echo $datosUsuario['nombre_usuario']; ?>"
+                    <?php else: ?>
+                        value=""
+                    <?php endif; ?>
+                      >
                   <div id="com_form"></div>
                 </div>
 
@@ -349,19 +359,43 @@ $conexion->close();
 
                 <div class="form-group has-success has-feedback col-sm-3">
                       <label><span class=""></span>DNI</label>
-                      <input type="text" class="form-control" name="dni" placeholder="Escribe tu dni" required="" maxlength="9" value="<?php echo $datosUsuario['dni']; ?>"/>
+                      <input type="text" class="form-control" name="dni" placeholder="Escribe tu dni" required="" maxlength="9" 
+                      <?php if ($datosUsuario): ?>
+                          value="<?php echo $datosUsuario['dni']; ?>"
+                      <?php else: ?>    
+                         value=""
+                      <?php endif; ?>
+                          />
                 </div>
                 <div class="form-group col-sm-3">
                   <label><span class="fa fa-male"></span>&nbsp;Nombres</label>
-                  <input type="text" class="form-control" name="nombres" placeholder="Escribe tus nombres" required="" value="<?php echo $datosUsuario['nombres']; ?>"/>
+                  <input type="text" class="form-control" name="nombres" placeholder="Escribe tus nombres" required="" 
+                  <?php if ($datosUsuario): ?>
+                      value="<?php echo $datosUsuario['nombres']; ?>"
+                  <?php else: ?>
+                      value=""
+                  <?php endif; ?>
+                      />
                 </div>
                 <div class="form-group col-sm-3">
                   <label><span class=""></span>Apellido Paterno</label>
-                  <input type="text" class="form-control" name="a_paterno" placeholder="Escribe tu Apellido Paterno" required="" value="<?php echo $datosUsuario['a_paterno']; ?>"/>
+                  <input type="text" class="form-control" name="a_paterno" placeholder="Escribe tu Apellido Paterno" required="" 
+                  <?php if ($datosUsuario): ?>
+                      value="<?php echo $datosUsuario['a_paterno']; ?>"
+                  <?php else: ?>
+                      value=""
+                  <?php endif; ?>
+                  />
                 </div>
                 <div class="form-group col-sm-3">
                   <label><span class=""></span>Apellido Materno</label>
-                  <input type="text" class="form-control" name="a_materno" placeholder="Escribe tu Apellido Materno" required="" value="<?php echo $datosUsuario['a_materno']; ?>"/>
+                  <input type="text" class="form-control" name="a_materno" placeholder="Escribe tu Apellido Materno" required="" 
+                  <?php if ($datosUsuario): ?>
+                      value="<?php echo $datosUsuario['a_materno']; ?>"
+                  <?php else: ?>
+                      value=""
+                  <?php endif; ?>
+                      />
                 </div>
 
               </div>
@@ -370,14 +404,26 @@ $conexion->close();
 
                 <div class="form-group col-sm-5">
                   <label><span class=""></span>Cargo</label>
-                  <input type="text" class="form-control" name="cargo" placeholder="Escribe el cargo" required="" value="<?php echo $datosUsuario['cargo']; ?>"/>
+                  <input type="text" class="form-control" name="cargo" placeholder="Escribe el cargo" required="" 
+                  <?php if ($datosUsuario): ?>
+                      value="<?php echo $datosUsuario['cargo']; ?>"
+                  <?php else: ?>
+                      value=""
+                  <?php endif; ?>
+                      />
                 </div>
 
                 <div class="form-group col-sm-4">
                   <label  class="control-label">Area</label>
                   <div class="">
                       <div class='input-group'>
-                      <input type="text" class="form-control" placeholder="Area" required="" pattern="[a-zA-Z ]{1,30}" name="area_ticket" title="Area" value="<?php echo $datosUsuario['area']; ?>" />
+                      <input type="text" class="form-control" placeholder="Area" required="" pattern="[a-zA-Z ]{1,30}" name="area_ticket" title="Area" 
+                      <?php if ($datosUsuario): ?>
+                          value="<?php echo $datosUsuario['area']; ?>" 
+                      <?php else: ?>
+                          value=""
+                      <?php endif; ?>
+                          />
                         <span class="input-group-addon"><i class="fa fa-user"></i></span>
                       </div>
                   </div>
@@ -385,7 +431,13 @@ $conexion->close();
 
                 <div class="form-group col-sm-3">
                   <label><span class="fa fa-envelope"></span>&nbsp;Correo Electrónico</label>
-                  <input type="email" class="form-control" name="email" placeholder="Escribe tu correo electrónico" required="" value="<?php echo $datosUsuario['email_cliente']; ?>"/>
+                  <input type="email" class="form-control" name="email" placeholder="Escribe tu correo electrónico" required="" 
+                  <?php if ($datosUsuario): ?>
+                      value="<?php echo $datosUsuario['email_cliente']; ?>"
+                  <?php else: ?>
+                      value=""
+                  <?php endif; ?>
+                      />
                 </div>
 
               </div>
