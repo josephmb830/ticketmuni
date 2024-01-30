@@ -21,6 +21,9 @@ $hoy = date('d/m/Y   h:i:s  a', TIME());
 
 ?>
 
+
+
+
 <?php
     if( isset($_POST['dni']) && isset($_POST['email']) && isset($_POST['descripcion'])){
 
@@ -101,70 +104,15 @@ $hoy = date('d/m/Y   h:i:s  a', TIME());
     // Continuar con el resto del código
 
     // Convertir el array de rutas en una cadena para almacenar en la base de datos
-    $rutasString = implode(',', $rutasGuardadasEnBD);
-
-    // Verificar si la conexión a la base de datos se estableció correctamente
-    if (!$conexion) {
-        die("Error en la conexión a la base de datos: " . mysqli_connect_error());
-    }
+    $rutasString = implode(',', $rutasGuardadasEnBD); }
 
 
-    // Datos para la tabla cliente
-    $sqlInsertCliente = "INSERT INTO cliente (nombre_usuario, dni, nombres, a_paterno, a_materno, cargo, area, email_cliente) 
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-
-    // Datos para la tabla ticket
-    $sqlInsertTicket = "INSERT INTO ticket (id_cliente, fecha, serie, departamento, asunto, mensaje, archivos, estado_ticket) 
-                      VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
 
-    // Preparar la consulta statement para cliente
-    $stmtCliente = mysqli_prepare($conexion, $sqlInsertCliente);
-
-    // Preparar la consulta statement para ticket
-    $stmtTicket = mysqli_prepare($conexion, $sqlInsertTicket);
-
-
-    if ($stmtCliente && $stmtTicket) {
-        
-        // Vincular los parámetros para la tabla cliente
-        mysqli_stmt_bind_param($stmtCliente, "ssssssss", $usuario, $dni, $nombresx, $a_paterno, $a_materno, $cargo, $area_ticket, $email);
-
-        // Ejecutar la consulta preparada para la tabla cliente
-        $resultadoCliente = mysqli_stmt_execute($stmtCliente);
-
-        // Obtener el id_cliente generado por la inserción anterior
-        $id_cliente = mysqli_insert_id($conexion);
-
-        // Vincular los parámetros para la tabla ticket
-        mysqli_stmt_bind_param($stmtTicket, "isssssss", $id_cliente, $fecha_ticket, $id_ticket, $departamento_ticket, $asunto, $descripcion, $rutasString, $estado_ticket);
-
-
-        // Ejecutar la consulta preparada para la tabla ticket
-        $resultadoTicket = mysqli_stmt_execute($stmtTicket);
-
-        // Verificar si ambas inserciones fueron exitosas
-        if ($resultadoCliente && $resultadoTicket) {
-            echo "Datos insertados exitosamente en las tablas cliente y ticket. Consulte el estado de su ticket con su número de serie: $id_ticket";
-        } else {
-            echo "Error al insertar datos en la base de datos: " . mysqli_stmt_error($stmtCliente) . " - " . mysqli_stmt_error($stmtTicket);
-        }
-
-        // Cerrar las consultas preparadas
-        mysqli_stmt_close($stmtCliente);
-        mysqli_stmt_close($stmtTicket);
-    } else {
-        echo "Error al preparar la consulta: " . mysqli_error($conexion);
-    }
-}
-?>
-
-
-<?php
 
 // Verifica la conexión
 if ($conexion->connect_error) {
-    die("Error de conexión a la base de datos: " . $conexion->connect_error);
+  die("Error de conexión a la base de datos: " . $conexion->connect_error);
 }
 
 // Inicializa $datosUsuario con valor predeterminado null
@@ -174,42 +122,190 @@ $datosAdmin = null;
 // Verifica si se ha enviado el formulario
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nombre_usuario_existente'])) {
 
-    // Obtén los datos del formulario
-    $nombreUsuario = $_POST['nombre_usuario_existente'];
+  // Obtén los datos del formulario
+  $nombreUsuario = $_POST['nombre_usuario_existente'];
 
-    // Consulta para verificar si el usuario ya existe
-    $sql_cliente = "SELECT * FROM cliente WHERE nombre_usuario = '$nombreUsuario'";
-    $resultado_cliente = $conexion->query($sql_cliente);
+  // Consulta para verificar si el usuario ya existe
+  $sql_cliente = "SELECT * FROM cliente WHERE nombre_usuario = '$nombreUsuario'";
+  $resultado_cliente = $conexion->query($sql_cliente);
 
-    $sql_administrador = "SELECT * FROM administrador WHERE nombre_admin = '$nombreUsuario'";
-    $resultado_administrador = $conexion->query($sql_administrador);
+  $sql_administrador = "SELECT * FROM administrador WHERE nombre_admin = '$nombreUsuario'";
+  $resultado_administrador = $conexion->query($sql_administrador);
 
-    // Verifica si se encontró algún resultado
-    if ($resultado_cliente->num_rows > 0) {
-        // El usuario ya existe, puedes obtener los datos de contacto
-        $fila = $resultado_cliente->fetch_assoc();
-        $_SESSION['datos_cliente'] = $fila; // Almacena los datos del usuario en la sesión
-        $datosCliente = $fila; // Asigna los datos del usuario a $datosUsuario
-    } elseif ($resultado_administrador->num_rows > 0) {
-        // El administrador ya existe, puedes obtener los datos de contacto
-        $fila = $resultado_administrador->fetch_assoc();
-        $_SESSION['datos_admin'] = $fila; // Almacena los datos del usuario en la sesión
-        $datosAdmin = $fila; // Asigna los datos del usuario a $datosUsuario
-    } else {
-        // El usuario no existe, puedes continuar con el proceso de abrir un nuevo ticket
-        // Aquí deberías agregar el código necesario para insertar los datos del nuevo ticket en la base de datos
-        echo "Usuario no encontrado. Puedes continuar con el proceso de abrir un nuevo ticket.";
-    }
+  // Verifica si se encontró algún resultado
+  if ($resultado_cliente->num_rows > 0) {
+      // El usuario ya existe, puedes obtener los datos de contacto
+      $fila = $resultado_cliente->fetch_assoc();
+      $_SESSION['datos_cliente'] = $fila; // Almacena los datos del usuario en la sesión
+      $datosCliente = $fila; // Asigna los datos del usuario a $datosUsuario
+  } elseif ($resultado_administrador->num_rows > 0) {
+      // El administrador ya existe, puedes obtener los datos de contacto
+      $fila = $resultado_administrador->fetch_assoc();
+      $_SESSION['datos_admin'] = $fila; // Almacena los datos del usuario en la sesión
+      $datosAdmin = $fila; // Asigna los datos del usuario a $datosUsuario
+  } else {
+      // El usuario no existe, puedes continuar con el proceso de abrir un nuevo ticket
+      // Aquí deberías agregar el código necesario para insertar los datos del nuevo ticket en la base de datos
+      echo "Usuario no encontrado. Puedes continuar con el proceso de abrir un nuevo ticket.";
+  }
 
 } else {
-    // Si el formulario no ha sido enviado, muestra un mensaje o realiza alguna acción
-    echo "Formulario no enviado. Puedes autorellenar tus datos consultando tu usuario o abrir un nuevo registro.";
+  // Si el formulario no ha sido enviado, muestra un mensaje o realiza alguna acción
+  echo "Formulario no enviado. Puedes autorellenar tus datos consultando tu usuario o abrir un nuevo registro.";
 }
 
 // Cierra la conexión a la base de datos
-$conexion->close();
+//$conexion->close();
+
+
+
+
+// Verifica la conexión
+if ($conexion->connect_error) {
+  die("Error de conexión a la base de datos: " . $conexion->connect_error);
+}
+
+// Inicializa $datosUsuario con valor predeterminado null
+$datosCliente = null;
+$datosAdmin = null;
+
+// Verifica si se ha enviado el formulario
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nombre_usuario_nuevo'])) {
+
+  // Obtén los datos del formulario
+  $nombreUsuario = $_POST['nombre_usuario_nuevo'];
+
+  // Consulta para verificar si el usuario ya existe
+  $sql_cliente = "SELECT * FROM cliente WHERE nombre_usuario = '$nombreUsuario'";
+  $resultado_cliente = $conexion->query($sql_cliente);
+
+  $sql_administrador = "SELECT * FROM administrador WHERE nombre_admin = '$nombreUsuario'";
+  $resultado_administrador = $conexion->query($sql_administrador);
+
+  // Verifica si se encontró algún resultado
+  if ($resultado_cliente->num_rows > 0) {
+      // El usuario ya existe, puedes obtener los datos de contacto
+      $fila = $resultado_cliente->fetch_assoc();
+      $_SESSION['datos_cliente'] = $fila; // Almacena los datos del usuario en la sesión
+      $datosCliente = $fila; // Asigna los datos del usuario a $datosUsuario
+  } elseif ($resultado_administrador->num_rows > 0) {
+      // El administrador ya existe, puedes obtener los datos de contacto
+      $fila = $resultado_administrador->fetch_assoc();
+      $_SESSION['datos_admin'] = $fila; // Almacena los datos del usuario en la sesión
+      $datosAdmin = $fila; // Asigna los datos del usuario a $datosUsuario
+  } else {
+      // El usuario no existe, puedes continuar con el proceso de abrir un nuevo ticket
+      // Aquí deberías agregar el código necesario para insertar los datos del nuevo ticket en la base de datos
+      echo "Usuario no encontrado. Puedes continuar con el proceso de abrir un nuevo ticket.";
+  }
+
+} else {
+  // Si el formulario no ha sido enviado, muestra un mensaje o realiza alguna acción
+  echo "Formulario no enviado. Puedes autorellenar tus datos consultando tu usuario o abrir un nuevo registro.";
+}
+
+// Cierra la conexión a la base de datos
+//$conexion->close();
+
+
+
+
+
+    // Verificar si la conexión a la base de datos se estableció correctamente
+if (!$conexion) {
+  die("Error en la conexión a la base de datos: " . mysqli_connect_error());
+}
+
+if (($datosCliente === null && $datosAdmin === null) && ( isset($_POST['dni']) && isset($_POST['email']) && isset($_POST['descripcion']))){
+  // Datos para la tabla cliente
+  $sqlInsertCliente = "INSERT INTO cliente (nombre_usuario, dni, nombres, a_paterno, a_materno, cargo, area, email_cliente) 
+                      VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+  // Datos para la tabla ticket
+  $sqlInsertTicket = "INSERT INTO ticket (id_cliente, fecha, serie, departamento, asunto, mensaje, archivos, estado_ticket) 
+                      VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+  // Preparar la consulta statement para cliente
+  $stmtCliente = mysqli_prepare($conexion, $sqlInsertCliente);
+
+  // Preparar la consulta statement para ticket
+  $stmtTicket = mysqli_prepare($conexion, $sqlInsertTicket);
+
+      if ($stmtCliente && $stmtTicket) {
+          // Vincular los parámetros para la tabla cliente
+          mysqli_stmt_bind_param($stmtCliente, "ssssssss", $usuario, $dni, $nombresx, $a_paterno, $a_materno, $cargo, $area_ticket, $email);
+
+          // Ejecutar la consulta preparada para la tabla cliente
+          $resultadoCliente = mysqli_stmt_execute($stmtCliente);
+
+          // Obtener el id_cliente generado por la inserción anterior
+          $id_cliente = mysqli_insert_id($conexion);
+
+          // Vincular los parámetros para la tabla ticket
+          mysqli_stmt_bind_param($stmtTicket, "isssssss", $id_cliente, $fecha_ticket, $id_ticket, $departamento_ticket, $asunto, $descripcion, $rutasString, $estado_ticket);
+
+          // Ejecutar la consulta preparada para la tabla ticket
+          $resultadoTicket = mysqli_stmt_execute($stmtTicket);
+
+          // Verificar si ambas inserciones fueron exitosas
+          if ($resultadoCliente && $resultadoTicket) {
+              echo "Datos insertados exitosamente en las tablas cliente y ticket. Consulte el estado de su ticket con su número de serie: $id_ticket";
+          } else {
+              echo "Error al insertar datos en la base de datos: " . mysqli_stmt_error($stmtCliente) . " - " . mysqli_stmt_error($stmtTicket);
+          }
+
+          // Cerrar las consultas preparadas
+          mysqli_stmt_close($stmtCliente);
+          mysqli_stmt_close($stmtTicket);
+      } else {
+          echo "Error al preparar las consultas: " . mysqli_error($conexion);
+      }
+} elseif (($datosCliente !== null || $datosAdmin !== null) && ( isset($_POST['dni']) && isset($_POST['email']) && isset($_POST['descripcion']))) {
+    // Datos para la tabla ticket
+    $sqlInsertTicket = "INSERT INTO ticket (id_cliente, fecha, serie, departamento, asunto, mensaje, archivos, estado_ticket) 
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+    // Preparar la consulta statement para ticket
+    $stmtTicket = mysqli_prepare($conexion, $sqlInsertTicket);
+
+    if ($stmtTicket) {
+        // Obtener el id_cliente buscado en los datos del cliente
+        $id_cliente = $datosCliente['id_cliente'];
+
+        // Vincular los parámetros para la tabla ticket
+        mysqli_stmt_bind_param($stmtTicket, "isssssss", $id_cliente, $fecha_ticket, $id_ticket, $departamento_ticket, $asunto, $descripcion, $rutasString, $estado_ticket);
+
+        // Ejecutar la consulta preparada para la tabla ticket
+        $resultadoTicket = mysqli_stmt_execute($stmtTicket);
+
+        // Verificar si la inserción fue exitosa
+        if ($resultadoTicket) {
+            echo "Datos insertados exitosamente en la tabla ticket. Consulte el estado de su ticket con su número de serie: $id_ticket";
+        } else {
+            echo "Error al insertar datos en la base de datos: " . mysqli_stmt_error($stmtTicket);
+        }
+
+        // Cerrar la consulta preparada
+        mysqli_stmt_close($stmtTicket);
+    } else {
+        echo "Error al preparar la consulta: " . mysqli_error($conexion);
+    }
+} else {
+  echo "Datos de usuario no proporcionados o datos de administrador encontrados. No se pueden realizar las inserciones.";
+}
+
+// Cerrar la conexión a la base de datos
+mysqli_close($conexion);
+?>
+
+
+
+<?php
+
+
 
 ?>
+
 
 
 
