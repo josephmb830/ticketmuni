@@ -114,6 +114,18 @@
                           </div>
                         </div>
 
+
+                        <div class="form-group">
+                          <label  class="col-sm-2 control-label">Area</label>
+                          <div class="col-sm-10">
+                              <div class='input-group'>
+                              <input type="text" class="form-control" placeholder="Area" required="" pattern="[a-zA-Z ]{1,30}" name="area_ticket" title="Area" value="<?php echo $area_cli ?>" readonly>
+                                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                              </div>
+                          </div>
+                        </div>
+                        
+
                         <div class="form-group">
                           <label  class="col-sm-2 control-label">Tipo de Insidente</label>
                           <div class="col-sm-10">
@@ -157,15 +169,7 @@
                           </div>
                         </div>
 
-                        <div class="form-group">
-                          <label  class="col-sm-2 control-label">Area</label>
-                          <div class="col-sm-10">
-                              <div class='input-group'>
-                              <input type="text" class="form-control" placeholder="Area" required="" pattern="[a-zA-Z ]{1,30}" name="area_ticket" title="Area" value="<?php echo $area_cli ?>" readonly>
-                                <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                              </div>
-                          </div>
-                        </div>
+
 
                         <div class="form-group">
                           <div class="col-sm-offset-2 col-sm-10">

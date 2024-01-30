@@ -168,7 +168,8 @@ if ($conexion->connect_error) {
 }
 
 // Inicializa $datosUsuario con valor predeterminado null
-$datosUsuario = null;
+$datosCliente = null;
+$datosAdmin = null;
 
 // Verifica si se ha enviado el formulario
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nombre_usuario_existente'])) {
@@ -177,15 +178,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nombre_usuario_existen
     $nombreUsuario = $_POST['nombre_usuario_existente'];
 
     // Consulta para verificar si el usuario ya existe
-    $sql = "SELECT * FROM cliente WHERE nombre_usuario = '$nombreUsuario'";
-    $resultado = $conexion->query($sql);
+    $sql_cliente = "SELECT * FROM cliente WHERE nombre_usuario = '$nombreUsuario'";
+    $resultado_cliente = $conexion->query($sql_cliente);
+
+    $sql_administrador = "SELECT * FROM administrador WHERE nombre_admin = '$nombreUsuario'";
+    $resultado_administrador = $conexion->query($sql_administrador);
 
     // Verifica si se encontró algún resultado
-    if ($resultado->num_rows > 0) {
+    if ($resultado_cliente->num_rows > 0) {
         // El usuario ya existe, puedes obtener los datos de contacto
-        $fila = $resultado->fetch_assoc();
-        $_SESSION['datos_usuario'] = $fila; // Almacena los datos del usuario en la sesión
-        $datosUsuario = $fila; // Asigna los datos del usuario a $datosUsuario
+        $fila = $resultado_cliente->fetch_assoc();
+        $_SESSION['datos_cliente'] = $fila; // Almacena los datos del usuario en la sesión
+        $datosCliente = $fila; // Asigna los datos del usuario a $datosUsuario
+    } elseif ($resultado_administrador->num_rows > 0) {
+        // El administrador ya existe, puedes obtener los datos de contacto
+        $fila = $resultado_administrador->fetch_assoc();
+        $_SESSION['datos_admin'] = $fila; // Almacena los datos del usuario en la sesión
+        $datosAdmin = $fila; // Asigna los datos del usuario a $datosUsuario
     } else {
         // El usuario no existe, puedes continuar con el proceso de abrir un nuevo ticket
         // Aquí deberías agregar el código necesario para insertar los datos del nuevo ticket en la base de datos
@@ -302,14 +311,19 @@ $conexion->close();
           <?php
 
           // Verifica si la variable de sesión está definida y no es nula
-          if (isset($_SESSION['datos_usuario']) && $_SESSION['datos_usuario'] !== null) {
-              $datosUsuario = $_SESSION['datos_usuario'];
+          if (isset($_SESSION['datos_cliente']) && $_SESSION['datos_cliente'] !== null) {
+              $datosCliente = $_SESSION['datos_cliente'];
 
               // Muestra los datos del usuario
               echo "Datos del usuario existente:<br>";
               //echo "DNI: " . $datosUsuario['dni'] . "<br>";
 
               // ... Continúa con los demás datos del formulario
+          } elseif (isset($_SESSION['datos_admin']) && $_SESSION['datos_admin'] !== null) {
+              $datosAdmin = $_SESSION['datos_admin'];
+
+              // Muestra los datos del usuario
+              echo "Datos del administrador existente:<br>";
           } else {
               // Si la variable de sesión no está definida o es nula, muestra un mensaje o realiza alguna acción
               echo "No se han encontrado datos de usuario. Puedes continuar llenando el formulario.";
@@ -330,8 +344,10 @@ $conexion->close();
                 <div class="form-group has-success has-feedback col-sm-3">
                   <label class="control-label"><i class="fa fa-user"></i>&nbsp;Usuario</label>
                   <input type="text" id="input_user" class="form-control" name="nombre_usuario_nuevo" placeholder="Nombre de usuario" required="" pattern="[a-zA-Z0-9]{1,15}" title="Ejemplo7 máximo 15 caracteres" maxlength="15" 
-                    <?php if ($datosUsuario): ?>
-                        value="<?php echo $datosUsuario['nombre_usuario']; ?>"
+                    <?php if ($datosCliente): ?>
+                        value="<?php echo $datosCliente['nombre_usuario']; ?>"
+                    <?php elseif ($datosAdmin): ?>
+                        value="<?php echo $datosAdmin['nombre_admin']; ?>"
                     <?php else: ?>
                         value=""
                     <?php endif; ?>
@@ -360,18 +376,22 @@ $conexion->close();
                 <div class="form-group has-success has-feedback col-sm-3">
                       <label><span class=""></span>DNI</label>
                       <input type="text" class="form-control" name="dni" placeholder="Escribe tu dni" required="" maxlength="9" 
-                      <?php if ($datosUsuario): ?>
-                          value="<?php echo $datosUsuario['dni']; ?>"
+                      <?php if ($datosCliente): ?>
+                          value="<?php echo $datosCliente['dni']; ?>"
+                      <?php elseif ($datosAdmin): ?>
+                          value="<?php echo $datosAdmin['id_admin']; ?>"
                       <?php else: ?>    
-                         value=""
+                          value=""
                       <?php endif; ?>
                           />
                 </div>
                 <div class="form-group col-sm-3">
                   <label><span class="fa fa-male"></span>&nbsp;Nombres</label>
                   <input type="text" class="form-control" name="nombres" placeholder="Escribe tus nombres" required="" 
-                  <?php if ($datosUsuario): ?>
-                      value="<?php echo $datosUsuario['nombres']; ?>"
+                  <?php if ($datosCliente): ?>
+                      value="<?php echo $datosCliente['nombres']; ?>"
+                  <?php elseif ($datosAdmin): ?>
+                      value="<?php echo $datosAdmin['nombre_completo']; ?>"
                   <?php else: ?>
                       value=""
                   <?php endif; ?>
@@ -380,8 +400,10 @@ $conexion->close();
                 <div class="form-group col-sm-3">
                   <label><span class=""></span>Apellido Paterno</label>
                   <input type="text" class="form-control" name="a_paterno" placeholder="Escribe tu Apellido Paterno" required="" 
-                  <?php if ($datosUsuario): ?>
-                      value="<?php echo $datosUsuario['a_paterno']; ?>"
+                  <?php if ($datosCliente): ?>
+                      value="<?php echo $datosCliente['a_paterno']; ?>"
+                  <?php elseif ($datosAdmin): ?>
+                      value="<?php echo $datosAdmin['nombre_completo']; ?>"
                   <?php else: ?>
                       value=""
                   <?php endif; ?>
@@ -390,8 +412,10 @@ $conexion->close();
                 <div class="form-group col-sm-3">
                   <label><span class=""></span>Apellido Materno</label>
                   <input type="text" class="form-control" name="a_materno" placeholder="Escribe tu Apellido Materno" required="" 
-                  <?php if ($datosUsuario): ?>
-                      value="<?php echo $datosUsuario['a_materno']; ?>"
+                  <?php if ($datosCliente): ?>
+                      value="<?php echo $datosCliente['a_materno']; ?>"
+                  <?php elseif ($datosAdmin): ?>
+                      value="<?php echo $datosAdmin['nombre_completo']; ?>"
                   <?php else: ?>
                       value=""
                   <?php endif; ?>
@@ -405,8 +429,10 @@ $conexion->close();
                 <div class="form-group col-sm-5">
                   <label><span class=""></span>Cargo</label>
                   <input type="text" class="form-control" name="cargo" placeholder="Escribe el cargo" required="" 
-                  <?php if ($datosUsuario): ?>
-                      value="<?php echo $datosUsuario['cargo']; ?>"
+                  <?php if ($datosCliente): ?>
+                      value="<?php echo $datosCliente['cargo']; ?>"
+                  <?php elseif ($datosAdmin): ?>
+                      value="<?php echo $datosAdmin['cargo']; ?>"
                   <?php else: ?>
                       value=""
                   <?php endif; ?>
@@ -416,24 +442,28 @@ $conexion->close();
                 <div class="form-group col-sm-4">
                   <label  class="control-label">Area</label>
                   <div class="">
-                      <div class='input-group'>
-                      <input type="text" class="form-control" placeholder="Area" required="" pattern="[a-zA-Z ]{1,30}" name="area_ticket" title="Area" 
-                      <?php if ($datosUsuario): ?>
-                          value="<?php echo $datosUsuario['area']; ?>" 
-                      <?php else: ?>
-                          value=""
-                      <?php endif; ?>
-                          />
-                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                      </div>
+                    <div class='input-group'>
+                    <input type="text" class="form-control" placeholder="Area" required="" pattern="[a-zA-Z ]{1,30}" name="area_ticket" title="Area" 
+                    <?php if ($datosCliente): ?>
+                        value="<?php echo $datosCliente['area']; ?>" 
+                    <?php elseif ($datosAdmin): ?>
+                        value="<?php echo $datosAdmin['cargo']; ?>" 
+                    <?php else: ?>
+                        value=""
+                    <?php endif; ?>
+                        />
+                      <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                    </div>
                   </div>
                 </div>
 
                 <div class="form-group col-sm-3">
                   <label><span class="fa fa-envelope"></span>&nbsp;Correo Electrónico</label>
                   <input type="email" class="form-control" name="email" placeholder="Escribe tu correo electrónico" required="" 
-                  <?php if ($datosUsuario): ?>
-                      value="<?php echo $datosUsuario['email_cliente']; ?>"
+                  <?php if ($datosCliente): ?>
+                      value="<?php echo $datosCliente['email_cliente']; ?>"
+                  <?php elseif ($datosAdmin): ?>
+                      value="<?php echo $datosAdmin['email_admin']; ?>"
                   <?php else: ?>
                       value=""
                   <?php endif; ?>
