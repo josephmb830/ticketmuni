@@ -368,7 +368,7 @@ mysqli_close($conexion);
     <div id="newTicket" class="ticket-section flex h-screen">
 
     <!-- formulario 1 -->
-    <div class="row" style="margin-right: 10px;">
+    <div id="formulario1" class="row" style="margin-right: 10px;">
             <div class="col-sm-12">
               <div class="panel panel-success">
               <div class="panel-heading text-center"><i class="fa fa-plus"></i>&nbsp;<strong>Autorellenar Datos</strong></div>
@@ -383,7 +383,7 @@ mysqli_close($conexion);
                     
                     
                     <div class="col-md-6">
-                    <center><button type="submit" class="btn btn-success">Ingresar</button></center>
+                    <center><button type="submit" id="ingresoButton" class="btn btn-success">Ingresar</button></center>
                     <center><button type="button" id="registroButton" class="btn btn-success">Registrarse</button></center>
                     </div>             
                               </form>  
@@ -394,7 +394,7 @@ mysqli_close($conexion);
         </div>
 
         <!-- formulario 2 -->
-        <div class="panel panel-info">
+        <div id="formulario2" class="panel panel-info" style="display: block;">
           <div class="panel-heading text-center">
             <div class="d-flex justify-content-center">
               <h3 class="panel-title text-center">
@@ -632,6 +632,7 @@ mysqli_close($conexion);
                     <label><span class=""></span>Seleccionar Archivos</label>
                     <input type="file" class="form-control-file" name="archivos[]" accept=".pdf, .jpeg, .jpg, .png" multiple onchange="validarArchivos(this)" />
                 </div>
+              <button type="button" id="volverButton" class="btn btn-danger">Volver</button>
               <button type="submit" class="btn btn-danger">Abrir Ticket</button>
               </fieldset>
             </form>
@@ -718,51 +719,80 @@ $(document).ready(function(){
   });
 
 
-// función para limpiar inputs y quitar atributos readonly para nuevo registro
+// función para limpiar inputs y quitar atributos readonly para nuevo registro y funcion para mostrar y ocultar form 1 y 2 fusionado
 document.addEventListener("DOMContentLoaded", function () {
-        // Busca el botón de registro por su ID
-        var registroButton = document.getElementById("registroButton");
+    var registroButton = document.getElementById("registroButton");
+    var ingresarButton = document.getElementById("ingresoButton");
+    var volverButton = document.getElementById("volverButton");
 
-        // Agrega un evento de clic al botón de registro
-        registroButton.addEventListener("click", function (event) {
-            // Evita que el formulario se envíe y recargue la página por defecto
-            event.preventDefault();
+    registroButton.addEventListener("click", function (event) {
+        event.preventDefault();
+        var inputUserOldValue = document.getElementById("input_user_old").value;
+        document.getElementById("input_user_new").value = inputUserOldValue;
+        document.getElementById("input_user_new").removeAttribute("readonly");
+        document.getElementById("input_user_old").value = "";
 
-            // Captura el valor del input_user_old
-            var inputUserOldValue = document.getElementById("input_user_old").value;
+        document.getElementById("dni").value = "";
+        document.getElementById("dni").removeAttribute("readonly");
+        document.getElementById("nombres").value = "";
+        document.getElementById("nombres").removeAttribute("readonly");
+        document.getElementById("a_paterno").value = "";
+        document.getElementById("a_paterno").removeAttribute("readonly");
+        document.getElementById("a_materno").value = "";
+        document.getElementById("a_materno").removeAttribute("readonly");
+        document.getElementById("cargo").value = "";
+        document.getElementById("cargo").removeAttribute("readonly");
+        document.getElementById("area").value = "";
+        document.getElementById("area").removeAttribute("readonly");
+        document.getElementById("email").value = "";
+        document.getElementById("email").removeAttribute("readonly");
 
-            // Asigna el valor capturado al input_user_new
-            document.getElementById("input_user_new").value = inputUserOldValue;
-
-            // Quita el atributo readonly de los inputs si es necesario
-            document.getElementById("input_user_new").removeAttribute("readonly");
-
-            document.getElementById("input_user_old").value = "";
-
-            document.getElementById("dni").value = "";
-            document.getElementById("dni").removeAttribute("readonly");
-
-            document.getElementById("nombres").value = "";
-            document.getElementById("nombres").removeAttribute("readonly");
-
-            document.getElementById("a_paterno").value = "";
-            document.getElementById("a_paterno").removeAttribute("readonly");
-
-            document.getElementById("a_materno").value = "";
-            document.getElementById("a_materno").removeAttribute("readonly");
-
-            document.getElementById("cargo").value = "";
-            document.getElementById("cargo").removeAttribute("readonly");
-
-            document.getElementById("area").value = "";
-            document.getElementById("area").removeAttribute("readonly");
-
-            document.getElementById("email").value = "";
-            document.getElementById("email").removeAttribute("readonly");
-
-            // Puedes agregar más lógica aquí según tus necesidades
-        });
+        setTimeout(function () {
+            mostrarFormulario2();
+        }, 50);
     });
+
+    ingresarButton.addEventListener("click", function (event) {
+        // Puedes agregar más lógica del botón de ingreso aquí si es necesario
+        setTimeout(function () {
+            mostrarFormulario2();
+        }, 50);
+    });
+
+    volverButton.addEventListener("click", function (event) {
+        event.preventDefault();
+        mostrarFormulario1();
+    });
+
+    function mostrarFormulario2() {
+        document.getElementById("formulario1").style.display = "none";
+        document.getElementById("formulario2").style.display = "block";
+    }
+
+    function mostrarFormulario1() {
+        document.getElementById("formulario1").style.display = "block";
+        document.getElementById("formulario2").style.display = "none";
+    }
+});
+
+
+// Define una función para cambiar a la vista del formulario2
+function cambiarAVistaFormulario2() {
+    document.getElementById("formulario1").style.display = "none";
+    document.getElementById("formulario2").style.display = "block";
+}
+
+// Obtén el elemento que debería activar el cambio de vista (puedes cambiar 'elementoClic' por el elemento que desees)
+var elementoClic = document.getElementById("ingresoButton");
+
+// Agrega un listener al elemento para manejar el clic y cambiar a la vista del formulario2
+elementoClic.addEventListener("click", function (event) {
+
+    // Agrega lógica adicional aquí si es necesario antes de cambiar a la vista del formulario2
+
+    // Cambia a la vista del formulario2
+    cambiarAVistaFormulario2();
+});
 
 
   </script>
