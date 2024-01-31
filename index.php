@@ -205,7 +205,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nombre_usuario_nuevo']
 }
 
 // Cierra la conexión a la base de datos
-//$conexion->close();
+// $conexion->close();
 
 
 
@@ -377,13 +377,14 @@ mysqli_close($conexion);
                     
                     <div class="form-group has-success has-feedback">
                       <label class="control-label"><i class="fa fa-user"></i>&nbsp;Nombre de usuario</label>
-                      <input type="text" id="input_user" class="form-control" name="nombre_usuario_existente" placeholder="Nombre de usuario" required="" pattern="[a-zA-Z0-9]{1,15}" title="Ejemplo7 maximo 15 caracteres" maxlength="15">
+                      <input type="text" id="input_user_old" class="form-control" name="nombre_usuario_existente" placeholder="Nombre de usuario" pattern="[a-zA-Z0-9]{1,15}" title="Ejemplo7 maximo 15 caracteres" maxlength="15">
                       <div id="com_form"></div>
                     </div>
                     
                     
                     <div class="col-md-6">
-                    <center><button type="submit" class="btn btn-success">Consultar datos</button></center>
+                    <center><button type="submit" class="btn btn-success">Ingresar</button></center>
+                    <center><button type="button" id="registroButton" class="btn btn-success">Registrarse</button></center>
                     </div>             
                               </form>  
                 
@@ -439,7 +440,7 @@ mysqli_close($conexion);
 
                 <div class="form-group has-success has-feedback col-sm-3">
                   <label class="control-label"><i class="fa fa-user"></i>&nbsp;Usuario</label>
-                  <input type="text" id="input_user" class="form-control" name="nombre_usuario_nuevo" placeholder="Nombre de usuario" required="" pattern="[a-zA-Z0-9]{1,15}" title="Ejemplo7 máximo 15 caracteres" maxlength="15" 
+                  <input type="text" id="input_user_new" class="form-control" name="nombre_usuario_nuevo" placeholder="Nombre de usuario" required="" pattern="[a-zA-Z0-9]{1,15}" title="Ejemplo7 máximo 15 caracteres" maxlength="15" 
                     <?php if ($datosCliente): ?>
                         value="<?php echo $datosCliente['nombre_usuario']; ?>"
                     <?php elseif ($datosAdmin): ?>
@@ -447,7 +448,7 @@ mysqli_close($conexion);
                     <?php else: ?>
                         value=""
                     <?php endif; ?>
-                      >
+                        readonly/> 
                   <div id="com_form"></div>
                 </div>
 
@@ -471,7 +472,7 @@ mysqli_close($conexion);
 
                 <div class="form-group has-success has-feedback col-sm-3">
                       <label><span class=""></span>DNI</label>
-                      <input type="text" class="form-control" name="dni" placeholder="Escribe tu dni" required="" maxlength="9" 
+                      <input type="text" class="form-control" id="dni" name="dni" placeholder="Escribe tu dni" required="" maxlength="9" 
                       <?php if ($datosCliente): ?>
                           value="<?php echo $datosCliente['dni']; ?>"
                       <?php elseif ($datosAdmin): ?>
@@ -479,11 +480,11 @@ mysqli_close($conexion);
                       <?php else: ?>    
                           value=""
                       <?php endif; ?>
-                          />
+                          readonly/>
                 </div>
                 <div class="form-group col-sm-3">
                   <label><span class="fa fa-male"></span>&nbsp;Nombres</label>
-                  <input type="text" class="form-control" name="nombres" placeholder="Escribe tus nombres" required="" 
+                  <input type="text" class="form-control" id="nombres" name="nombres" placeholder="Escribe tus nombres" required="" 
                   <?php if ($datosCliente): ?>
                       value="<?php echo $datosCliente['nombres']; ?>"
                   <?php elseif ($datosAdmin): ?>
@@ -491,11 +492,11 @@ mysqli_close($conexion);
                   <?php else: ?>
                       value=""
                   <?php endif; ?>
-                      />
+                      readonly/>
                 </div>
                 <div class="form-group col-sm-3">
                   <label><span class=""></span>Apellido Paterno</label>
-                  <input type="text" class="form-control" name="a_paterno" placeholder="Escribe tu Apellido Paterno" required="" 
+                  <input type="text" class="form-control" id="a_paterno" name="a_paterno" placeholder="Escribe tu Apellido Paterno" required="" 
                   <?php if ($datosCliente): ?>
                       value="<?php echo $datosCliente['a_paterno']; ?>"
                   <?php elseif ($datosAdmin): ?>
@@ -503,11 +504,11 @@ mysqli_close($conexion);
                   <?php else: ?>
                       value=""
                   <?php endif; ?>
-                  />
+                      readonly/>
                 </div>
                 <div class="form-group col-sm-3">
                   <label><span class=""></span>Apellido Materno</label>
-                  <input type="text" class="form-control" name="a_materno" placeholder="Escribe tu Apellido Materno" required="" 
+                  <input type="text" class="form-control" id="a_materno" name="a_materno" placeholder="Escribe tu Apellido Materno" required="" 
                   <?php if ($datosCliente): ?>
                       value="<?php echo $datosCliente['a_materno']; ?>"
                   <?php elseif ($datosAdmin): ?>
@@ -515,7 +516,7 @@ mysqli_close($conexion);
                   <?php else: ?>
                       value=""
                   <?php endif; ?>
-                      />
+                      readonly/>
                 </div>
 
               </div>
@@ -524,7 +525,7 @@ mysqli_close($conexion);
 
                 <div class="form-group col-sm-5">
                   <label><span class=""></span>Cargo</label>
-                  <input type="text" class="form-control" name="cargo" placeholder="Escribe el cargo" required="" 
+                  <input type="text" class="form-control" id="cargo" name="cargo" placeholder="Escribe el cargo" required="" 
                   <?php if ($datosCliente): ?>
                       value="<?php echo $datosCliente['cargo']; ?>"
                   <?php elseif ($datosAdmin): ?>
@@ -532,14 +533,14 @@ mysqli_close($conexion);
                   <?php else: ?>
                       value=""
                   <?php endif; ?>
-                      />
+                      readonly/>
                 </div>
 
                 <div class="form-group col-sm-4">
                   <label  class="control-label">Area</label>
                   <div class="">
                     <div class='input-group'>
-                    <input type="text" class="form-control" placeholder="Area" required="" pattern="[a-zA-Z ]{1,30}" name="area_ticket" title="Area" 
+                    <input type="text" class="form-control" placeholder="Area" required="" pattern="[a-zA-Z ]{1,30}" id="area" name="area_ticket" title="Area" 
                     <?php if ($datosCliente): ?>
                         value="<?php echo $datosCliente['area']; ?>" 
                     <?php elseif ($datosAdmin): ?>
@@ -547,7 +548,7 @@ mysqli_close($conexion);
                     <?php else: ?>
                         value=""
                     <?php endif; ?>
-                        />
+                        readonly/>
                       <span class="input-group-addon"><i class="fa fa-user"></i></span>
                     </div>
                   </div>
@@ -555,7 +556,7 @@ mysqli_close($conexion);
 
                 <div class="form-group col-sm-3">
                   <label><span class="fa fa-envelope"></span>&nbsp;Correo Electrónico</label>
-                  <input type="email" class="form-control" name="email" placeholder="Escribe tu correo electrónico" required="" 
+                  <input type="email" class="form-control" id="email" name="email" placeholder="Escribe tu correo electrónico" required="" 
                   <?php if ($datosCliente): ?>
                       value="<?php echo $datosCliente['email_cliente']; ?>"
                   <?php elseif ($datosAdmin): ?>
@@ -563,7 +564,7 @@ mysqli_close($conexion);
                   <?php else: ?>
                       value=""
                   <?php endif; ?>
-                      />
+                      readonly/>
                 </div>
 
               </div>
@@ -715,6 +716,53 @@ function hideSection(sectionId) {
 $(document).ready(function(){
       $("#fechainput").datepicker();
   });
+
+
+// función para limpiar inputs y quitar atributos readonly para nuevo registro
+document.addEventListener("DOMContentLoaded", function () {
+        // Busca el botón de registro por su ID
+        var registroButton = document.getElementById("registroButton");
+
+        // Agrega un evento de clic al botón de registro
+        registroButton.addEventListener("click", function (event) {
+            // Evita que el formulario se envíe y recargue la página por defecto
+            event.preventDefault();
+
+            // Captura el valor del input_user_old
+            var inputUserOldValue = document.getElementById("input_user_old").value;
+
+            // Asigna el valor capturado al input_user_new
+            document.getElementById("input_user_new").value = inputUserOldValue;
+
+            // Quita el atributo readonly de los inputs si es necesario
+            document.getElementById("input_user_new").removeAttribute("readonly");
+
+            document.getElementById("input_user_old").value = "";
+
+            document.getElementById("dni").value = "";
+            document.getElementById("dni").removeAttribute("readonly");
+
+            document.getElementById("nombres").value = "";
+            document.getElementById("nombres").removeAttribute("readonly");
+
+            document.getElementById("a_paterno").value = "";
+            document.getElementById("a_paterno").removeAttribute("readonly");
+
+            document.getElementById("a_materno").value = "";
+            document.getElementById("a_materno").removeAttribute("readonly");
+
+            document.getElementById("cargo").value = "";
+            document.getElementById("cargo").removeAttribute("readonly");
+
+            document.getElementById("area").value = "";
+            document.getElementById("area").removeAttribute("readonly");
+
+            document.getElementById("email").value = "";
+            document.getElementById("email").removeAttribute("readonly");
+
+            // Puedes agregar más lógica aquí según tus necesidades
+        });
+    });
 
 
   </script>
