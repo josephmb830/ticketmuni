@@ -165,9 +165,7 @@ if ($conexion->connect_error) {
   die("Error de conexión a la base de datos: " . $conexion->connect_error);
 }
 
-// Inicializa $datosUsuario con valor predeterminado null
-$datosCliente = null;
-$datosAdmin = null;
+
 
 // Verifica si se ha enviado el formulario
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nombre_usuario_nuevo'])) {
@@ -405,12 +403,23 @@ mysqli_close($conexion);
           </div>
           <div class="panel-body">
 
+
+          <?php
+          // Verifica si la variable de sesión está definida y no es nula y prepara la vista formulario2
+            if (isset($_SESSION['datos_admin']) && $_SESSION['datos_admin'] !== null) {
+              $datosAdmin = $_SESSION['datos_admin'];
+              // Muestra los datos del administrador
+              echo "Datos del administrador existente:<br>";
+              ?>
+              <script>
+                  document.getElementById("formulario1").style.display = "none";
+                  document.getElementById("formulario2").style.display = "block";
+              </script>
           <?php
 
-          // Verifica si la variable de sesión está definida y no es nula
-            if (isset($_SESSION['datos_cliente']) && $_SESSION['datos_cliente'] !== null) {
+              // ... Continúa con los demás datos del formulario
+            } elseif (isset($_SESSION['datos_cliente']) && $_SESSION['datos_cliente'] !== null) {
               $datosCliente = $_SESSION['datos_cliente'];
-
               // Muestra los datos del usuario
               echo "Datos del usuario existente:<br>";
               //echo "DNI: " . $datosUsuario['dni'] . "<br>";
@@ -419,20 +428,7 @@ mysqli_close($conexion);
                   document.getElementById("formulario1").style.display = "none";
                   document.getElementById("formulario2").style.display = "block";
               </script>
-              <?php
-
-              // ... Continúa con los demás datos del formulario
-            } elseif (isset($_SESSION['datos_admin']) && $_SESSION['datos_admin'] !== null) {
-              $datosAdmin = $_SESSION['datos_admin'];
-
-              // Muestra los datos del administrador
-              echo "Datos del administrador existente:<br>";
-              ?>
-              <script>
-                  document.getElementById("formulario1").style.display = "none";
-                  document.getElementById("formulario2").style.display = "block";
-              </script>
-              <?php
+          <?php
             } else {
               // Si la variable de sesión no está definida o es nula, muestra un mensaje o realiza alguna acción
               echo "No se han encontrado datos de usuario. Puedes continuar llenando el formulario.";
@@ -734,7 +730,6 @@ $(document).ready(function(){
 // función para limpiar inputs y quitar atributos readonly para nuevo registro y funcion para mostrar y ocultar form 1 y 2 fusionado
 document.addEventListener("DOMContentLoaded", function () {
     var registroButton = document.getElementById("registroButton");
-    var ingresarButton = document.getElementById("ingresoButton");
     var volverButton = document.getElementById("volverButton");
 
     registroButton.addEventListener("click", function (event) {
@@ -759,18 +754,6 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("email").value = "";
         document.getElementById("email").removeAttribute("readonly");
 
-        setTimeout(function () {
-            mostrarFormulario2();
-        }, 50);
-    });
-
-    // Obtén el formulario por su ID
-    var formulario1 = document.getElementById("formulario1");
-
-    ingresarButton.addEventListener("click", function (event) {
-      
-      document.getElementById("dni").value = datosCliente['dni'];
-        // Puedes agregar más lógica del botón de ingreso aquí si es necesario
         setTimeout(function () {
             mostrarFormulario2();
         }, 50);
