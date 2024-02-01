@@ -405,35 +405,21 @@ mysqli_close($conexion);
 
 
           <?php
-          // Verifica si la variable de sesión está definida y no es nula y prepara la vista formulario2
-            if (isset($_SESSION['datos_admin']) && $_SESSION['datos_admin'] !== null) {
-              $datosAdmin = $_SESSION['datos_admin'];
-              // Muestra los datos del administrador
-              echo "Datos del administrador existente:<br>";
-              ?>
-              <script>
-                  document.getElementById("formulario1").style.display = "none";
-                  document.getElementById("formulario2").style.display = "block";
-              </script>
-          <?php
-
-              // ... Continúa con los demás datos del formulario
-            } elseif (isset($_SESSION['datos_cliente']) && $_SESSION['datos_cliente'] !== null) {
-              $datosCliente = $_SESSION['datos_cliente'];
-              // Muestra los datos del usuario
-              echo "Datos del usuario existente:<br>";
-              //echo "DNI: " . $datosUsuario['dni'] . "<br>";
-              ?>
-              <script>
-                  document.getElementById("formulario1").style.display = "none";
-                  document.getElementById("formulario2").style.display = "block";
-              </script>
-          <?php
+            // Verifica si la variable de sesión está definida y no es nula y prepara la vista formulario2
+            if ((isset($_SESSION['datos_admin']) && $_SESSION['datos_admin'] !== null) || (isset($_SESSION['datos_cliente']) && $_SESSION['datos_cliente'] !== null)) {
+                // Muestra los datos del usuario existente
+                echo "Datos del usuario existente:<br>";
+                ?>
+                <script>
+                    document.getElementById("formulario1").style.display = "none";
+                    document.getElementById("formulario2").style.display = "block";
+                </script>
+                <?php
             } else {
-              // Si la variable de sesión no está definida o es nula, muestra un mensaje o realiza alguna acción
-              echo "No se han encontrado datos de usuario. Puedes continuar llenando el formulario.";
+                // Si la variable de sesión no está definida o es nula, muestra un mensaje o realiza alguna acción
+                echo "No se han encontrado datos de usuario. Puedes continuar llenando el formulario.";
             }
-          ?>
+            ?>
           
 
           <form role="form" action="" method="POST" enctype="multipart/form-data">
