@@ -408,23 +408,35 @@ mysqli_close($conexion);
           <?php
 
           // Verifica si la variable de sesión está definida y no es nula
-          if (isset($_SESSION['datos_cliente']) && $_SESSION['datos_cliente'] !== null) {
+            if (isset($_SESSION['datos_cliente']) && $_SESSION['datos_cliente'] !== null) {
               $datosCliente = $_SESSION['datos_cliente'];
 
               // Muestra los datos del usuario
               echo "Datos del usuario existente:<br>";
               //echo "DNI: " . $datosUsuario['dni'] . "<br>";
+              ?>
+              <script>
+                  document.getElementById("formulario1").style.display = "none";
+                  document.getElementById("formulario2").style.display = "block";
+              </script>
+              <?php
 
               // ... Continúa con los demás datos del formulario
-          } elseif (isset($_SESSION['datos_admin']) && $_SESSION['datos_admin'] !== null) {
+            } elseif (isset($_SESSION['datos_admin']) && $_SESSION['datos_admin'] !== null) {
               $datosAdmin = $_SESSION['datos_admin'];
 
-              // Muestra los datos del usuario
+              // Muestra los datos del administrador
               echo "Datos del administrador existente:<br>";
-          } else {
+              ?>
+              <script>
+                  document.getElementById("formulario1").style.display = "none";
+                  document.getElementById("formulario2").style.display = "block";
+              </script>
+              <?php
+            } else {
               // Si la variable de sesión no está definida o es nula, muestra un mensaje o realiza alguna acción
               echo "No se han encontrado datos de usuario. Puedes continuar llenando el formulario.";
-          }
+            }
           ?>
           
 
@@ -442,9 +454,9 @@ mysqli_close($conexion);
                   <label class="control-label"><i class="fa fa-user"></i>&nbsp;Usuario</label>
                   <input type="text" id="input_user_new" class="form-control" name="nombre_usuario_nuevo" placeholder="Nombre de usuario" required="" pattern="[a-zA-Z0-9]{1,15}" title="Ejemplo7 máximo 15 caracteres" maxlength="15" 
                     <?php if ($datosCliente): ?>
-                        value="<?php echo $datosCliente['nombre_usuario']; ?>"
+                        value="<?php echo $datosCliente['nombre_usuario']; ?>" 
                     <?php elseif ($datosAdmin): ?>
-                        value="<?php echo $datosAdmin['nombre_admin']; ?>"
+                        value="<?php echo $datosAdmin['nombre_admin']; ?>" 
                     <?php else: ?>
                         value=""
                     <?php endif; ?>
@@ -752,7 +764,12 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 50);
     });
 
+    // Obtén el formulario por su ID
+    var formulario1 = document.getElementById("formulario1");
+
     ingresarButton.addEventListener("click", function (event) {
+      
+      document.getElementById("dni").value = datosCliente['dni'];
         // Puedes agregar más lógica del botón de ingreso aquí si es necesario
         setTimeout(function () {
             mostrarFormulario2();
@@ -773,25 +790,6 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("formulario1").style.display = "block";
         document.getElementById("formulario2").style.display = "none";
     }
-});
-
-
-// Define una función para cambiar a la vista del formulario2
-function cambiarAVistaFormulario2() {
-    document.getElementById("formulario1").style.display = "none";
-    document.getElementById("formulario2").style.display = "block";
-}
-
-// Obtén el elemento que debería activar el cambio de vista (puedes cambiar 'elementoClic' por el elemento que desees)
-var elementoClic = document.getElementById("ingresoButton");
-
-// Agrega un listener al elemento para manejar el clic y cambiar a la vista del formulario2
-elementoClic.addEventListener("click", function (event) {
-
-    // Agrega lógica adicional aquí si es necesario antes de cambiar a la vista del formulario2
-
-    // Cambia a la vista del formulario2
-    cambiarAVistaFormulario2();
 });
 
 
