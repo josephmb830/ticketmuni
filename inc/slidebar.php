@@ -23,6 +23,7 @@
                 <a href="admin.php?view=ticketasig" class="nav_link"> <i class='fas fa-check'></i> <span class="nav_name">Mis Tickets</span> </a>                 
                 <a href="/pdf" target="_blank" class="nav_link"> <i class='bx bx-message-square-detail nav_icon'></i> <span class="nav_name">Reportes</span> </a>          
                 <a href="registro.php" class="nav_link"> <i class='fas fa-user'></i> <span class="nav_name">Registro de Usuario</span> </a> 
+                <a href="registro_tecnico.php" class="nav_link"> <i class='fas fa-user'></i> <span class="nav_name">Registro de Técnico</span> </a> 
                 <a href="admin.php?view=config" class="nav_link"> <i class='fas fa-cog'></i> <span class="nav_name">Registro de Administrador</span> </a> 
                 <div class="dropdown">
                     <button class="bg-transparent border-none f-15"  id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
