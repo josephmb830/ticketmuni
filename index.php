@@ -1,6 +1,8 @@
 <?php
 
 session_start();
+session_unset();
+session_destroy();
 include './lib/class_mysql.php';
 include './lib/config.php';
 header('Content-Type: text/html; charset=UTF-8');  
@@ -199,7 +201,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nombre_usuario_nuevo']
 
 } else {
   // Si el formulario no ha sido enviado, muestra un mensaje o realiza alguna acción
-  echo "Formulario no enviado. Puedes autorellenar tus datos consultando tu usuario o abrir un nuevo registro.";
+  echo "";
 }
 
 // Cierra la conexión a la base de datos
@@ -366,10 +368,10 @@ mysqli_close($conexion);
     <div id="newTicket" class="ticket-section flex h-screen">
 
     <!-- formulario 1 -->
-    <div id="formulario1" class="row" style="margin-right: 10px;">
+    <div id="formulario1" class="row" style="margin-right: 10px; display: block;">
             <div class="col-sm-12">
               <div class="panel panel-success">
-              <div class="panel-heading text-center"><i class="fa fa-plus"></i>&nbsp;<strong>Autorellenar Datos</strong></div>
+              <div class="panel-heading text-center"><i class="fa fa-plus"></i>&nbsp;<strong>Ingresa o crea un nuevo usuario</strong></div>
               <div class="panel-body">
                     <form role="form" action="" method="post">
                     
@@ -380,10 +382,10 @@ mysqli_close($conexion);
                     </div>
                     
                     
-                    <div class="col-md-6">
-                    <center><button type="submit" id="ingresoButton" class="btn btn-success">Ingresar</button></center>
-                    <center><button type="button" id="registroButton" class="btn btn-success">Registrarse</button></center>
-                    </div>             
+                    <div class="col-md-6 d-flex justify-content-between">
+                        <button type="submit" id="ingresoButton" class="btn btn-success" style="margin-right: 10px;">Ingresar</button>
+                        <button type="button" id="registroButton" class="btn btn-success">Registrarse</button>
+                    </div>            
                               </form>  
                 
               </div>
@@ -392,7 +394,7 @@ mysqli_close($conexion);
         </div>
 
         <!-- formulario 2 -->
-        <div id="formulario2" class="panel panel-info" style="display: block;">
+        <div id="formulario2" class="panel panel-info" style="display: none;">
           <div class="panel-heading text-center">
             <div class="d-flex justify-content-center">
               <h3 class="panel-title text-center">
@@ -416,8 +418,8 @@ mysqli_close($conexion);
                 </script>
                 <?php
             } else {
-                // Si la variable de sesión no está definida o es nula, muestra un mensaje o realiza alguna acción
-                echo "No se han encontrado datos de usuario. Puedes continuar llenando el formulario.";
+              // Si la variable de sesión no está definida o es nula, muestra un mensaje o realiza alguna acción
+              echo "No se han encontrado datos de usuario. Puedes continuar llenando el formulario.";
             }
             ?>
           
