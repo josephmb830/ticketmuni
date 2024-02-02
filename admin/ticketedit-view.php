@@ -96,7 +96,7 @@
     }
     
     $id = MysqlQuery::RequestGet('id');
-    $sql = Mysql::consulta("SELECT * FROM ticket WHERE id= '$id'");
+    $sql = Mysql::consulta("SELECT * FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente WHERE ticket.id = '$id'");
     $reg = mysqli_fetch_array($sql, MYSQLI_ASSOC);
 
     if ($_SESSION['cargo'] == 'tecnico') {
