@@ -47,6 +47,27 @@
                     </div>
                 '; 
             }
+        }elseif($radio=="tecnico"){
+            $sql=Mysql::consulta("SELECT * FROM tecnico WHERE nombre_usuario= '$nombre' AND clave='$clave'");
+            if(mysqli_num_rows($sql)>=1){
+                $reg=mysqli_fetch_array($sql, MYSQLI_ASSOC);
+                $_SESSION['nombre']=$reg['nombre_usuario'];
+                $_SESSION['nombre_completo'] = $reg['nombres'] . ' ' . $reg['a_paterno'] . ' ' . $reg['a_materno'];
+                $_SESSION['email']=$reg['email'];
+                $_SESSION['clave']=$clave;
+                $_SESSION['tipo']="user";
+                $_SESSION['area']=$reg['area'];
+            }else{
+                echo '
+                    <div class="alert alert-danger alert-dismissible fade in col-sm-3 animated bounceInDown" role="alert" style="position:fixed; top:70px; right:10px; z-index:10;"> 
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                        <h4 class="text-center">OCURRIÓ UN ERROR</h4>
+                        <p class="text-center">
+                            Nombre de usuario o contraseña incorrectos
+                        </p>
+                    </div>
+                '; 
+            }
         }else{
             echo '
                 <div class="alert alert-danger alert-dismissible fade in col-sm-3 animated bounceInDown" role="alert" style="position:fixed; top:70px; right:10px; z-index:10;"> 

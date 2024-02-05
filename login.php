@@ -123,6 +123,12 @@ header('Content-Type: text/html; charset=UTF-8');
              </div>
              <div class="radio">
                 <label>
+                    <input type="radio" name="optionsRadios" value="tecnico" checked>
+                    Técnico
+                </label>
+             </div>
+             <div class="radio">
+                <label>
                     <input type="radio" name="optionsRadios" value="admin">
                      Administrador
                 </label>
