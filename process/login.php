@@ -32,7 +32,7 @@
                 $reg=mysqli_fetch_array($sql, MYSQLI_ASSOC);
                 $_SESSION['nombre']=$reg['nombre_usuario'];
                 $_SESSION['nombre_completo'] = $reg['nombres'] . ' ' . $reg['a_paterno'] . ' ' . $reg['a_materno'];
-                $_SESSION['email']=$reg['email'];
+                $_SESSION['email']=$reg['email_cliente'];
                 $_SESSION['clave']=$clave;
                 $_SESSION['tipo']="user";
                 $_SESSION['area']=$reg['area'];

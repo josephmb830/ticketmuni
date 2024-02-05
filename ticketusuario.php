@@ -37,46 +37,57 @@ header('Content-Type: text/html; charset=UTF-8');
               
 
                 /* Todos los tickets*/
-                $num_ticket_all=Mysql::consulta(" SELECT * FROM ticket where nombre_usuario = '$nombre' ");
+                //$num_ticket_all=Mysql::consulta(" SELECT * FROM ticket where nombre_usuario = '$nombre' ");
+                $num_ticket_all=Mysql::consulta(" SELECT ticket.*, cliente.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente where cliente.nombre_usuario = '$usuario' ");
                 $num_total_all=mysqli_num_rows($num_ticket_all);
 
                 /* Tickets pendientes*/
-                $num_ticket_pend=Mysql::consulta("SELECT * FROM ticket where nombre_usuario = '$nombre' and estado_ticket='Pendiente'");
+                $num_ticket_pend=Mysql::consulta("SELECT ticket.*, cliente.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente where cliente.nombre_usuario = '$usuario' and estado_ticket='Pendiente'");
                 $num_total_pend=mysqli_num_rows($num_ticket_pend);
 
                 /* Tickets en proceso*/
-                $num_ticket_proceso=Mysql::consulta("SELECT * FROM ticket where nombre_usuario = '$nombre' and estado_ticket='En proceso'");
+                $num_ticket_proceso=Mysql::consulta("SELECT ticket.*, cliente.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente where cliente.nombre_usuario = '$usuario' and estado_ticket='En proceso'");
                 $num_total_proceso=mysqli_num_rows($num_ticket_proceso);
 
                 /* Tickets resueltos*/
-                $num_ticket_res=Mysql::consulta("SELECT * FROM ticket where nombre_usuario = '$nombre' and estado_ticket='Resuelto'");
+                $num_ticket_res=Mysql::consulta("SELECT ticket.*, cliente.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente where cliente.nombre_usuario = '$usuario' and estado_ticket='Resuelto'");
                 $num_total_res=mysqli_num_rows($num_ticket_res);
+
+                /* Tickets Anulados*/
+                $num_ticket_can=Mysql::consulta("SELECT ticket.*, cliente.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente where cliente.nombre_usuario = '$usuario' and estado_ticket='Anulado'");
+                $num_total_can=mysqli_num_rows($num_ticket_can);
             ?>
 
             <div class="container h-screen">
                 <div class="row mt-250">
-                    <div class="col-md-3 border-r bg-blue text-center">
+                    <div class="col-md-2-5 border-r bg-blue text-center">
                         <a href="./ticketusuario.php?ticket=all" class="text-white">
-                            <h3>Todos los Tickets</h3>
-                            <p class="text-center"><?php echo $num_total_all; ?></p>
+                            <h3 class="f-25">Todos los Tickets</h3>
+                            <p class="f-25 text-center"><?php echo $num_total_all; ?></p>
                         </a>
                     </div>
-                    <div class="col-md-3 text-white border-r bg-red text-center">
+                    <div class="col-md-2-5 text-white border-r bg-yellow text-center">
                         <a href="./ticketusuario.php?ticket=pending" class="text-white ">
-                            <h3>Tickets Pendientes</h3>
-                            <p class="text-center"><?php echo $num_total_pend; ?></p>
+                            <h3 class="f-25">Tickets Pendientes</h3>
+                            <p class="f-25 text-center"><?php echo $num_total_pend; ?></p>
                         </a>
                     </div>
-                    <div class="col-md-3 border-r bg-green text-center">
+                    <div class="col-md-2-5 border-r bg-green text-center">
                         <a href="./ticketusuario.php?ticket=process" class="text-white ">
-                            <h3>Tickets en Proceso</h3>
-                            <p class="text-center"><?php echo $num_total_proceso; ?></p>
+                            <h3 class="f-25">Tickets en Proceso</h3>
+                            <p class="f-25 text-center"><?php echo $num_total_proceso; ?></p>
                         </a>
                     </div>
-                    <div class="col-md-3 text-white border-r bg-gray text-center">
+                    <div class="col-md-2-5 text-white border-r bg-gray text-center">
                         <a href="./ticketusuario.php?ticket=resolved" class="text-white">
-                            <h3>Tickets Resueltos</h3>
-                            <p class="text-center"><?php echo $num_total_res; ?></p>
+                            <h3 class="f-25">Tickets Resueltos</h3>
+                            <p class="f-25 text-center"><?php echo $num_total_res; ?></p>
+                        </a>
+                    </div>
+                    <div class="col-md-2-5 text-white border-r bg-red text-center">
+                    <a href="./ticketusuario.php?ticket=canceled" class="text-white">
+                            <h3 class="f-25">Tickets Anulados</h3>
+                            <p class="f-25 text-center"><?php echo $num_total_can; ?></p>
                         </a>
                     </div>
                 </div>
@@ -95,18 +106,20 @@ header('Content-Type: text/html; charset=UTF-8');
                                 
                                 if(isset($_GET['ticket'])){
                                     if($_GET['ticket']=="all"){
-                                        $consulta="SELECT SQL_CALC_FOUND_ROWS * FROM ticket where nombre_usuario = '$nombre' LIMIT $inicio, $regpagina";
+                                        $consulta="SELECT SQL_CALC_FOUND_ROWS ticket.*, cliente.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente where cliente.nombre_usuario = '$usuario' LIMIT $inicio, $regpagina";
                                     }elseif($_GET['ticket']=="pending"){
-                                        $consulta="SELECT SQL_CALC_FOUND_ROWS * FROM ticket where nombre_usuario = '$nombre' and estado_ticket='Pendiente' LIMIT $inicio, $regpagina";
+                                        $consulta="SELECT SQL_CALC_FOUND_ROWS ticket.*, cliente.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente where cliente.nombre_usuario = '$usuario' and estado_ticket='Pendiente' LIMIT $inicio, $regpagina";
                                     }elseif($_GET['ticket']=="process"){
-                                        $consulta="SELECT SQL_CALC_FOUND_ROWS * FROM ticket where nombre_usuario = '$nombre' and estado_ticket='En Proceso' LIMIT $inicio, $regpagina";
+                                        $consulta="SELECT SQL_CALC_FOUND_ROWS ticket.*, cliente.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente where cliente.nombre_usuario = '$usuario' and estado_ticket='En Proceso' LIMIT $inicio, $regpagina";
                                     }elseif($_GET['ticket']=="resolved"){
-                                        $consulta="SELECT SQL_CALC_FOUND_ROWS * FROM ticket where nombre_usuario = '$nombre' and estado_ticket='Resuelto' LIMIT $inicio, $regpagina";
+                                        $consulta="SELECT SQL_CALC_FOUND_ROWS ticket.*, cliente.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente where cliente.nombre_usuario = '$usuario' and estado_ticket='Resuelto' LIMIT $inicio, $regpagina";
+                                    }elseif($_GET['ticket']=="canceled"){
+                                        $consulta="SELECT SQL_CALC_FOUND_ROWS ticket.*, cliente.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente where cliente.nombre_usuario = '$usuario' and estado_ticket='Anulado' LIMIT $inicio, $regpagina";
                                     }else{
-                                        $consulta="SELECT SQL_CALC_FOUND_ROWS * FROM ticket LIMIT $inicio, $regpagina";
+                                        $consulta="SELECT SQL_CALC_FOUND_ROWS ticket.*, cliente.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente where cliente.nombre_usuario = '$usuario' LIMIT $inicio, $regpagina";
                                     }
                                 }else{
-                                    $consulta="SELECT SQL_CALC_FOUND_ROWS t.* FROM ticket t,cliente c where t.nombre_usuario = c.nombre_completo and c.nombre_usuario = '$usuario' LIMIT $inicio, $regpagina";
+                                    $consulta="SELECT SQL_CALC_FOUND_ROWS ticket.*, cliente.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente where cliente.nombre_usuario = '$usuario' LIMIT $inicio, $regpagina";
                                 }
 
 
