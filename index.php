@@ -44,6 +44,7 @@ $hoy = date('d/m/Y   h:i:s  a', TIME());
         /*Fin codigo numero de ticket*/
 
         $usuario=MysqlQuery::RequestPost('nombre_usuario_nuevo');
+        $clave=md5(MysqlQuery::RequestPost('usuario_clave_reg'));
         $fecha_ticket=MysqlQuery::RequestPost('fecha_ticket');
         $dni=MysqlQuery::RequestPost('dni');
         $nombresx=MysqlQuery::RequestPost('nombres');
@@ -218,8 +219,8 @@ if (!$conexion) {
 
 if (($datosCliente === null && $datosAdmin === null) && ( isset($_POST['dni']) && isset($_POST['email']) && isset($_POST['descripcion']))){
   // Datos para la tabla cliente
-  $sqlInsertCliente = "INSERT INTO cliente (nombre_usuario, dni, nombres, a_paterno, a_materno, cargo, area, email_cliente) 
-                      VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+  $sqlInsertCliente = "INSERT INTO cliente (nombre_usuario, clave, dni, nombres, a_paterno, a_materno, cargo, area, email_cliente) 
+                      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
   // Datos para la tabla ticket
   $sqlInsertTicket = "INSERT INTO ticket (id_cliente, fecha, serie, departamento, asunto, mensaje, archivos, estado_ticket) 
@@ -233,7 +234,7 @@ if (($datosCliente === null && $datosAdmin === null) && ( isset($_POST['dni']) &
 
       if ($stmtCliente && $stmtTicket) {
           // Vincular los parámetros para la tabla cliente
-          mysqli_stmt_bind_param($stmtCliente, "ssssssss", $usuario, $dni, $nombresx, $a_paterno, $a_materno, $cargo, $area_ticket, $email);
+          mysqli_stmt_bind_param($stmtCliente, "sssssssss", $usuario, $clave, $dni, $nombresx, $a_paterno, $a_materno, $cargo, $area_ticket, $email);
 
           // Ejecutar la consulta preparada para la tabla cliente
           $resultadoCliente = mysqli_stmt_execute($stmtCliente);
@@ -446,6 +447,20 @@ mysqli_close($conexion);
                     <?php endif; ?>
                         readonly/> 
                   <div id="com_form"></div>
+                </div>
+
+
+                <div class="form-group col-sm-3">
+                  <label><i class="fa fa-shield"></i>&nbsp;Contraseña</label>
+                  <input type="password" id="clave" class="form-control" name="usuario_clave_reg" placeholder="Contraseña" required=""
+                    <?php if ($datosCliente): ?>
+                        value="<?php echo $datosCliente['clave']; ?>"
+                    <?php elseif ($datosAdmin): ?>
+                        value="<?php echo $datosAdmin['clave']; ?>" 
+                    <?php else: ?>
+                        value=""
+                    <?php endif; ?>
+                        readonly/>
                 </div>
 
 
@@ -727,6 +742,8 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("input_user_new").removeAttribute("readonly");
         document.getElementById("input_user_old").value = "";
 
+        document.getElementById("clave").value = "";
+        document.getElementById("clave").removeAttribute("readonly");
         document.getElementById("dni").value = "";
         document.getElementById("dni").removeAttribute("readonly");
         document.getElementById("nombres").value = "";
