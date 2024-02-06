@@ -4,7 +4,7 @@ include './lib/class_mysql.php';
 include './lib/config.php';
 header('Content-Type: text/html; charset=UTF-8');
 
-if($_SESSION['tipo']!="admin"){
+if($_SESSION['tipo']!=("admin" || "tecnico")){
     session_start(); 
     session_unset();
     session_destroy();
@@ -59,3 +59,5 @@ if($_SESSION['tipo']!="admin"){
         </script>
     </body>
 </html>
+
+

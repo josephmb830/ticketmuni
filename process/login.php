@@ -55,7 +55,7 @@
                 $_SESSION['nombre_completo'] = $reg['nombres'] . ' ' . $reg['a_paterno'] . ' ' . $reg['a_materno'];
                 $_SESSION['email']=$reg['email'];
                 $_SESSION['clave']=$clave;
-                $_SESSION['tipo']="user";
+                $_SESSION['tipo']="tecnico";
                 $_SESSION['area']=$reg['area'];
             }else{
                 echo '

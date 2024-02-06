@@ -207,17 +207,13 @@
                               <div class='col-sm-10'>
                                   <div class="input-group">
                                       <select class="form-control" name="tecnico_ticket" <?php echo $readonly;?>>
-                                          <option value="<?php echo $reg['tecnico']?>"><?php echo $reg['tecnico']?> (Actual)</option>
-                                          <option value="LUIS ALBERTO AYARZA FLORES">LUIS ALBERTO AYARZA FLORES </option>
-                                          <option value="JAIME ARAGON ESCOBAR">JAIME ARAGON ESCOBAR </option>
-                                          <option value="ANCEL JULCAMORO CELMI">ANCEL JULCAMORO CELMI </option>
-                                          <option value="JOSE GUERRERO">JOSE GUERRERO </option>
-                                          <option value="CESAR MUNOZ BERROCAL">CESAR MUNOZ BERROCAL</option>
-                                          <option value="CRISTIAN SANCHEZ VIVAR">CRISTIAN SANCHEZ VIVAR</option>
-                                          <option value="EDWIN PEREZ RENDON">EDWIN PEREZ RENDON </option>
-                                          <option value="CAROLA CAMPOS ULLOA">CAROLA CAMPOS ULLOA </option>
-                                          <option value="MILAGROS LINARES VALVERDE">MILAGROS LINARES VALVERDE</option>
-                                          <option value="LUIS ALVARADO">LUIS ALVARADO</option>
+                                        <?php
+                                          $sql = Mysql::consulta("SELECT * FROM tecnico ");
+                                          while ($reg1 = mysqli_fetch_array($sql)) {
+                                              $nombre_completo = strtoupper($reg1['nombres'] . ' ' . $reg1['a_paterno'] . ' ' . $reg1['a_materno']);
+                                              echo '<option value="' . $reg1['id_cliente'] . '">' . $nombre_completo . ' </option>';
+                                          }
+                                        ?>
                                         </select>
                                       <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
                                   </div>
