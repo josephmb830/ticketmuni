@@ -206,14 +206,15 @@
                               <label class="col-sm-2 control-label">Especialista encargado</label>
                               <div class='col-sm-10'>
                                   <div class="input-group">
-                                      <select class="form-control" name="tecnico_ticket" <?php echo $readonly;?>>
-                                        <?php
-                                          $sql = Mysql::consulta("SELECT * FROM tecnico ");
-                                          while ($reg1 = mysqli_fetch_array($sql)) {
-                                              $nombre_completo = strtoupper($reg1['nombres'] . ' ' . $reg1['a_paterno'] . ' ' . $reg1['a_materno']);
-                                              echo '<option value="' . $reg1['id_cliente'] . '">' . $nombre_completo . ' </option>';
-                                          }
-                                        ?>
+                                      <select class="form-control" name="tecnico_ticket" <?php echo $readonly;?>> 
+                                          <option value="<?php echo $reg['tecnico']?>"><?php echo $reg['tecnico']?> (Actual)</option>
+                                          <?php
+                                            $sql = Mysql::consulta("SELECT * FROM tecnico ");
+                                            while ($reg1 = mysqli_fetch_array($sql)) {
+                                                $nombre_completo = strtoupper($reg1['nombres'] . ' ' . $reg1['a_paterno'] . ' ' . $reg1['a_materno']);
+                                                echo '<option value="' . $nombre_completo . '">' . $nombre_completo . ' </option>';
+                                            }
+                                          ?>
                                         </select>
                                       <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
                                   </div>

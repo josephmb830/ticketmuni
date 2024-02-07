@@ -424,7 +424,7 @@
                 </div>
             </div><!--container principal-->
             <?php
-}else{
+} else{
 ?>
         <div class="container">
             <div class="row">
