@@ -261,7 +261,7 @@ if (($datosCliente === null && $datosAdmin === null) && ( isset($_POST['dni']) &
       } else {
           echo "Error al preparar las consultas: " . mysqli_error($conexion);
       }
-} elseif (($datosCliente !== null || $datosAdmin !== null) && ( isset($_POST['dni']) && isset($_POST['email']) && isset($_POST['descripcion']))) {
+} elseif (($datosCliente !== null) && ( isset($_POST['dni']) && isset($_POST['email']) && isset($_POST['descripcion']))) {
     // Datos para la tabla ticket
     $sqlInsertTicket = "INSERT INTO ticket (id_cliente, fecha, serie, departamento, asunto, mensaje, archivos, estado_ticket) 
                         VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -291,6 +291,36 @@ if (($datosCliente === null && $datosAdmin === null) && ( isset($_POST['dni']) &
     } else {
         echo "Error al preparar la consulta: " . mysqli_error($conexion);
     }
+} elseif (($datosAdmin !== null) && ( isset($_POST['dni']) && isset($_POST['email']) && isset($_POST['descripcion']))) {
+  // Datos para la tabla ticket
+  $sqlInsertTicket = "INSERT INTO ticket (id_admin, fecha, serie, departamento, asunto, mensaje, archivos, estado_ticket) 
+                      VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+  // Preparar la consulta statement para ticket
+  $stmtTicket = mysqli_prepare($conexion, $sqlInsertTicket);
+
+  if ($stmtTicket) {
+      // Obtener el id_admin buscado en los datos del admin
+      $id_admin = $datosAdmin['id_admin'];
+
+      // Vincular los parámetros para la tabla ticket
+      mysqli_stmt_bind_param($stmtTicket, "isssssss", $id_admin, $fecha_ticket, $id_ticket, $departamento_ticket, $asunto, $descripcion, $rutasString, $estado_ticket);
+
+      // Ejecutar la consulta preparada para la tabla ticket
+      $resultadoTicket = mysqli_stmt_execute($stmtTicket);
+
+      // Verificar si la inserción fue exitosa
+      if ($resultadoTicket) {
+          echo "Datos insertados exitosamente en la tabla ticket. Consulte el estado de su ticket con su número de serie: $id_ticket";
+      } else {
+          echo "Error al insertar datos en la base de datos: " . mysqli_stmt_error($stmtTicket);
+      }
+
+      // Cerrar la consulta preparada
+      mysqli_stmt_close($stmtTicket);
+  } else {
+      echo "Error al preparar la consulta: " . mysqli_error($conexion);
+  }
 } else {
   echo "Datos de usuario no proporcionados o datos de administrador encontrados. No se pueden realizar las inserciones.";
 }

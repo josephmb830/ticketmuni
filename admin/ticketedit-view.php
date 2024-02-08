@@ -211,6 +211,7 @@
                                           <?php
                                             $sql = Mysql::consulta("SELECT * FROM tecnico ");
                                             while ($reg1 = mysqli_fetch_array($sql)) {
+                                                $id_cliente = $reg1['id_cliente'];
                                                 $nombre_completo = strtoupper($reg1['nombres'] . ' ' . $reg1['a_paterno'] . ' ' . $reg1['a_materno']);
                                                 echo '<option value="' . $nombre_completo . '">' . $nombre_completo . ' </option>';
                                             }

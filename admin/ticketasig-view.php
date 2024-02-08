@@ -83,7 +83,7 @@
                                 
                                 if(isset($_GET['ticket'])){
                                     if($_GET['ticket']=="all"){
-                                        $consulta="SELECT SQL_CALC_FOUND_ROWS * FROM ticket where nombre_usuario = '$nombre' order by id desc LIMIT $inicio, $regpagina";
+                                        $consulta="SELECT SQL_CALC_FOUND_ROWS ticket.*, administrador.* FROM ticket INNER JOIN administrador ON ticket.id_admin = administrador.id_admin where administrador.nombre_admin = '$nombre' order by id desc LIMIT $inicio, $regpagina";
                                     }elseif($_GET['ticket']=="pending"){
                                         $consulta="SELECT SQL_CALC_FOUND_ROWS * FROM ticket where nombre_usuario = '$nombre' and estado_ticket='Pendiente'  order by id desc LIMIT $inicio, $regpagina";
                                     }elseif($_GET['ticket']=="process"){
