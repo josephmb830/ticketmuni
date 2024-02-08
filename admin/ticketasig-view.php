@@ -15,15 +15,15 @@
               
 
                 /* Todos los tickets*/
-                $num_ticket_all=Mysql::consulta(" SELECT * FROM ticket where nombre_usuario = '$nombre' ");
+                $num_ticket_all=Mysql::consulta("SELECT ticket.*, administrador.* FROM ticket INNER JOIN administrador ON ticket.id_admin = administrador.id_admin where administrador.nombre_admin = '$usuario'");
                 $num_total_all=mysqli_num_rows($num_ticket_all);
 
                 /* Tickets pendientes*/
-                $num_ticket_pend=Mysql::consulta("SELECT * FROM ticket where nombre_usuario = '$nombre' and estado_ticket='Pendiente'");
+                $num_ticket_pend=Mysql::consulta("SELECT ticket.*, administrador.* FROM ticket INNER JOIN administrador ON ticket.id_admin = administrador.id_admin where administrador.nombre_admin = '$usuario' and estado_ticket='Pendiente'");
                 $num_total_pend=mysqli_num_rows($num_ticket_pend);
 
                 /* Tickets en proceso*/
-                $num_ticket_proceso=Mysql::consulta("SELECT * FROM ticket where nombre_usuario = '$nombre' and estado_ticket='En proceso'");
+                $num_ticket_proceso=Mysql::consulta("SELECT ticket.*, administrador.* FROM ticket INNER JOIN administrador ON ticket.id_admin = administrador.id_admin where administrador.nombre_admin = '$usuario' and estado_ticket='En proceso'");
                 $num_total_proceso=mysqli_num_rows($num_ticket_proceso);
 
                 /* Tickets resueltos*/
@@ -83,7 +83,7 @@
                                 
                                 if(isset($_GET['ticket'])){
                                     if($_GET['ticket']=="all"){
-                                        $consulta="SELECT SQL_CALC_FOUND_ROWS ticket.*, administrador.* FROM ticket INNER JOIN administrador ON ticket.id_admin = administrador.id_admin where administrador.nombre_admin = '$nombre' order by id desc LIMIT $inicio, $regpagina";
+                                        $consulta="SELECT SQL_CALC_FOUND_ROWS ticket.*, administrador.* FROM ticket INNER JOIN administrador ON ticket.id_admin = administrador.id_admin where administrador.nombre_admin = '$usuario' order by id desc LIMIT $inicio, $regpagina";
                                     }elseif($_GET['ticket']=="pending"){
                                         $consulta="SELECT SQL_CALC_FOUND_ROWS * FROM ticket where nombre_usuario = '$nombre' and estado_ticket='Pendiente'  order by id desc LIMIT $inicio, $regpagina";
                                     }elseif($_GET['ticket']=="process"){
