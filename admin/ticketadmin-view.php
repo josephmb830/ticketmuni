@@ -30,24 +30,50 @@
 
                 /* Números */
                 /* Todos los tickets */
-                $num_ticket_all=Mysql::consulta("SELECT ticket.*, cliente.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente");
-                $num_total_all=mysqli_num_rows($num_ticket_all);
+                $num_ticket_all_admin = Mysql::consulta("SELECT ticket.*, administrador.* FROM ticket INNER JOIN administrador ON ticket.id_admin = administrador.id_admin");
+                $num_ticket_all_cliente = Mysql::consulta("SELECT ticket.*, cliente.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente");
+
+                $num_total_all_admin = mysqli_num_rows($num_ticket_all_admin);
+                $num_total_all_cliente = mysqli_num_rows($num_ticket_all_cliente);
+
+                $num_total_all = $num_total_all_admin + $num_total_all_cliente;
+
 
                 /* Tickets pendientes*/
-                $num_ticket_pend=Mysql::consulta("SELECT ticket.*, cliente.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente WHERE ticket.estado_ticket = 'Pendiente'");
-                $num_total_pend=mysqli_num_rows($num_ticket_pend);
+                $num_ticket_pend_admin = Mysql::consulta("SELECT ticket.*, administrador.* FROM ticket INNER JOIN administrador ON ticket.id_admin = administrador.id_admin WHERE ticket.estado_ticket = 'Pendiente'");
+                $num_ticket_pend_cliente = Mysql::consulta("SELECT ticket.*, cliente.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente WHERE ticket.estado_ticket = 'Pendiente'");
+                
+                $num_total_pend_admin = mysqli_num_rows($num_ticket_pend_admin);
+                $num_total_pend_cliente= mysqli_num_rows($num_ticket_pend_cliente);
+
+                $num_total_pend = $num_total_pend_admin + $num_total_pend_cliente;
 
                 /* Tickets en proceso*/
-                $num_ticket_proceso=Mysql::consulta("SELECT ticket.*, cliente.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente WHERE ticket.estado_ticket = 'En proceso'");
-                $num_total_proceso=mysqli_num_rows($num_ticket_proceso);
+                $num_ticket_proceso_admin = Mysql::consulta("SELECT ticket.*, administrador.* FROM ticket INNER JOIN administrador ON ticket.id_admin = administrador.id_admin WHERE ticket.estado_ticket = 'En proceso'");
+                $num_ticket_proceso_cliente = Mysql::consulta("SELECT ticket.*, cliente.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente WHERE ticket.estado_ticket = 'En proceso'");
+                
+                $num_total_proceso_admin=mysqli_num_rows($num_ticket_proceso_admin);
+                $num_total_proceso_cliente=mysqli_num_rows($num_ticket_proceso_cliente);
+
+                $num_total_proceso = $num_total_proceso_admin + $num_total_proceso_cliente;
 
                 /* Tickets resueltos*/
-                $num_ticket_res=Mysql::consulta("SELECT ticket.*, cliente.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente WHERE ticket.estado_ticket = 'Resuelto'");
-                $num_total_res=mysqli_num_rows($num_ticket_res);
+                $num_ticket_res_admin = Mysql::consulta("SELECT ticket.*, administrador.* FROM ticket INNER JOIN administrador ON ticket.id_admin = administrador.id_admin WHERE ticket.estado_ticket = 'Resuelto'");
+                $num_ticket_res_cliente=Mysql::consulta("SELECT ticket.*, cliente.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente WHERE ticket.estado_ticket = 'Resuelto'");
+                
+                $num_total_res_admin=mysqli_num_rows($num_ticket_res_admin);
+                $num_total_res_cliente=mysqli_num_rows($num_ticket_res_cliente);
+
+                $num_total_res = $num_total_res_admin + $num_total_res_cliente;
                 
                 /* Tickets anulados*/
-                $num_ticket_can=Mysql::consulta("SELECT ticket.*, cliente.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente WHERE ticket.estado_ticket = 'Anulado'");
-                $num_total_can=mysqli_num_rows($num_ticket_can);
+                $num_ticket_can_admin = Mysql::consulta("SELECT ticket.*, administrador.* FROM ticket INNER JOIN administrador ON ticket.id_admin = administrador.id_admin WHERE ticket.estado_ticket = 'Anulado'");
+                $num_ticket_can_cliente = Mysql::consulta("SELECT ticket.*, cliente.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente WHERE ticket.estado_ticket = 'Anulado'");
+                
+                $num_total_can_admin=mysqli_num_rows($num_ticket_can_admin);
+                $num_total_can_cliente=mysqli_num_rows($num_ticket_can_cliente);
+
+                $num_total_can = $num_total_can_admin + $num_total_can_cliente;
             ?>
             <div class="container mt-100">
         <div class="col-sm-12 text-center">
@@ -104,31 +130,39 @@
                                 //$num_ticket_all=Mysql::consulta("SELECT ticket.*, cliente.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente WHERE ticket.estado_ticket = 'Pendiente';");
                                 if(isset($_GET['ticket'])){
                                     if($_GET['ticket']=="all"){
-                                        $consulta="SELECT SQL_CALC_FOUND_ROWS ticket.*, cliente.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente order by id desc LIMIT $inicio, $regpagina";
+                                        $consulta_admin="SELECT SQL_CALC_FOUND_ROWS ticket.*, administrador.* FROM ticket INNER JOIN administrador ON ticket.id_admin = administrador.id_admin order by id desc LIMIT $inicio, $regpagina";
+                                        $consulta_cliente="SELECT SQL_CALC_FOUND_ROWS ticket.*, cliente.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente order by id desc LIMIT $inicio, $regpagina";                                       
                                     }elseif($_GET['ticket']=="pending"){
-                                        $consulta="SELECT SQL_CALC_FOUND_ROWS ticket.*, cliente.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente WHERE ticket.estado_ticket = 'Pendiente' order by id desc LIMIT $inicio, $regpagina";
+                                        $consulta_admin="SELECT SQL_CALC_FOUND_ROWS ticket.*, administrador.* FROM ticket INNER JOIN administrador ON ticket.id_admin = administrador.id_admin WHERE ticket.estado_ticket = 'Pendiente' order by id desc LIMIT $inicio, $regpagina";
+                                        $consulta_cliente="SELECT SQL_CALC_FOUND_ROWS ticket.*, cliente.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente WHERE ticket.estado_ticket = 'Pendiente' order by id desc LIMIT $inicio, $regpagina";
                                     }elseif($_GET['ticket']=="process"){
-                                        $consulta="SELECT SQL_CALC_FOUND_ROWS ticket.*, cliente.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente WHERE ticket.estado_ticket = 'En proceso' order by id desc LIMIT $inicio, $regpagina";
+                                        $consulta_admin="SELECT SQL_CALC_FOUND_ROWS ticket.*, administrador.* FROM ticket INNER JOIN administrador ON ticket.id_admin = administrador.id_admin WHERE ticket.estado_ticket = 'En proceso' order by id desc LIMIT $inicio, $regpagina";
+                                        $consulta_cliente="SELECT SQL_CALC_FOUND_ROWS ticket.*, cliente.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente WHERE ticket.estado_ticket = 'En proceso' order by id desc LIMIT $inicio, $regpagina";
                                     }elseif($_GET['ticket']=="resolved"){
-                                        $consulta="SELECT SQL_CALC_FOUND_ROWS ticket.*, cliente.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente WHERE ticket.estado_ticket = 'Resuelto' order by id desc LIMIT $inicio, $regpagina";
+                                        $consulta_admin="SELECT SQL_CALC_FOUND_ROWS ticket.*, administrador.* FROM ticket INNER JOIN administrador ON ticket.id_admin = administrador.id_admin WHERE ticket.estado_ticket = 'Resuelto' order by id desc LIMIT $inicio, $regpagina";
+                                        $consulta_cliente="SELECT SQL_CALC_FOUND_ROWS ticket.*, cliente.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente WHERE ticket.estado_ticket = 'Resuelto' order by id desc LIMIT $inicio, $regpagina";
                                     }elseif($_GET['ticket']=="canceled"){
-                                        $consulta="SELECT SQL_CALC_FOUND_ROWS ticket.*, cliente.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente WHERE ticket.estado_ticket = 'Anulado' order by id desc LIMIT $inicio, $regpagina";
+                                        $consulta_admin="SELECT SQL_CALC_FOUND_ROWS ticket.*, administrador.* FROM ticket INNER JOIN administrador ON ticket.id_admin = administrador.id_admin WHERE ticket.estado_ticket = 'Anulado' order by id desc LIMIT $inicio, $regpagina";
+                                        $consulta_cliente="SELECT SQL_CALC_FOUND_ROWS ticket.*, cliente.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente WHERE ticket.estado_ticket = 'Anulado' order by id desc LIMIT $inicio, $regpagina";
                                     }else{
-                                        $consulta="SELECT SQL_CALC_FOUND_ROWS ticket.*, cliente.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente LIMIT $inicio, $regpagina";
+                                        $consulta_admin="SELECT SQL_CALC_FOUND_ROWS ticket.*, administrador.* FROM ticket INNER JOIN administrador ON ticket.id_admin = administrador.id_admin LIMIT $inicio, $regpagina";
+                                        $consulta_cliente="SELECT SQL_CALC_FOUND_ROWS ticket.*, cliente.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente LIMIT $inicio, $regpagina";
                                     }
                                 }else{
-                                    $consulta="SELECT SQL_CALC_FOUND_ROWS ticket.*, cliente.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente order by id desc LIMIT $inicio, $regpagina";
+                                    $consulta_admin="SELECT SQL_CALC_FOUND_ROWS ticket.*, administrador.* FROM ticket INNER JOIN administrador ON ticket.id_admin = administrador.id_admin order by id desc LIMIT $inicio, $regpagina";
+                                    $consulta_cliente="SELECT SQL_CALC_FOUND_ROWS ticket.*, cliente.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente order by id desc LIMIT $inicio, $regpagina";
                                 }
 
 
-                                $selticket=mysqli_query($mysqli,$consulta);
+                                $selticket_admin=mysqli_query($mysqli,$consulta_admin);
+                                $selticket_cliente=mysqli_query($mysqli,$consulta_cliente);
 
                                 $totalregistros = mysqli_query($mysqli,"SELECT FOUND_ROWS()");
                                 $totalregistros = mysqli_fetch_array($totalregistros, MYSQLI_ASSOC);
                         
                                 $numeropaginas = ceil($totalregistros["FOUND_ROWS()"]/$regpagina);
 
-                                if(mysqli_num_rows($selticket)>0):
+                                if (mysqli_num_rows($selticket_admin) + mysqli_num_rows($selticket_cliente) > 0):
                             ?>
                             <table class="table table-hover table-striped table-bordered">
                                 <thead>
@@ -149,7 +183,36 @@
                                 <tbody>
                                     <?php
                                         $ct=$inicio+1;
-                                        while ($row=mysqli_fetch_array($selticket, MYSQLI_ASSOC)): 
+                                        while ($row=mysqli_fetch_array($selticket_admin, MYSQLI_ASSOC)): 
+                                    ?>
+                                    <tr>
+                                        <td class="text-center"><?php echo $ct; ?></td>
+                                        <td class="text-center"><?php echo $row['fecha']; ?></td>
+                                        <td class="text-center"><?php echo $row['serie']; ?></td>
+                                        <td class="text-center"><?php echo $row['estado_ticket']; ?></td>
+                                        <td class="text-center"><?php echo $row['nombre_admin']; ?></td>
+                                        <td class="text-center"><?php echo $row['email_admin']; ?></td>
+                                        <td class="text-center"><?php echo $row['departamento']; ?></td>
+                                        <td class="text-center"><?php echo $row['tecnico']; ?></td>
+                                        <td class="text-center"><?php echo $row['fecha_solucion']; ?></td>
+                                        <td class="text-center"><?php echo "Informática"; ?></td>
+                                        <td class="text-center">
+                                            <a href="./lib/pdf.php?id=<?php echo $row['id']; ?>" class="btn btn-sm btn-success" target="_blank"><i class="fa fa-print" aria-hidden="true"></i></a>
+
+                                            <a href="admin.php?view=ticketedit&id=<?php echo $row['id']; ?>" class="btn btn-sm btn-warning"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+
+                                            <form action="" method="POST" style="display: inline-block;">
+                                                <input type="hidden" name="id_del" value="<?php echo $row['id']; ?>">
+                                                <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                            </form>
+                                        </td>
+                                      
+                                    </tr>
+                                    <?php
+                                        $ct++;
+                                        endwhile; 
+
+                                        while ($row = mysqli_fetch_array($selticket_cliente, MYSQLI_ASSOC)) :
                                     ?>
                                     <tr>
                                         <td class="text-center"><?php echo $ct; ?></td>
@@ -176,7 +239,7 @@
                                     </tr>
                                     <?php
                                         $ct++;
-                                        endwhile; 
+                                        endwhile;
                                     ?>
                                 </tbody>
                             </table>
