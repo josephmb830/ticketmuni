@@ -96,18 +96,23 @@
     }
     
     $id = MysqlQuery::RequestGet('id');
-    $sql = Mysql::consulta("SELECT * FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente WHERE ticket.id = '$id'");
-    $sql = Mysql::consulta("SELECT ticket.*, administrador.* FROM ticket INNER JOIN administrador ON ticket.id_admin = administrador.id_admin WHERE ticket.id = '$id'");
-    $reg = mysqli_fetch_array($sql, MYSQLI_ASSOC);
 
-    if ($_SESSION['cargo'] == 'tecnico') {
-        $readonly = 'disabled = disabled';
-    } else {
-        $readonly = '';
-    }
+    // $id_cliente = MysqlQuery::RequestGet('id_cliente');
+    // $sql_cliente = Mysql::consulta("SELECT * FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente WHERE ticket.id_cliente = '$id_cliente'");
+    // $selticket=mysqli_query($conexion,$sql_cliente);
+    // if(mysqli_num_rows($selticket)>0):
 
-  ?>
-
+    if ($sql = Mysql::consulta("SELECT * FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente WHERE ticket.id = '$id' && ticket.id_cliente !== null")) {
+      
+      $reg = mysqli_fetch_array($sql, MYSQLI_ASSOC);
+  
+            if ($_SESSION['cargo'] == 'tecnico') {
+              $readonly = 'disabled = disabled';
+          } else {
+              $readonly = '';
+          }
+    ?>
+          
 
           <!--************************************ Page content******************************-->
           <div class="container">
@@ -181,6 +186,99 @@
                                 </div> 
                             </div>
                           </div>
+    <?php
+    } elseif($sql = Mysql::consulta("SELECT ticket.*, administrador.* FROM ticket INNER JOIN administrador ON ticket.id_admin = administrador.id_admin WHERE ticket.id = '$id' && ticket.id_admin !== null")) {
+      $reg = mysqli_fetch_array($sql, MYSQLI_ASSOC);
+  
+          if ($_SESSION['cargo'] == 'tecnico') {
+            $readonly = 'disabled = disabled';
+        } else {
+            $readonly = '';
+        }
+
+        ?>
+
+         <!--************************************ Page content******************************-->
+         <div class="container">
+            <div class="row">
+              <div class="col-sm-3">
+                  <img width="50" src="./img/Edit.png" alt="Image" class="img-responsive animated tada">
+              </div>
+              <div class="col-sm-9">
+                  <a href="./admin.php?view=ticketadmin" class="btn btn-primary btn-sm pull-right"><i class="fa fa-reply"></i>&nbsp;&nbsp;Volver administrar Tickets </a>
+              </div>
+            </div>
+          </div>
+              
+              
+            <div class="container">
+              <div class="col-sm-12">
+                  <form class="form-horizontal" role="form" action="" method="POST">
+                      <input type="hidden" name="id_edit" value="<?php echo $reg['id']?>">
+                          <div class="form-group">
+                              <label class="col-sm-2 control-label">Fecha</label>
+                              <div class='col-sm-10'>
+                                  <div class="input-group">
+                                      <input class="form-control" readonly="" type="text" name="fecha_ticket" readonly="" value="<?php echo $reg['fecha']?>">
+                                      <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                  </div>
+                              </div>
+                          </div>
+                      
+                          <div class="form-group">
+                              <label class="col-sm-2 control-label">Serie</label>
+                              <div class='col-sm-10'>
+                                  <div class="input-group">
+                                      <input class="form-control" readonly="" type="text" name="serie_ticket" readonly="" value="<?php echo $reg['serie']?>">
+                                      <span class="input-group-addon"><i class="fa fa-barcode"></i></span>
+                                  </div>
+                              </div>
+                          </div>
+                      
+                          <div class="form-group">
+                              <label class="col-sm-2 control-label">Estado</label>
+                              <div class='col-sm-10'>
+                                  <div class="input-group">
+                                      <select class="form-control" name="estado_ticket">
+                                          <option value="<?php echo $reg['estado_ticket']?>"><?php echo $reg['estado_ticket']?> (Actual)</option>
+                                          <option value="Pendiente">Pendiente</option>
+                                          <option value="En proceso">En proceso</option>
+                                          <option value="Resuelto">Resuelto</option>
+                                          <option value="Anulado">Anulado</option>
+                                        </select>
+                                      <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+                                  </div>
+                              </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label  class="col-sm-2 control-label">Nombre</label>
+                            <div class="col-sm-10">
+                                <div class='input-group'>
+                                    <input type="text" readonly="" class="form-control"  name="name_ticket" readonly="" value="<?php echo $reg['nombre_admin']?>">
+                                  <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                </div>
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+                            <div class="col-sm-10">
+                                <div class='input-group'>
+                                    <input type="email" readonly="" class="form-control"  name="email_ticket" readonly="" value="<?php echo $reg['email_admin']?>">
+                                  <span class="input-group-addon"><i class="fa fa-envelope-o"></i></span>
+                                </div> 
+                            </div>
+                          </div>
+
+      <?php  
+    }
+   
+    ?>
+
+
+          
+
 
                           <div class="form-group">
                             <label  class="col-sm-2 control-label">Tipo de incidencia</label>
