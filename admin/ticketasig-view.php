@@ -27,11 +27,11 @@
                 $num_total_proceso=mysqli_num_rows($num_ticket_proceso);
 
                 /* Tickets resueltos*/
-                $num_ticket_res=Mysql::consulta("SELECT * FROM ticket where nombre_usuario = '$nombre' and estado_ticket='Resuelto'");
+                $num_ticket_res=Mysql::consulta("SELECT ticket.*, administrador.* FROM ticket INNER JOIN administrador ON ticket.id_admin = administrador.id_admin where administrador.nombre_admin = '$usuario' and estado_ticket='Resuelto'");
                 $num_total_res=mysqli_num_rows($num_ticket_res);
 
                 /* Tickets anulados*/
-                $num_ticket_can=Mysql::consulta("SELECT * FROM ticket WHERE nombre_usuario = '$nombre' and estado_ticket='Anulado'");
+                $num_ticket_can=Mysql::consulta("SELECT ticket.*, administrador.* FROM ticket INNER JOIN administrador ON ticket.id_admin = administrador.id_admin where administrador.nombre_admin = '$usuario' and estado_ticket='Anulado'");
                 $num_total_can=mysqli_num_rows($num_ticket_can);
             ?>
 
@@ -62,7 +62,7 @@
                         </a>
                     </div>
                     <div class="col-md-2-5 text-white border-r bg-red text-center">
-                    <a href="./admin.php?view=ticketadmin&ticket=canceled" class="text-white">
+                    <a href="./admin.php?view=ticketasig&ticket=canceled" class="text-white">
                             <h3 class="f-25">Tickets Anulados</h3>
                             <p class="f-25 text-center"><?php echo $num_total_can; ?></p>
                         </a>
@@ -85,18 +85,18 @@
                                     if($_GET['ticket']=="all"){
                                         $consulta="SELECT SQL_CALC_FOUND_ROWS ticket.*, administrador.* FROM ticket INNER JOIN administrador ON ticket.id_admin = administrador.id_admin where administrador.nombre_admin = '$usuario' order by id desc LIMIT $inicio, $regpagina";
                                     }elseif($_GET['ticket']=="pending"){
-                                        $consulta="SELECT SQL_CALC_FOUND_ROWS * FROM ticket where nombre_usuario = '$nombre' and estado_ticket='Pendiente'  order by id desc LIMIT $inicio, $regpagina";
+                                        $consulta="SELECT SQL_CALC_FOUND_ROWS ticket.*, administrador.* FROM ticket INNER JOIN administrador ON ticket.id_admin = administrador.id_admin where administrador.nombre_admin = '$usuario' and estado_ticket='Pendiente'  order by id desc LIMIT $inicio, $regpagina";
                                     }elseif($_GET['ticket']=="process"){
-                                        $consulta="SELECT SQL_CALC_FOUND_ROWS * FROM ticket where nombre_usuario = '$nombre' and estado_ticket='En Proceso' order by id desc LIMIT $inicio, $regpagina";
+                                        $consulta="SELECT SQL_CALC_FOUND_ROWS ticket.*, administrador.* FROM ticket INNER JOIN administrador ON ticket.id_admin = administrador.id_admin where administrador.nombre_admin = '$usuario' and estado_ticket='En Proceso' order by id desc LIMIT $inicio, $regpagina";
                                     }elseif($_GET['ticket']=="resolved"){
-                                        $consulta="SELECT SQL_CALC_FOUND_ROWS * FROM ticket where nombre_usuario = '$nombre' and estado_ticket='Resuelto' order by id desc LIMIT $inicio, $regpagina";
+                                        $consulta="SELECT SQL_CALC_FOUND_ROWS ticket.*, administrador.* FROM ticket INNER JOIN administrador ON ticket.id_admin = administrador.id_admin where administrador.nombre_admin = '$usuario' and estado_ticket='Resuelto' order by id desc LIMIT $inicio, $regpagina";
                                     }elseif($_GET['ticket']=="canceled"){
-                                        $consulta="SELECT SQL_CALC_FOUND_ROWS * FROM ticket WHERE nombre_usuario = '$nombre' and estado_ticket='Anulado' order by id desc LIMIT $inicio, $regpagina";
+                                        $consulta="SELECT SQL_CALC_FOUND_ROWS ticket.*, administrador.* FROM ticket INNER JOIN administrador ON ticket.id_admin = administrador.id_admin where administrador.nombre_admin = '$usuario' and estado_ticket='Anulado' order by id desc LIMIT $inicio, $regpagina";
                                     }else{
-                                        $consulta="SELECT SQL_CALC_FOUND_ROWS * FROM ticket order by id desc LIMIT $inicio, $regpagina";
+                                        $consulta="SELECT SQL_CALC_FOUND_ROWS ticket.*, administrador.* FROM ticket INNER JOIN administrador ON ticket.id_admin = administrador.id_admin where administrador.nombre_admin = '$usuario' order by id desc LIMIT $inicio, $regpagina";
                                     }
                                 }else{
-                                    $consulta="SELECT SQL_CALC_FOUND_ROWS t.* FROM ticket t,administrador c where t.nombre_usuario = c.nombre_completo and c.nombre_admin = '$usuario' LIMIT $inicio, $regpagina";
+                                    $consulta="SELECT SQL_CALC_FOUND_ROWS ticket.*, administrador.* FROM ticket INNER JOIN administrador ON ticket.id_admin = administrador.id_admin where administrador.nombre_admin = '$usuario' LIMIT $inicio, $regpagina";
                                 }
 
 
