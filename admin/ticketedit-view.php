@@ -95,19 +95,27 @@
         }
     }
     
+    
     $id = MysqlQuery::RequestGet('id');
+
+    $id = mysqli_real_escape_string($conexion, $id);
 
     // $id_cliente = MysqlQuery::RequestGet('id_cliente');
     // $sql_cliente = Mysql::consulta("SELECT * FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente WHERE ticket.id_cliente = '$id_cliente'");
     // $selticket=mysqli_query($conexion,$sql_cliente);
     // if(mysqli_num_rows($selticket)>0):
 
-    if ($sql = Mysql::consulta("SELECT * FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente WHERE ticket.id = '$id' && ticket.id_cliente !== null")) {
+    $stmt = $conexion->prepare("SELECT * FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente WHERE ticket.id = ? AND ticket.id_cliente IS NOT NULL");
+    $stmt->bind_param("s", $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
       
-      $reg = mysqli_fetch_array($sql, MYSQLI_ASSOC);
+      $reg = $result->fetch_assoc();
   
             if ($_SESSION['cargo'] == 'tecnico') {
-              $readonly = 'disabled = disabled';
+              $readonly = 'disabled';
           } else {
               $readonly = '';
           }
@@ -187,11 +195,11 @@
                             </div>
                           </div>
     <?php
-    } elseif($sql = Mysql::consulta("SELECT ticket.*, administrador.* FROM ticket INNER JOIN administrador ON ticket.id_admin = administrador.id_admin WHERE ticket.id = '$id' && ticket.id_admin !== null")) {
+    } elseif($sql = Mysql::consulta("SELECT ticket.*, administrador.* FROM ticket INNER JOIN administrador ON ticket.id_admin = administrador.id_admin WHERE ticket.id = '$id' && ticket.id_admin IS NOT NULL")) {
       $reg = mysqli_fetch_array($sql, MYSQLI_ASSOC);
   
           if ($_SESSION['cargo'] == 'tecnico') {
-            $readonly = 'disabled = disabled';
+            $readonly = 'disabled';
         } else {
             $readonly = '';
         }
