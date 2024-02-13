@@ -195,7 +195,7 @@
                             </div>
                           </div>
     <?php
-    } elseif($sql = Mysql::consulta("SELECT ticket.*, administrador.* FROM ticket INNER JOIN administrador ON ticket.id_admin = administrador.id_admin WHERE ticket.id = '$id' && ticket.id_admin IS NOT NULL")) {
+    } elseif($sql = Mysql::consulta("SELECT ticket.*, administrador.*, tecnico.* FROM ticket INNER JOIN administrador ON ticket.id_admin = administrador.id_admin INNER JOIN tecnico ON ticket.id_tecnico = tecnico.id_tecnico WHERE ticket.id = '$id' && ticket.id_admin IS NOT NULL")) {
       $reg = mysqli_fetch_array($sql, MYSQLI_ASSOC);
   
           if ($_SESSION['cargo'] == 'tecnico') {
@@ -314,7 +314,7 @@
                               <div class='col-sm-10'>
                                   <div class="input-group">
                                       <select class="form-control" name="tecnico_ticket" <?php echo $readonly;?>> 
-                                          <option value="<?php echo $reg['id_tecnico']?>"><?php echo $reg['id_tecnico']?> (Actual)</option>
+                                         <option value="<?php echo $reg['id_tecnico']?>"><?php echo strtoupper($reg['nombres_tecnico'] . ' ' . $reg['a_paterno_tecnico'] . ' ' . $reg['a_materno_tecnico'])?> (Actual)</option>
                                           <?php
                                             $sql = Mysql::consulta("SELECT * FROM tecnico ");
                                             while ($reg1 = mysqli_fetch_array($sql)) {
