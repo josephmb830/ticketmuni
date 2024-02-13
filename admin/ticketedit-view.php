@@ -49,7 +49,7 @@
         $codequipo_edit = MysqlQuery::RequestPost('codequipo_ticket');
 
         // Utilizando consultas preparadas
-        $sqlUpdate = "UPDATE ticket SET estado_ticket=?, diagnostico=?, solucion=?, observaciones=?, tecnico=?, fecha_solucion=?, codequipo=? WHERE id=?";
+        $sqlUpdate = "UPDATE ticket SET estado_ticket=?, diagnostico=?, solucion=?, observaciones=?, id_tecnico=?, fecha_solucion=?, codequipo=? WHERE id=?";
 
         // Preparar la consulta
         $stmt = mysqli_prepare($conexion, $sqlUpdate);
@@ -314,13 +314,17 @@
                               <div class='col-sm-10'>
                                   <div class="input-group">
                                       <select class="form-control" name="tecnico_ticket" <?php echo $readonly;?>> 
-                                          <option value="<?php echo $reg['tecnico']?>"><?php echo $reg['tecnico']?> (Actual)</option>
+                                          <option value="<?php echo $reg['id_tecnico']?>"><?php echo $reg['id_tecnico']?> (Actual)</option>
                                           <?php
                                             $sql = Mysql::consulta("SELECT * FROM tecnico ");
                                             while ($reg1 = mysqli_fetch_array($sql)) {
-                                                $id_cliente = $reg1['id_cliente'];
-                                                $nombre_completo = strtoupper($reg1['nombres'] . ' ' . $reg1['a_paterno'] . ' ' . $reg1['a_materno']);
-                                                echo '<option value="' . $nombre_completo . '">' . $nombre_completo . ' </option>';
+                                                $id_tecnico = $reg1['id_tecnico'];
+                                                $nombre_completo = strtoupper($reg1['nombres_tecnico'] . ' ' . $reg1['a_paterno_tecnico'] . ' ' . $reg1['a_materno_tecnico']);
+                                                echo '<option value="' . $id_tecnico . '">' . $nombre_completo . ' </option>';
+                                                //$sql_tecnico = Mysql::consulta("SELECT ticket.*, tecnico.* FROM ticket WHERE ticket.id_tecnico = tecnico.id_tecnico");
+                                                // $sql_tecnico = Mysql::consulta("SELECT ticket.*, tecnico.* FROM ticket INNER JOIN tecnico ON ticket.id_tecnico = tecnico.id_tecnico WHERE ticket.id_tecnico = tecnico.id_tecnico");
+                                                // $reg_tecnico = mysqli_fetch_array($sql_tecnico)
+
                                             }
                                           ?>
                                         </select>

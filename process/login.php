@@ -48,12 +48,12 @@
                 '; 
             }
         }elseif($radio=="tecnico"){
-            $sql=Mysql::consulta("SELECT * FROM tecnico WHERE nombre_usuario= '$nombre' AND clave='$clave'");
+            $sql=Mysql::consulta("SELECT * FROM tecnico WHERE nombre_tecnico= '$nombre' AND clave='$clave'");
             if(mysqli_num_rows($sql)>=1){
                 $reg=mysqli_fetch_array($sql, MYSQLI_ASSOC);
-                $_SESSION['nombre']=$reg['nombre_usuario'];
-                $_SESSION['nombre_completo'] = $reg['nombres'] . ' ' . $reg['a_paterno'] . ' ' . $reg['a_materno'];
-                $_SESSION['email']=$reg['email'];
+                $_SESSION['nombre']=$reg['nombre_tecnico'];
+                $_SESSION['nombre_completo'] = $reg['nombres_tecnico'] . ' ' . $reg['a_paterno_tecnico'] . ' ' . $reg['a_materno_tecnico'];
+                $_SESSION['email']=$reg['email_tecnico'];
                 $_SESSION['clave']=$clave;
                 $_SESSION['tipo']="tecnico";
                 $_SESSION['area']=$reg['area'];
