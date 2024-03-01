@@ -106,20 +106,30 @@ header('Content-Type: text/html; charset=UTF-8');
                                 
                                 if(isset($_GET['ticket'])){
                                     if($_GET['ticket']=="all"){
-                                        $consulta="SELECT SQL_CALC_FOUND_ROWS ticket.*, cliente.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente where cliente.nombre_usuario = '$usuario' LIMIT $inicio, $regpagina";
+                                        $consulta="SELECT SQL_CALC_FOUND_ROWS ticket.*, cliente.*, tecnico.*
+                                        FROM ticket
+                                        INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente
+                                        INNER JOIN tecnico ON ticket.id_tecnico = tecnico.id_tecnico
+                                        WHERE cliente.nombre_usuario = '$usuario'
+                                        LIMIT $inicio, $regpagina";
                                     }elseif($_GET['ticket']=="pending"){
-                                        $consulta="SELECT SQL_CALC_FOUND_ROWS ticket.*, cliente.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente where cliente.nombre_usuario = '$usuario' and estado_ticket='Pendiente' LIMIT $inicio, $regpagina";
+                                        $consulta="SELECT SQL_CALC_FOUND_ROWS ticket.*, cliente.*, tecnico.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente INNER JOIN tecnico ON ticket.id_tecnico = tecnico.id_tecnico where cliente.nombre_usuario = '$usuario' and estado_ticket='Pendiente' LIMIT $inicio, $regpagina";
                                     }elseif($_GET['ticket']=="process"){
-                                        $consulta="SELECT SQL_CALC_FOUND_ROWS ticket.*, cliente.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente where cliente.nombre_usuario = '$usuario' and estado_ticket='En Proceso' LIMIT $inicio, $regpagina";
+                                        $consulta="SELECT SQL_CALC_FOUND_ROWS ticket.*, cliente.*, tecnico.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente INNER JOIN tecnico ON ticket.id_tecnico = tecnico.id_tecnico where cliente.nombre_usuario = '$usuario' and estado_ticket='En Proceso' LIMIT $inicio, $regpagina";
                                     }elseif($_GET['ticket']=="resolved"){
-                                        $consulta="SELECT SQL_CALC_FOUND_ROWS ticket.*, cliente.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente where cliente.nombre_usuario = '$usuario' and estado_ticket='Resuelto' LIMIT $inicio, $regpagina";
+                                        $consulta="SELECT SQL_CALC_FOUND_ROWS ticket.*, cliente.*, tecnico.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente INNER JOIN tecnico ON ticket.id_tecnico = tecnico.id_tecnico where cliente.nombre_usuario = '$usuario' and estado_ticket='Resuelto' LIMIT $inicio, $regpagina";
                                     }elseif($_GET['ticket']=="canceled"){
-                                        $consulta="SELECT SQL_CALC_FOUND_ROWS ticket.*, cliente.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente where cliente.nombre_usuario = '$usuario' and estado_ticket='Anulado' LIMIT $inicio, $regpagina";
+                                        $consulta="SELECT SQL_CALC_FOUND_ROWS ticket.*, cliente.*, tecnico.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente INNER JOIN tecnico ON ticket.id_tecnico = tecnico.id_tecnico where cliente.nombre_usuario = '$usuario' and estado_ticket='Anulado' LIMIT $inicio, $regpagina";
                                     }else{
-                                        $consulta="SELECT SQL_CALC_FOUND_ROWS ticket.*, cliente.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente where cliente.nombre_usuario = '$usuario' LIMIT $inicio, $regpagina";
+                                        $consulta="SELECT SQL_CALC_FOUND_ROWS ticket.*, cliente.*, tecnico.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente INNER JOIN tecnico ON ticket.id_tecnico = tecnico.id_tecnico where cliente.nombre_usuario = '$usuario' LIMIT $inicio, $regpagina";
                                     }
                                 }else{
-                                    $consulta="SELECT SQL_CALC_FOUND_ROWS ticket.*, cliente.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente where cliente.nombre_usuario = '$usuario' LIMIT $inicio, $regpagina";
+                                    $consulta="SELECT SQL_CALC_FOUND_ROWS ticket.*, cliente.*, tecnico.*
+                                    FROM ticket
+                                    INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente
+                                    INNER JOIN tecnico ON ticket.id_tecnico = tecnico.id_tecnico
+                                    WHERE cliente.nombre_usuario = '$usuario'
+                                    LIMIT $inicio, $regpagina";
                                 }
 
 
@@ -166,7 +176,7 @@ header('Content-Type: text/html; charset=UTF-8');
 
                                            
                                         </td>
-                                        <td class="text-center"><?php echo $row['tecnico']; ?></td>
+                                        <td class="text-center"><?php echo strtoupper($row['nombres_tecnico'] . " " . $row['a_paterno_tecnico'] . " " . $row['a_materno_tecnico']); ?></td>
                                     </tr>
                                     <?php
                                         $ct++;
