@@ -18,7 +18,7 @@
                 <a href="./ticketusuario.php" class="nav_link"> <i class="fa fa-ticket"></i> <span class="nav_name">Tickets</span> </a>                 
                 <a href="./configuracion-user.php" class="nav_link"> <i class="fas fa-cog"></i> <span class="nav_name">Configuracion</span> </a> 
                 <?php }if($_SESSION['tipo']=="tecnico"){?>
-                <a href="./ticketusuario.php" class="nav_link"> <i class="fa fa-ticket"></i> <span class="nav_name">Tickets</span> </a>
+                <!-- <a href="./ticketusuario.php" class="nav_link"> <i class="fa fa-ticket"></i> <span class="nav_name">Tickets</span> </a> -->
                 <a href="admin.php?view=ticketasig" class="nav_link"> <i class='fas fa-check'></i> <span class="nav_name">Mis Tickets</span> </a>                 
                 <a href="./configuracion-user.php" class="nav_link"> <i class="fas fa-cog"></i> <span class="nav_name">Configuracion</span> </a> 
                 <!-- <a href="./index.php?view=ticket" class="nav_link"> <i class="fa-solid fa-plus"></i> <span class="nav_name">Nuevo Ticket</span> </a>  -->

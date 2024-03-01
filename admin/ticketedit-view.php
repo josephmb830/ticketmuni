@@ -105,7 +105,8 @@
     // $selticket=mysqli_query($conexion,$sql_cliente);
     // if(mysqli_num_rows($selticket)>0):
 
-    $stmt = $conexion->prepare("SELECT * FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente WHERE ticket.id = ? AND ticket.id_cliente IS NOT NULL");
+      // un cliente hizo el registro del ticket
+    $stmt = $conexion->prepare("SELECT ticket.*, cliente.*, tecnico.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente INNER JOIN tecnico ON ticket.id_tecnico = tecnico.id_tecnico WHERE ticket.id = ? AND ticket.id_cliente IS NOT NULL");
     $stmt->bind_param("s", $id);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -114,7 +115,7 @@
       
       $reg = $result->fetch_assoc();
   
-            if ($_SESSION['cargo'] == 'tecnico') {
+            if ($_SESSION['tipo'] == 'tecnico') {
               $readonly = 'disabled';
           } else {
               $readonly = '';
@@ -129,7 +130,7 @@
                   <img width="50" src="./img/Edit.png" alt="Image" class="img-responsive animated tada">
               </div>
               <div class="col-sm-9">
-                  <a href="./admin.php?view=ticketadmin" class="btn btn-primary btn-sm pull-right"><i class="fa fa-reply"></i>&nbsp;&nbsp;Volver administrar Tickets </a>
+                  <a href="./admin.php?view=ticketasig" class="btn btn-primary btn-sm pull-right"><i class="fa fa-reply"></i>&nbsp;&nbsp;Volver administrar Tickets </a>
               </div>
             </div>
           </div>
@@ -195,10 +196,11 @@
                             </div>
                           </div>
     <?php
+    //un admin hizo el registro
     } elseif($sql = Mysql::consulta("SELECT ticket.*, administrador.*, tecnico.* FROM ticket INNER JOIN administrador ON ticket.id_admin = administrador.id_admin INNER JOIN tecnico ON ticket.id_tecnico = tecnico.id_tecnico WHERE ticket.id = '$id' && ticket.id_admin IS NOT NULL")) {
       $reg = mysqli_fetch_array($sql, MYSQLI_ASSOC);
   
-          if ($_SESSION['cargo'] == 'tecnico') {
+          if ($_SESSION['tipo'] == 'tecnico') {  
             $readonly = 'disabled';
         } else {
             $readonly = '';
@@ -213,7 +215,7 @@
                   <img width="50" src="./img/Edit.png" alt="Image" class="img-responsive animated tada">
               </div>
               <div class="col-sm-9">
-                  <a href="./admin.php?view=ticketadmin" class="btn btn-primary btn-sm pull-right"><i class="fa fa-reply"></i>&nbsp;&nbsp;Volver administrar Tickets </a>
+                  <a href="./admin.php?view=ticketasig" class="btn btn-primary btn-sm pull-right"><i class="fa fa-reply"></i>&nbsp;&nbsp;Volver administrar Tickets </a>
               </div>
             </div>
           </div>
