@@ -39,7 +39,7 @@
             <div class="row mt-250">
                     <div class="col-md-2-5 border-r bg-blue text-center">
                         <a href="./admin.php?view=ticketasig&ticket=all" class="text-white">
-                            <h3 class="f-25">Todos los Tickets</h3>
+                            <h3 class="f-25">Todos los Ticketos</h3>
                             <p class="f-25 text-center"><?php echo $num_total_all; ?></p>
                         </a>
                     </div>
