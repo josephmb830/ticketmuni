@@ -408,8 +408,12 @@ mysqli_close($conexion);
                     
                     <div class="form-group has-success has-feedback">
                       <label class="control-label"><i class="fa fa-user"></i>&nbsp;Nombre de usuario</label>
-                      <input type="text" id="input_user_old" class="form-control" name="nombre_usuario_existente" placeholder="Nombre de usuario" pattern="[a-zA-Z0-9]{1,15}" title="Ejemplo7 maximo 15 caracteres" maxlength="15">
+                      <input type="text" id="input_user_old" class="form-control" name="nombre_usuario_existente" placeholder="Nombre de usuario" pattern="[a-zA-Z0-9]{1,15}" ||||title="Ejemplo7 maximo 15 caracteres" maxlength="15">
                       <div id="com_form"></div>
+                      <!-- <div class="form-group">
+                          <label><span class=""></span>Contraseña</label>
+                          <input type="password" class="form-control" name="contrasena_usuario_existente" placeholder="Escribe tu contraseña" required=""/>
+                      </div> -->
                     </div>
                     
                     

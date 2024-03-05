@@ -2,6 +2,8 @@
         date_default_timezone_set('America/Bogota');    
         $nombre = $_SESSION['nombre_completo'];
         $email =    $_SESSION['email'];
+        $dni =    $_SESSION['dni'];
+        $cargo = $_SESSION['cargo'];
         if(isset($_SESSION['area'])){
           $area_cli=$_SESSION['area'];
         }else{
@@ -95,6 +97,18 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="col-sm-2 control-label">DNI</label>
+                              <div class="col-sm-10">
+                                  <div class='input-group'>
+                                    <input type="text" class="form-control" id="dni" name="dni" placeholder="Escribe tu dni" required="" maxlength="9" 
+                                        value="<?php echo $dni ?>"
+                                        readonly/>
+                                    <span class="input-group-addon"><i class="fa fa-id-card-o"></i></span>
+                                  </div>
+                              </div>
+                        </div>
+
+                        <div class="form-group">
                           <label  class="col-sm-2 control-label">Nombre</label>
                           <div class="col-sm-10">
                               <div class='input-group'>
@@ -116,11 +130,22 @@
 
 
                         <div class="form-group">
+                          <label  class="col-sm-2 control-label">Cargo</label>
+                          <div class="col-sm-10">
+                              <div class='input-group'>
+                              <input type="text" class="form-control" placeholder="Cargo" required="" pattern="[a-zA-Z ]{1,30}" name="cargo_ticket" title="Cargo" value="<?php echo $cargo ?>" readonly>
+                                <span class="input-group-addon"><i class="fa fa-briefcase"></i></span>
+                              </div>
+                          </div>
+                        </div>
+
+
+                        <div class="form-group">
                           <label  class="col-sm-2 control-label">Area</label>
                           <div class="col-sm-10">
                               <div class='input-group'>
                               <input type="text" class="form-control" placeholder="Area" required="" pattern="[a-zA-Z ]{1,30}" name="area_ticket" title="Area" value="<?php echo $area_cli ?>" readonly>
-                                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                <span class="input-group-addon"><i class="fa fa-users"></i></span>
                               </div>
                           </div>
                         </div>
@@ -147,7 +172,7 @@
 
 
                                 </select>
-                                <span class="input-group-addon"><i class="fa fa-users"></i></span>
+                                <span class="input-group-addon"><i class="fa fa-wrench"></i></span>
                               </div> 
                           </div>
                         </div>
@@ -168,6 +193,26 @@
                             <textarea class="form-control" rows="3" placeholder="Escriba el problema que presenta su producto" name="mensaje_ticket" required=""></textarea>
                           </div>
                         </div>
+
+
+                        <!-- Texto "Adjuntar archivo (Opcional)" en cursiva -->
+
+                          <!-- Cuadro de información -->  
+                          <div class="form-group">
+                              <label class="control-label font-italic col-sm-2">Adjuntar archivos (Opcional)</label>
+                              <div class="alert alert-info col-md-9">
+                                  <strong>ℹ Información:</strong> Puede subir hasta 3 archivos (4MB en total).<br>
+                                  Formatos permitidos: .pdf, .jpeg, .jpg, .png
+                              </div>
+                          </div>
+
+                          <!-- Botón para seleccionar archivos con evento onchange para validación -->
+                          <div class="form-group">
+                              <label><span class="col-md-2"></span>Seleccionar Archivos</label>
+                              <div class="col-sm-10">
+                                <input type="file" class="form-control-file" name="archivos[]" accept=".pdf, .jpeg, .jpg, .png" multiple onchange="validarArchivos(this)" />
+                              </div>
+                          </div>
 
 
 

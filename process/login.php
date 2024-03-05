@@ -9,6 +9,7 @@
                 $reg=mysqli_fetch_array($sql, MYSQLI_ASSOC);
                 $_SESSION['nombre']=$reg['nombre_admin'];
                 $_SESSION['id']=$reg['id_admin'];
+                $_SESSION['dni']=$reg['id_admin'];
                 $_SESSION['nombre_completo']=$reg['nombre_completo'];
                 $_SESSION['email']=$reg['email_admin'];
                 $_SESSION['clave']=$clave;
@@ -31,10 +32,12 @@
             if(mysqli_num_rows($sql)>=1){
                 $reg=mysqli_fetch_array($sql, MYSQLI_ASSOC);
                 $_SESSION['nombre']=$reg['nombre_usuario'];
+                $_SESSION['dni']=$reg['dni'];
                 $_SESSION['nombre_completo'] = $reg['nombres'] . ' ' . $reg['a_paterno'] . ' ' . $reg['a_materno'];
                 $_SESSION['email']=$reg['email_cliente'];
                 $_SESSION['clave']=$clave;
                 $_SESSION['tipo']="user";
+                $_SESSION['cargo']=$reg['cargo'];
                 $_SESSION['area']=$reg['area'];
             }else{
                 echo '
@@ -52,10 +55,12 @@
             if(mysqli_num_rows($sql)>=1){
                 $reg=mysqli_fetch_array($sql, MYSQLI_ASSOC);
                 $_SESSION['nombre']=$reg['nombre_tecnico'];
+                $_SESSION['dni']=$reg['dni'];
                 $_SESSION['nombre_completo'] = $reg['nombres_tecnico'] . ' ' . $reg['a_paterno_tecnico'] . ' ' . $reg['a_materno_tecnico'];
                 $_SESSION['email']=$reg['email_tecnico'];
                 $_SESSION['clave']=$clave;
                 $_SESSION['tipo']="tecnico";
+                $_SESSION['cargo']=$reg['cargo'];
                 $_SESSION['area']=$reg['area'];
             }else{
                 echo '
