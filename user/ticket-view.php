@@ -2,6 +2,7 @@
         date_default_timezone_set('America/Bogota');    
         $nombre = $_SESSION['nombre_completo'];
         $email =    $_SESSION['email'];
+        $id =    $_SESSION['id'];
         $dni =    $_SESSION['dni'];
         $cargo = $_SESSION['cargo'];
         if(isset($_SESSION['area'])){
@@ -45,21 +46,32 @@
           $mensaje_mail="¡Gracias por reportarnos su problema! Buscaremos una solución para su producto lo mas pronto posible. Su ID ticket es: ".$id_ticket;
           $mensaje_mail=wordwrap($mensaje_mail, 70, "\r\n");
 
-          if(MysqlQuery::Guardar("ticket", "fecha, nombre_usuario, email_cliente, departamento, asunto, mensaje, estado_ticket ,area,serie", "'$fecha_ticket', '$nombre_ticket', '$email_ticket', '$departamento_ticket', '$asunto_ticket', '$mensaje_ticket', '$estado_ticket','$area_ticket','$id_ticket'")){
+          // Datos del ticket
+          if ($_SESSION['tipo'] == "admin") {
+            $id_x = 'id_admin';
+          } elseif ($_SESSION['tipo'] == "user") {
+              $id_x = 'id_cliente';
+          }
 
-            /*----------  Enviar correo con los datos del ticket
-            mail($email_ticket, $asunto_ticket, $mensaje_mail, $cabecera)
-            ----------*/
-            
-            echo '
-                <div class="alert alert-info alert-dismissible fade in col-sm-3 animated bounceInDown" role="alert" style="position:fixed; top:70px; right:10px; z-index:10;"> 
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="text-center">TICKET CREADO</h4>
-                    <p class="text-center">
-                        Ticket creado con exito '.$_SESSION['nombre'].'<br>El TICKET ID es: <strong>'.$id_ticket.'</strong>
-                    </p>
-                </div>
-            ';
+          $campos_ticket = "fecha, $id_x, nombre_usuario, email_cliente, departamento, asunto, mensaje, estado_ticket, area, serie";
+          $valores_ticket = "'$fecha_ticket', '$id', '$nombre_ticket', '$email_ticket', '$departamento_ticket', '$asunto_ticket', '$mensaje_ticket', '$estado_ticket', '$area_ticket', '$id_ticket'";
+
+          // Guardar el ticket en la base de datos
+          if (MysqlQuery::Guardar("ticket", $campos_ticket, $valores_ticket)) {
+
+              // Enviar correo con los datos del ticket
+              // mail($email_ticket, $asunto_ticket, $mensaje_mail, $cabecera);
+
+              // Mensaje de éxito
+              echo '
+                  <div class="alert alert-info alert-dismissible fade in col-sm-3 animated bounceInDown" role="alert" style="position:fixed; top:70px; right:10px; z-index:10;"> 
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                      <h4 class="text-center">TICKET CREADO</h4>
+                      <p class="text-center">
+                          Ticket creado con éxito ' . $_SESSION['nombre'] . '<br>El TICKET ID es: <strong>' . $id_ticket . '</strong>
+                      </p>
+                  </div>
+              ';
 
           }else{
             echo '

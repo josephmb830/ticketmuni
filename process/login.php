@@ -32,6 +32,7 @@
             if(mysqli_num_rows($sql)>=1){
                 $reg=mysqli_fetch_array($sql, MYSQLI_ASSOC);
                 $_SESSION['nombre']=$reg['nombre_usuario'];
+                $_SESSION['id']=$reg['id_cliente'];
                 $_SESSION['dni']=$reg['dni'];
                 $_SESSION['nombre_completo'] = $reg['nombres'] . ' ' . $reg['a_paterno'] . ' ' . $reg['a_materno'];
                 $_SESSION['email']=$reg['email_cliente'];
