@@ -27,7 +27,7 @@ if(isset($_POST['del_ticket'])){
 //$email_consul=  MysqlQuery::RequestGet('email_consul');
 $id_colsul= MysqlQuery::RequestGet('id_consul');
 
-$consulta_tablaTicket=Mysql::consulta("SELECT * FROM ticket WHERE serie= '$id_colsul'");
+$consulta_tablaTicket=Mysql::consulta("SELECT * FROM ticket INNER JOIN tecnico ON ticket.id_tecnico = tecnico.id_tecnico WHERE serie= '$id_colsul'");
 if(mysqli_num_rows($consulta_tablaTicket)>=1){
   $lsT=mysqli_fetch_array($consulta_tablaTicket, MYSQLI_ASSOC);   
 ?>
@@ -60,7 +60,7 @@ if(mysqli_num_rows($consulta_tablaTicket)>=1){
                                               <br>
 
                                               </br>
-                                              <div class="col-sm-6"><strong>Especialista Asignado:</strong> <?php echo $lsT['tecnico']; ?></div>
+                                              <div class="col-sm-6"><strong>Especialista Asignado:</strong> <?php echo $lsT['nombres_tecnico'] . ' ' . $lsT['a_paterno_tecnico'] . ' ' . $lsT['a_materno_tecnico']; ?></div>
                                           </div>
                                           <br>
                                           <div class="row">

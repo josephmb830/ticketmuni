@@ -4,7 +4,7 @@ include './class_mysql.php';
 include './config.php';
 
 $id = MysqlQuery::RequestGet('id');
-$sql = Mysql::consulta("SELECT * FROM ticket WHERE serie= '$id'");
+$sql = Mysql::consulta("SELECT * FROM ticket INNER JOIN tecnico ON ticket.id_tecnico = tecnico.id_tecnico WHERE serie= '$id'");
 $reg = mysqli_fetch_array($sql, MYSQLI_ASSOC);
 
 class PDF extends FPDF
@@ -51,7 +51,7 @@ $pdf->Cell (0,15,utf8_decode($reg['mensaje']),1,1,'L');
 $pdf->Cell (35,15,'Solucion',1,0,'C',true);
 $pdf->Cell (0,15,utf8_decode($reg['solucion']),1,1,'L');
 $pdf->Cell (35,10,'tecnico',1,0,'C',true);
-$pdf->Cell (0,10,utf8_decode($reg['tecnico']),1,1,'L');
+$pdf->Cell (0,10,utf8_decode($reg['nombres_tecnico'] . ' ' . $reg['a_paterno_tecnico'] . ' ' . $reg['a_materno_tecnico']),1,1,'L');
 $pdf->Ln();
 
 $pdf->cell(0,5,"Oficina General de Tecnologia de la Información",0,0,'C');

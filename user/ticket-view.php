@@ -96,7 +96,7 @@
                 <div class="panel-body">
                   <div class="row">
                     <div class="col-sm-12">
-                      <form class="form-horizontal" role="form" action="" method="POST">
+                      <form class="form-horizontal" id="miFormulario" role="form" action="" method="post">
                           <fieldset>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Fecha</label>
@@ -249,4 +249,31 @@
   $(document).ready(function(){
       $("#fechainput").datepicker();
   });
+
+  function validarArchivos(input) {
+        var archivos = input.files;
+        var totalSize = 0;
+
+        // Verificar la cantidad máxima de archivos
+        if (archivos.length > 3) {
+            alert("Por favor, seleccione un máximo de 3 archivos.");
+            input.value = ''; // Limpiar la selección
+            return;
+        }
+
+        // Calcular el tamaño total de los archivos
+        for (var i = 0; i < archivos.length; i++) {
+            totalSize += archivos[i].size;
+        }
+
+        // Verificar el tamaño total de los archivos
+        var maxSizeMB = 4; // Tamaño máximo permitido en MB
+        var maxSizeBytes = maxSizeMB * 1024 * 1024;
+        if (totalSize > maxSizeBytes) {
+            alert("El tamaño total de los archivos no debe superar los 4 MB en total.");
+            input.value = ''; // Limpiar la selección
+            return;
+        }
+    }
+    
 </script>
