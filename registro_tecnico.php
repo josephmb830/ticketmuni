@@ -32,7 +32,7 @@ if (!$conexion) {
     }
 
     // Consulta SQL para insertar datos en la tabla cliente
-    $sqlInsert = "INSERT INTO tecnico (dni, nombre_usuario, clave, nombres, a_paterno, a_materno, cargo, area, email) 
+    $sqlInsert = "INSERT INTO tecnico (dni, nombre_tecnico, clave, nombres_tecnico, a_paterno_tecnico, a_materno_tecnico, cargo, area, email_tecnico) 
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     $stmt = mysqli_prepare($conexion, $sqlInsert);
