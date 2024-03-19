@@ -4,8 +4,17 @@ include './class_mysql.php';
 include './config.php';
 
 $id = MysqlQuery::RequestGet('id');
-$sql = Mysql::consulta("SELECT * FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente INNER JOIN tecnico ON ticket.id_tecnico = tecnico.id_tecnico WHERE id = '$id'");
-$reg = mysqli_fetch_array($sql, MYSQLI_ASSOC);
+
+$sql = Mysql::consulta("SELECT * FROM ticket INNER JOIN tecnico ON ticket.id_tecnico = tecnico.id_tecnico WHERE id = '$id'");
+$regall = mysqli_fetch_array($sql, MYSQLI_ASSOC);
+
+if ($regall['id_cliente']== !null) {
+    $sql = Mysql::consulta("SELECT * FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente INNER JOIN tecnico ON ticket.id_tecnico = tecnico.id_tecnico WHERE id = '$id'");
+    $reg = mysqli_fetch_array($sql, MYSQLI_ASSOC);
+} elseif ($regall['id_admin'] == !null) {
+    $sql = Mysql::consulta("SELECT * FROM ticket INNER JOIN administrador ON ticket.id_admin = administrador.id_admin INNER JOIN tecnico ON ticket.id_tecnico = tecnico.id_tecnico WHERE id = '$id'");
+    $reg = mysqli_fetch_array($sql, MYSQLI_ASSOC);
+}
 
 class PDF extends FPDF
 {
