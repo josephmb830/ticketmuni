@@ -53,13 +53,43 @@ header('Content-Type: text/html; charset=UTF-8');
           $old_pass_update=md5(MysqlQuery::RequestPost('old_pass_update'));
           $new_pass_update=md5(MysqlQuery::RequestPost('new_pass_update'));
          // $email_update=MysqlQuery::RequestPost('email_update');
-          
-           $sql=Mysql::consulta("SELECT * FROM cliente WHERE  clave='$old_pass_update'");
-           
-          if(mysqli_num_rows($sql)>=1){
-            MysqlQuery::Actualizar("cliente", "clave='$new_pass_update'", "clave='$old_pass_update'");
 
-           // $_SESSION['nombre']=$new_user_update;
+         if($_SESSION['tipo']=="cliente") {
+            $sql=Mysql::consulta("SELECT * FROM cliente WHERE  clave='$old_pass_update'");
+            
+            if(mysqli_num_rows($sql)>=1){
+              MysqlQuery::Actualizar("cliente", "clave='$new_pass_update'", "clave='$old_pass_update'");
+
+              // $_SESSION['nombre']=$new_user_update;
+              $_SESSION['clave']=$new_pass_update;
+
+              echo '
+                <div class="alert alert-info alert-dismissible fade in col-sm-3 animated bounceInDown" role="alert" style="position:fixed; top:70px; right:10px; z-index:10000;"> 
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="text-center">CUENTA ACTUALIZADA</h4>
+                    <p class="text-center">
+                      ¡Tus datos han sido actualizados correctamente!
+                    </p>
+                </div>
+              ';
+            }else{
+              echo '
+                <div class="alert alert-danger alert-dismissible fade in col-sm-3 animated bounceInDown" role="alert" style="position:fixed; top:70px; right:10px; z-index:10000;"> 
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="text-center">OCURRIO UN ERROR</h4>
+                    <p class="text-center">
+                      Asegurese que los datos ingresados son validos. Por favor intente nuevamente</p>
+                    </p>
+                </div>
+              '; 
+            }
+         }elseif($_SESSION['tipo']=="tecnico") {
+            $sql=Mysql::consulta("SELECT * FROM tecnico WHERE  clave='$old_pass_update'");
+              
+            if(mysqli_num_rows($sql)>=1){
+              MysqlQuery::Actualizar("tecnico", "clave='$new_pass_update'", "clave='$old_pass_update'");
+
+                // $_SESSION['nombre']=$new_user_update;
             $_SESSION['clave']=$new_pass_update;
 
             echo '
@@ -82,7 +112,9 @@ header('Content-Type: text/html; charset=UTF-8');
               </div>
             '; 
           }
+         
         }
+      }
         ?>
         <div class="container">
           <div class="container">

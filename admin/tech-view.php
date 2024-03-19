@@ -1,4 +1,3 @@
-
 <?php if($_SESSION['nombre']!="" && $_SESSION['tipo']=="admin"){ ?>    
         <?php 
             if(isset($_POST['id_del'])){
@@ -32,7 +31,7 @@
             $num_total_admin = mysqli_num_rows($num_admin);
 
             /* Todos los users*/
-            $num_user=Mysql::consulta("SELECT * FROM cliente");
+            $num_user=Mysql::consulta("SELECT * FROM tecnico");
             $num_total_user = mysqli_num_rows($num_user);
           
         ?>
@@ -49,7 +48,7 @@
                 <img src="./img/card_identy.png" alt="Image" class="img-responsive animated flipInY">
             </div>
             <div class="col-sm-10">
-                <h1>Tabla de Usuarios Registrados</h1>            </div>
+                <h1>Tabla de Técnicos Registrados</h1>            </div>
           </div>
                     <div class="col-md-12">
                         <div class="table-responsive">

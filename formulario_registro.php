@@ -24,7 +24,7 @@ if(isset($_POST['dni_contacto']) && isset($_POST['asunto']) && isset($_POST['des
   $mensaje_mail="Hola ".$nombre_reg.", Tu reagistro fue exitoso . Los datos de cuenta son los siguientes:\nNombre Completo: ".$nombre_reg."\nNombre de usuario: ".$user_reg."\nClave: ".$clave_reg2."\nEmail: ".$email_reg."\n Página";
 
   
-  if(MysqlQuery::Guardar("ticket2", "dni_contacto, nombres_contacto, a_paterno_contacto, a_materno_contacto, cargo_contacto, correo_contacto, asunto, descripcion, archivos", "'$dni_contacto', '$nombres_contacto', '$a_paterno_contacto', '$a_materno_contacto','$cargo_contacto', '$correo_contacto', '$asunto', '$descripcion', '$archivos'")){
+  if(MysqlQuery::Guardar("ticket", "dni_contacto, nombres_contacto, a_paterno_contacto, a_materno_contacto, cargo_contacto, correo_contacto, asunto, descripcion, archivos", "'$dni_contacto', '$nombres_contacto', '$a_paterno_contacto', '$a_materno_contacto','$cargo_contacto', '$correo_contacto', '$asunto', '$descripcion', '$archivos'")){
 
       /*----------  Enviar correo con los datos de la cuenta ----*/
           

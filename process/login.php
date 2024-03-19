@@ -56,6 +56,7 @@
             if(mysqli_num_rows($sql)>=1){
                 $reg=mysqli_fetch_array($sql, MYSQLI_ASSOC);
                 $_SESSION['nombre']=$reg['nombre_tecnico'];
+                $_SESSION['id']=$reg['id_tecnico'];
                 $_SESSION['dni']=$reg['dni'];
                 $_SESSION['nombre_completo'] = $reg['nombres_tecnico'] . ' ' . $reg['a_paterno_tecnico'] . ' ' . $reg['a_materno_tecnico'];
                 $_SESSION['email']=$reg['email_tecnico'];

@@ -51,7 +51,9 @@
             $id_x = 'id_admin';
           } elseif ($_SESSION['tipo'] == "user") {
               $id_x = 'id_cliente';
-          }
+          } elseif ($_SESSION['tipo'] == "tecnico") {
+            $id_x = 'id_tecnico';
+        }
 
           $campos_ticket = "fecha, $id_x, nombre_usuario, email_cliente, departamento, asunto, mensaje, estado_ticket, area, serie";
           $valores_ticket = "'$fecha_ticket', '$id', '$nombre_ticket', '$email_ticket', '$departamento_ticket', '$asunto_ticket', '$mensaje_ticket', '$estado_ticket', '$area_ticket', '$id_ticket'";

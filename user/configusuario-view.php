@@ -129,7 +129,7 @@
             </div>
             <div class="col-sm-9 lead">
             <?php
-            if(isset($_GET['id']="2")){
+            if(isset($_GET['id']=="2")){
               $variable = $_GET['id'];
 
             echo '<h2 class="text-info">Bienvenido a la configuración de cuenta' . $variable . '</h2> ';
@@ -164,7 +164,7 @@
                       <label class="text-primary"><i class="fa fa-user"></i>&nbsp;&nbsp;Nombre de usuario nuevo</label>
                       <input type="text" class="form-control" id="input_user" placeholder="Nombre de usuario nuevo" name="new_user_update" required="" pattern="[a-zA-Z0-9 ]{1,30}" title="Ejemplo7" maxlength="20">
                       <div id="com_form"></div>
-                    </div>-->
+                    </div>
                     <div class="form-group">
                       <label class="text-danger"><i class="fa fa-key"></i>&nbsp;&nbsp;Contraseña actual</label>
                       <input type="password" class="form-control" placeholder="Contraseña actual" name="old_pass_update" required="">
@@ -176,7 +176,7 @@
                     <div class="form-group">
                       <label class="text-primary"><i class="fa fa-envelope-o"></i>&nbsp;&nbsp;Email</label>
                       <input type="email" class="form-control"  placeholder="Escriba su email" name="email_update" required="">
-                    </div>-->
+                    </div>
                     <button type="submit" class="btn btn-info">Actualizar datos</button>
                   </form>
                 </div>

@@ -13,6 +13,7 @@ if (!$conexion) {
     if(isset($_POST['dni']) && isset($_POST['email']) && isset($_POST['nombre_usuario'])){
         $dni=MysqlQuery::RequestPost('dni');
         $nombresu=MysqlQuery::RequestPost('nombre_usuario');
+        $pass_save=md5(MysqlQuery::RequestPost('clave_reg'));
         $nombresx=MysqlQuery::RequestPost('nombres');
         $a_paterno=MysqlQuery::RequestPost('a_paterno');
         $a_materno=MysqlQuery::RequestPost('a_materno');
@@ -31,13 +32,13 @@ if (!$conexion) {
     }
 
     // Consulta SQL para insertar datos en la tabla cliente
-    $sqlInsert = "INSERT INTO cliente (dni, nombre_usuario, nombres, a_paterno, a_materno, cargo, area, email_cliente) 
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    $sqlInsert = "INSERT INTO cliente (dni, nombre_usuario, clave, nombres, a_paterno, a_materno, cargo, area, email_cliente) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     $stmt = mysqli_prepare($conexion, $sqlInsert);
 
     // Bind parameters
-    mysqli_stmt_bind_param($stmt, "ssssssss", $dni, $nombresu, $nombresx, $a_paterno, $a_materno, $cargo, $area, $email);
+    mysqli_stmt_bind_param($stmt, "sssssssss", $dni, $nombresu, $pass_save, $nombresx, $a_paterno, $a_materno, $cargo, $area, $email);
 
     // Execute the statement
     $resultado = mysqli_stmt_execute($stmt);
@@ -91,6 +92,10 @@ if (!$conexion) {
               <div class="form-group">
                 <label><span class="fa fa-male"></span>&nbsp;Nombre de usuario</label>
                 <input type="text" class="form-control" name="nombre_usuario" placeholder="Escribe tu nombre de usuario" required="" />
+              </div>
+              <div class="form-group">
+                <label><i class="fa fa-shield"></i>&nbsp;Contraseña</label>
+                <input type="password" class="form-control" name="clave_reg" placeholder="Contraseña" required="">
               </div>
               <div class="form-group">
                 <label><span class="fa fa-male"></span>&nbsp;Nombres</label>
