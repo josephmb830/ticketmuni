@@ -1,19 +1,21 @@
 <?php if( $_SESSION['nombre']!="" && $_SESSION['clave']!="" && $_SESSION['tipo']=="admin"){ ?>
         
             <?php
+            // Verificar si se ha enviado un formulario
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-            include './lib/config.php';
+            // include './lib/config.php';
             
             // Crear conexión
             $conexion = mysqli_connect(SERVER, USER, PASS, BD);
 
             // Verificar conexión
-            if ($conn->connect_error) {
-                die("Conexión fallida: " . $conn->connect_error);
+            if ($conexion->connect_error) {
+                die("Conexión fallida: " . $conexion->connect_error);
             }
 
             // Obtener el valor del input
-            $search_term = $_POST['id_consul'];
+            $search_term = $_POST['id_like'];
 
                 if(isset($_POST['id_del'])){
                     $id = MysqlQuery::RequestPost('id_del');
@@ -39,6 +41,7 @@
                         '; 
                     }
                 }
+            }
                 ?>
 
                 
