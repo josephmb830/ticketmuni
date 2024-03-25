@@ -68,7 +68,7 @@ header('Content-Type: text/html; charset=UTF-8');
             <div class="panel bg-gray-05">
               <div class="panel-body text-center">
                 <img src="./img/consulta.png" width="50" alt="">
-                <h4>Colsultar estado de ticket</h4>
+                <h4>Consultar estado de ticket</h4>
                 <form class="form-horizontal" role="form" method="GET" action="./login.php">
                   <input type="hidden" name="view" value="ticketcon">
                   <div class="form-group">
@@ -86,7 +86,7 @@ header('Content-Type: text/html; charset=UTF-8');
                   </div>
                   <div class="form-group">
                     <div class="col-sm-12">
-                      <button type="submit" class="btn btn-gray-05">Colsultar</button>
+                      <button type="submit" class="btn btn-gray-05">Consultar</button>
                     </div>
                   </div>
                 </form>

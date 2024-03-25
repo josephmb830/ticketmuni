@@ -1,6 +1,20 @@
 <?php if( $_SESSION['nombre']!="" && $_SESSION['clave']!="" && $_SESSION['tipo']=="admin"){ ?>
         
             <?php
+
+            include './lib/config.php';
+            
+            // Crear conexión
+            $conexion = mysqli_connect(SERVER, USER, PASS, BD);
+
+            // Verificar conexión
+            if ($conn->connect_error) {
+                die("Conexión fallida: " . $conn->connect_error);
+            }
+
+            // Obtener el valor del input
+            $search_term = $_POST['id_consul'];
+
                 if(isset($_POST['id_del'])){
                     $id = MysqlQuery::RequestPost('id_del');
                     if(MysqlQuery::Eliminar("ticket", "id='$id'")){
@@ -25,7 +39,11 @@
                         '; 
                     }
                 }
+                ?>
 
+                
+                
+                <?php
                 //$num_ticket_all=Mysql::consulta("SELECT ticket.*, cliente.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente WHERE ticket.estado_ticket = 'Pendiente';");
 
                 /* Números */
@@ -75,14 +93,33 @@
                 $num_total_can = $num_total_can_admin + $num_total_can_cliente;
             ?>
             <div class="container mt-100">
-        <div class="col-sm-12 text-center">
-            <?php include "./inc/reloj.php"; ?>
-              <br>
-              
-            </div>
-        </div>
+                <div class="col-sm-12 flex-vertical">
+                    <div class="col-sm-12 text-center">
+                        <?php include "./inc/reloj.php"; ?>
+                        <br>              
+                    </div>
+                    
+                </div>
+                
+
+
             <div class="container mt-250 h-screen">
             <div class="row">
+            <div class="col-sm-12 text-center">
+                        <form action="">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">ID Ticket</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" name="id_like" placeholder="ID Ticket" required="">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <button type="submit" class="btn btn-gray-05">Consultar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                     <div class="col-md-2-5 border-r bg-blue text-center">
                     <a href="./admin.php?view=ticketadmin&ticket=all" class="text-white">
                             <h3 class="f-25">Todos los Tickets</h3>

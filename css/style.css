@@ -271,6 +271,11 @@ footer {
   }
 
 
+.flex-vertical {
+    display: flex;
+    flex-direction: column;
+}
+
 
 @media ((min-width: 1400px)) {
     .container,
