@@ -7,14 +7,14 @@ $searchTerm = isset($_POST['searchTerm']) ? trim($_POST['searchTerm']) : '';
 
 if (!empty($searchTerm)) {
     // Definir la consulta SQL con una consulta preparada para evitar la inyección SQL
-    $sql = "SELECT serie, estado_ticket, nombre_usuario, email_cliente, departamento, id_tecnico, fecha_solucion, area FROM ticket WHERE serie LIKE ? OR estado_ticket LIKE ? OR nombre_usuario LIKE ? OR email_cliente LIKE ? OR departamento LIKE ? OR id_tecnico LIKE ? OR fecha_solucion LIKE ? OR area LIKE ?";
+    $sql = "SELECT serie, fecha, estado_ticket, nombre_usuario, email_cliente, departamento, id_tecnico, fecha_solucion, area FROM ticket WHERE serie LIKE ? OR estado_ticket LIKE ? OR nombre_usuario LIKE ? OR email_cliente LIKE ? OR departamento LIKE ? OR id_tecnico LIKE ? OR fecha_solucion LIKE ? OR area LIKE ? OR fecha LIKE ?";
 
     // Preparar la consulta
     $stmt = $conn->prepare($sql);
 
     // Vincular parámetros y ejecutar la consulta
     $searchTerm = "%$searchTerm%"; // Agregar comodines de búsqueda
-    $stmt->bind_param("ssssssss", $searchTerm, $searchTerm, $searchTerm, $searchTerm, $searchTerm, $searchTerm, $searchTerm, $searchTerm);
+    $stmt->bind_param("sssssssss", $searchTerm, $searchTerm, $searchTerm, $searchTerm, $searchTerm, $searchTerm, $searchTerm, $searchTerm, $searchTerm);
     $stmt->execute();
 
     // Obtener resultados

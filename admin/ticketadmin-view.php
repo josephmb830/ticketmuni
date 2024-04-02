@@ -140,6 +140,7 @@
             <thead>
                 <tr>
                     <th>Serie</th>
+                    <th>Fecha</th>
                     <th>Estado del Ticket</th>
                     <th>Nombre de Usuario</th>
                     <th>Email del Cliente</th>
@@ -187,7 +188,7 @@
                     // Iterar sobre los resultados y agregar filas a la tabla
                     data.forEach(row => {
                         const tr = document.createElement('tr');
-                        tr.innerHTML = `<td>${row.serie}</td><td>${row.estado_ticket}</td><td>${row.nombre_usuario}</td><td>${row.email_cliente}</td><td>${row.departamento}</td><td>${row.id_tecnico}</td><td>${row.fecha_solucion}</td><td>${row.area}</td><td><a href="./lib/pdf.php?id=${row.id}" class="btn btn-sm btn-success" target="_blank"><i class="fa fa-print" aria-hidden="true"></i></a><a href="admin.php?view=ticketedit&id=${row.id}" class="btn btn-sm btn-warning"><i class="fa fa-pencil" aria-hidden="true"></i></a><form action="" method="POST" style="display: inline-block;"><input type="hidden" name="id_del" value="${row.id}"><button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></button></form></td>`;
+                        tr.innerHTML = `<td>${row.serie}</td><td>${row.fecha}</td><td>${row.estado_ticket}</td><td>${row.nombre_usuario}</td><td>${row.email_cliente}</td><td>${row.departamento}</td><td>${row.id_tecnico}</td><td>${row.fecha_solucion}</td><td>${row.area}</td><td><a href="./lib/pdf.php?id=${row.id}" class="btn btn-sm btn-success" target="_blank"><i class="fa fa-print" aria-hidden="true"></i></a><a href="admin.php?view=ticketedit&id=${row.id}" class="btn btn-sm btn-warning"><i class="fa fa-pencil" aria-hidden="true"></i></a><form action="" method="POST" style="display: inline-block;"><input type="hidden" name="id_del" value="${row.id}"><button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></button></form></td>`;
                         ticketTable.appendChild(tr);
                     });
                 } else {
@@ -206,6 +207,7 @@
 
 </body>
 </html>
+
 
 
 
