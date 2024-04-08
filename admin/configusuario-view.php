@@ -131,8 +131,11 @@
             <?php
             if(isset($_GET['id'])){
               $variable = $_GET['id'];
+              $idu=$variable;
+              $sqlu=Mysql::consulta("SELECT * FROM cliente WHERE id_cliente='$idu'");
+              $regu=mysqli_fetch_array($sqlu, MYSQLI_ASSOC);
 
-            echo '<h2 class="text-info">Bienvenido a la configuración de cuenta' . $variable . '</h2> ';
+            echo '<h2 class="text-info">Bienvenido a la configuración de cuenta ' . $regu['nombre_usuario'] . '</h2> ';
             }else{
 
             echo 'no hay una variable';
@@ -154,7 +157,7 @@
                   <form action="" method="post" role="form">
                     <div class="form-group">
                       <label class="text-primary"><i class="fa fa-male"></i>&nbsp;&nbsp;Nombre completo</label>
-                      <input type="text" class="form-control" placeholder="Nombre completo" name="name_complete_update" required="" pattern="[a-zA-Z ]{1,40}" title="Nombre Apellido" maxlength="40">
+                      <input type="text" class="form-control" value="<?php echo $regu['nombres'] . " " . $regu['a_paterno'] . " " . $regu['a_materno'];  ?>" placeholder="Nombre completo" name="name_complete_update" required="" pattern="[a-zA-Z ]{1,40}" title="Nombre Apellido" maxlength="40">
                     </div>
                     <div class="form-group">
                       <label class="text-danger"><i class="fa fa-user"></i>&nbsp;&nbsp;Nombre de usuario actual</label>

@@ -91,7 +91,7 @@
                                         <td class="text-center"><?php echo $row['nombre_usuario']; ?></td>
                                         <td class="text-center"><?php echo $row['email_cliente']; ?></td>
                                         <td class="text-center">
-                                        <!--<a href="admin.php?view=configusuario&id=<?php echo $row['id_cliente']; ?>" class="btn btn-sm btn-warning"><i class="fa fa-pencil" aria-hidden="true"></i></a>-->
+                                        <a href="admin.php?view=configusuario&id=<?php echo $row['id_cliente']; ?>" class="btn btn-sm btn-warning"><i class="fa fa-pencil" aria-hidden="true"></i></a>
                                             <form action="" method="POST" style="display: inline-block;">
                                                 <input type="hidden" name="id_del" value="<?php echo $row['id_cliente']; ?>">
                                                 <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
