@@ -1,3 +1,5 @@
+
+
 <?php if( $_SESSION['nombre']!="" && $_SESSION['clave']!="" && $_SESSION['tipo']=="admin"){ ?>
         
             <?php
@@ -95,33 +97,160 @@
 
                 $num_total_can = $num_total_can_admin + $num_total_can_cliente;
             ?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabla de Búsqueda de Tickets</title>
+    <!-- Enlace al archivo CSS de Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css">
+    <!-- Estilos CSS personalizados -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="container mt-5">
+    <h2 class="text-center">Tabla de Tickets</h2>
+    <!-- Campo de entrada para la búsqueda -->
+    <div class="input-group mb-3">
+        <input type="text" id="searchInput" class="form-control" placeholder="Buscar...">
+        <!-- Botón de búsqueda -->
+        <button class="btn btn-dark" type="button" id="searchButton">Buscar</button>
+    </div>
+    <!-- Tabla donde se mostrarán los registros -->
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Serie</th>
+                    <th>Fecha</th>
+                    <th>Estado del Ticket</th>
+                    <th>Nombre de Usuario</th>
+                    <th>Email del Cliente</th>
+                    <th>Departamento</th>
+                    <th>Técnico</th>
+                    <th>Fecha de Solución</th>
+                    <th>Área</th>
+                    <th>Opciones</th> <!-- Nuevo encabezado -->
+                </tr>
+            </thead>
+            <tbody id="ticketTable">
+                <!-- Aquí se mostrarán los resultados de la búsqueda -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Obtener referencia al campo de entrada y a la tabla de resultados
+    const searchInput = document.getElementById('searchInput');
+    const ticketTable = document.getElementById('ticketTable');
+
+    // Obtener referencia al botón de búsqueda
+    const searchButton = document.getElementById('searchButton');
+
+    // Escuchar el evento 'click' en el botón de búsqueda
+    searchButton.addEventListener('click', () => {
+        // Obtener el valor del campo de búsqueda
+        const searchTerm = searchInput.value.trim();
+
+        // Realizar una solicitud AJAX al script PHP de búsqueda
+        $.ajax({
+            type: 'POST',
+            url: 'admin/search.php',
+            data: { searchTerm: searchTerm },
+            dataType: 'json',
+            success: function(data) {
+                // Limpiar la tabla de resultados
+                ticketTable.innerHTML = '';
+
+                // Verificar si se encontraron resultados
+                if (data && data.length > 0) {
+                    // Iterar sobre los resultados y agregar filas a la tabla
+                    data.forEach(row => {
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `<td>${row.serie}</td><td>${row.fecha}</td><td>${row.estado_ticket}</td><td>${row.nombre_usuario}</td><td>${row.email_cliente}</td><td>${row.departamento}</td><td>${row.id_tecnico}</td><td>${row.fecha_solucion}</td><td>${row.area}</td><td><a href="./lib/pdf.php?id=${row.id}" class="btn btn-sm btn-success" target="_blank"><i class="fa fa-print" aria-hidden="true"></i></a><a href="admin.php?view=ticketedit&id=${row.id}" class="btn btn-sm btn-warning"><i class="fa fa-pencil" aria-hidden="true"></i></a><form action="" method="POST" style="display: inline-block;"><input type="hidden" name="id_del" value="${row.id}"><button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></button></form></td>`;
+                        ticketTable.appendChild(tr);
+                    });
+                } else {
+                    // Mostrar mensaje de "No se encontraron resultados"
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = '<td colspan="9">No se encontraron resultados</td>';
+                    ticketTable.appendChild(tr);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error al obtener datos:', error);
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             <div class="container mt-100">
-                <div class="col-sm-12 flex-vertical">
-                    <div class="col-sm-12 text-center">
-                        <?php include "./inc/reloj.php"; ?>
-                        <br>              
-                    </div>
-                    
-                </div>
-                
+
+
+
+
+          
 
 
             <div class="container mt-250 h-screen">
             <div class="row">
             <div class="col-sm-12 text-center">
-                        <form action="">
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">ID Ticket</label>
-                                <div class="col-sm-6">
-                                    <input type="text" class="form-control" name="id_like" placeholder="ID Ticket" required="">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-sm-3">
-                                    <button type="submit" class="btn btn-gray-05">Consultar</button>
-                                </div>
-                            </div>
-                        </form>
+                        
                     </div>
                     <div class="col-md-2-5 border-r bg-blue text-center">
                     <a href="./admin.php?view=ticketadmin&ticket=all" class="text-white">
@@ -219,6 +348,8 @@
                                         <th class="text-center">Opciones</th>
                                     </tr>
                                 </thead>
+
+                                
                                 <tbody>
                                     <?php
                                         $ct=$inicio+1;
