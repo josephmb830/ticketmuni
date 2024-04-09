@@ -119,7 +119,7 @@ if ($resultado) {
 
   <?php 
   if(isset($_POST['nombre_login']) && isset($_POST['contrasena_login'])){
-    include "./process/login.php"; 
+    include "./process/index.php"; 
   }
   if(isset($_SESSION['nombre'])){
     include "./inc/slidebar.php"; 
