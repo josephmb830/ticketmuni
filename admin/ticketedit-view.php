@@ -47,16 +47,19 @@
         $cierre_edit = MysqlQuery::RequestPost('fecha_solucion_ticket');
         $tecnico_edit = MysqlQuery::RequestPost('tecnico_ticket');
         $codequipo_edit = MysqlQuery::RequestPost('codequipo_ticket');
+        $id_admin = MysqlQuery::RequestPost('id_admin');
 
         // Utilizando consultas preparadas
-        $sqlUpdate = "UPDATE ticket SET estado_ticket=?, diagnostico=?, solucion=?, observaciones=?, id_tecnico=?, fecha_solucion=?, codequipo=? WHERE id=?";
+        $sqlUpdate = "UPDATE ticket SET estado_ticket=?, id_admin=?, diagnostico=?, solucion=?, observaciones=?, id_tecnico=?, fecha_solucion=?, codequipo=? WHERE id=?";
+
 
         // Preparar la consulta
         $stmt = mysqli_prepare($conexion, $sqlUpdate);
 
         if ($stmt) {
             // Vincular los parámetros
-            mysqli_stmt_bind_param($stmt, "sssssssi", $estado_edit, $diagnostico_edit, $solucion_edit, $observaciones_edit, $tecnico_edit, $cierre_edit, $codequipo_edit, $id_edit);
+            mysqli_stmt_bind_param($stmt, "ssssssssi", $estado_edit, $id_admin, $diagnostico_edit, $solucion_edit, $observaciones_edit, $tecnico_edit, $cierre_edit, $codequipo_edit, $id_edit);
+            
 
             // Ejecutar la consulta preparada
             $resultado = mysqli_stmt_execute($stmt);
@@ -123,6 +126,7 @@
                 $readonly = '';
             }
       ?>
+
             
   
             <!--************************************ Page content******************************-->
@@ -264,14 +268,48 @@
                             </div>
   
                             <div class="form-group">
-                              <label  class="col-sm-2 control-label">Nombre</label>
-                              <div class="col-sm-10">
-                                  <div class='input-group'>
-                                      <input type="text" readonly="" class="form-control"  name="name_ticket" readonly="" value="<?php echo $reg['nombre_admin']?>">
-                                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                              <label class="col-sm-2 control-label">Nombre</label>
+                              <div class='col-sm-10'>
+                                  <div class="input-group">
+
+                                                  <select class="form-control" name="id_admin" <?php echo $readonly;?>> 
+                                                      <option value="<?php echo $reg['id_admin']?>"><?php echo strtoupper($reg['nombre_admin'])?> (Actual)</option>
+                                                      <?php
+                                                      $sql = Mysql::consulta("SELECT * FROM administrador ");
+                                                      while ($reg1 = mysqli_fetch_array($sql)) {
+                                                          $id_admin = $reg1['id_admin'];
+                                                          $nombre_completo = strtoupper($reg1['nombre_admin']);
+                                                          echo '<option value="' . $id_admin . '">' . $nombre_completo . ' </option>';
+                                                      }
+                                                      ?>
+                                                  </select>
+
+                                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
                                   </div>
                               </div>
+                          </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Especialista encargado</label>
+                                <div class='col-sm-10'>
+                                    <div class="input-group">
+                                        <select class="form-control" name="tecnico_ticket" <?php echo $readonly;?>> 
+                                            <option value="<?php echo $reg['id_tecnico']?>"><?php echo strtoupper($reg['nombres_tecnico'] . ' ' . $reg['a_paterno_tecnico'] . ' ' . $reg['a_materno_tecnico'])?> (Actual)</option>
+                                            <?php
+                                            $sql = Mysql::consulta("SELECT * FROM tecnico ");
+                                            while ($reg1 = mysqli_fetch_array($sql)) {
+                                                $id_tecnico = $reg1['id_tecnico'];
+                                                $nombre_completo = strtoupper($reg1['nombres_tecnico'] . ' ' . $reg1['a_paterno_tecnico'] . ' ' . $reg1['a_materno_tecnico']);
+                                                echo '<option value="' . $id_tecnico . '">' . $nombre_completo . ' </option>';
+                                            }
+                                            ?>
+                                        </select>
+                                        <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+                                    </div>
+                                </div>
                             </div>
+
+
   
                             <div class="form-group">
                               <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
@@ -453,6 +491,8 @@
                             </div>
                           </div>
 
+                          
+                          
                           <div class="form-group">
                             <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
                             <div class="col-sm-10">
@@ -511,9 +551,7 @@
                                                 $id_tecnico = $reg1['id_tecnico'];
                                                 $nombre_completo = strtoupper($reg1['nombres_tecnico'] . ' ' . $reg1['a_paterno_tecnico'] . ' ' . $reg1['a_materno_tecnico']);
                                                 echo '<option value="' . $id_tecnico . '">' . $nombre_completo . ' </option>';
-                                                //$sql_tecnico = Mysql::consulta("SELECT ticket.*, tecnico.* FROM ticket WHERE ticket.id_tecnico = tecnico.id_tecnico");
-                                                // $sql_tecnico = Mysql::consulta("SELECT ticket.*, tecnico.* FROM ticket INNER JOIN tecnico ON ticket.id_tecnico = tecnico.id_tecnico WHERE ticket.id_tecnico = tecnico.id_tecnico");
-                                                // $reg_tecnico = mysqli_fetch_array($sql_tecnico)
+                                                
 
                                             }
                                           ?>

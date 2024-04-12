@@ -10,7 +10,7 @@ $startDate = isset($_POST['startDate']) ? trim($_POST['startDate']) : '';
 $endDate = isset($_POST['endDate']) ? trim($_POST['endDate']) : '';
 
 // Inicializar la variable para la consulta SQL
-$sql = "SELECT serie, fecha, estado_ticket, nombre_usuario, email_cliente, departamento, id_tecnico, fecha_solucion, area FROM ticket WHERE 1=1 ";
+$sql = "SELECT id,serie, fecha, estado_ticket, nombre_usuario, email_cliente, departamento, id_tecnico, fecha_solucion, area FROM ticket WHERE 1=1 ";
 
 // Inicializar el array de parámetros para la consulta preparada
 $params = array();
