@@ -45,7 +45,7 @@
         $observaciones_edit = MysqlQuery::RequestPost('observaciones_ticket');
         $radio_email = MysqlQuery::RequestPost('optionsRadios');
         $cierre_edit = MysqlQuery::RequestPost('fecha_solucion_ticket');
-        $tecnico_edit = MysqlQuery::RequestPost('tecnico_ticket');
+        $tecnico_edit = MysqlQuery::RequestPost('id_tecnico');
         $codequipo_edit = MysqlQuery::RequestPost('codequipo_ticket');
         $id_admin = MysqlQuery::RequestPost('id_admin');
 
@@ -293,7 +293,7 @@
                                 <label class="col-sm-2 control-label">Especialista encargado</label>
                                 <div class='col-sm-10'>
                                     <div class="input-group">
-                                        <select class="form-control" name="tecnico_ticket" <?php echo $readonly;?>> 
+                                        <select class="form-control" name="id_tecnico" <?php echo $readonly;?>>
                                             <option value="<?php echo $reg['id_tecnico']?>"><?php echo strtoupper($reg['nombres_tecnico'] . ' ' . $reg['a_paterno_tecnico'] . ' ' . $reg['a_materno_tecnico'])?> (Actual)</option>
                                             <?php
                                             $sql = Mysql::consulta("SELECT * FROM tecnico ");
@@ -537,13 +537,13 @@
                                 </div> 
                             </div>
                           </div>
-  <!--seleccion de especialista-->
+  <!--seleccion de especialista--->
 
                           <div class="form-group">
                               <label class="col-sm-2 control-label">Especialista encargado</label>
                               <div class='col-sm-10'>
                                   <div class="input-group">
-                                      <select class="form-control" name="tecnico_ticket" <?php echo $readonly;?>> 
+                                      <select class="form-control" name="id_tecnico" <?php echo $readonly;?>> 
                                          <option value="<?php echo $reg['id_tecnico']?>"><?php echo strtoupper($reg['nombres_tecnico'] . ' ' . $reg['a_paterno_tecnico'] . ' ' . $reg['a_materno_tecnico'])?> (Actual)</option>
                                           <?php
                                             $sql = Mysql::consulta("SELECT * FROM tecnico ");
@@ -551,7 +551,7 @@
                                                 $id_tecnico = $reg1['id_tecnico'];
                                                 $nombre_completo = strtoupper($reg1['nombres_tecnico'] . ' ' . $reg1['a_paterno_tecnico'] . ' ' . $reg1['a_materno_tecnico']);
                                                 echo '<option value="' . $id_tecnico . '">' . $nombre_completo . ' </option>';
-                                                
+
 
                                             }
                                           ?>
