@@ -1,6 +1,6 @@
 <?php
     if(isset($_POST['nombre_login']) && isset($_POST['contrasena_login'])){
-        include "./process/index.php";
+        include "./process/login.php";
     }
 ?>
 <header class="bg-cyan-400">

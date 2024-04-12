@@ -26,7 +26,7 @@ header('Content-Type: text/html; charset=UTF-8');
 
   <?php 
   if(isset($_POST['nombre_login']) && isset($_POST['contrasena_login'])){
-    include "./process/index.php"; 
+    include "./process/login.php"; 
   }
   if(isset($_SESSION['nombre'])){
     include "./inc/slidebar.php"; 
