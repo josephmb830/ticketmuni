@@ -11,6 +11,6 @@ $conn = new mysqli(SERVER, USER, PASS, BD);
 if ($conn->connect_error) {
     die("Error de conexión a la base de datos: " . $conn->connect_error);
 }
-
+//pendiente
 
 ?>
