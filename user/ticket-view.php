@@ -55,8 +55,8 @@
             $id_x = 'id_tecnico';
         }
 
-          $campos_ticket = "fecha, $id_x, nombre_usuario, email_cliente, departamento, asunto, mensaje, estado_ticket, area, serie";
-          $valores_ticket = "'$fecha_ticket', '$id', '$nombre_ticket', '$email_ticket', '$departamento_ticket', '$asunto_ticket', '$mensaje_ticket', '$estado_ticket', '$area_ticket', '$id_ticket'";
+          $campos_ticket = "fecha, $id_x, departamento, asunto, mensaje, estado_ticket, area, serie";
+          $valores_ticket = "'$fecha_ticket', '$id', '$departamento_ticket', '$asunto_ticket', '$mensaje_ticket', '$estado_ticket', '$area_ticket', '$id_ticket'";
 
           // Guardar el ticket en la base de datos
           if (MysqlQuery::Guardar("ticket", $campos_ticket, $valores_ticket)) {
