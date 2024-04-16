@@ -1,5 +1,8 @@
-
-
+<?php 
+    if ($_GET['ticket']){
+        var_dump($_POST['ticket']);
+    }
+?>
 <?php if( $_SESSION['nombre']!="" && $_SESSION['clave']!="" && $_SESSION['tipo']=="admin"){ ?>
         
             <?php
@@ -130,110 +133,10 @@
 
 
 
-<div class="container mt-5">
-    <h2 class="text-center">Tabla de Tickets</h2>
-    <!-- Campos de entrada para la búsqueda y filtro por fecha -->
-    <div class="input-group mb-3">
-        <input type="text" id="searchInput" class="form-control" placeholder="Buscar...">
-        <input type="date" id="startDateInput" class="form-control" placeholder="Fecha de inicio">
-        <input type="date" id="endDateInput" class="form-control" placeholder="Fecha de fin">
-        <!-- Botón de búsqueda -->
-        <button class="btn btn-dark" type="button" id="searchButton">Buscar</button>
-    </div>
-    <!-- Tabla donde se mostrarán los registros -->
-    <div class="table-responsive">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Serie</th>
-                    <th>Fecha</th>
-                    <th>Estado del Ticket</th>
-                    <th>Nombre de Usuario</th>
-                    <th>Email del Cliente</th>
-                    <th>Departamento</th>
-                    <th>Técnico</th>
-                    <th>Fecha de Solución</th>
-                    <th>Área</th>
-                    <th>Opciones</th>
-                </tr>
-            </thead>
-            <tbody id="ticketTable">
-                <!-- Aquí se mostrarán los resultados de la búsqueda -->
-            </tbody>
-        </table>
-    </div>
-</div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
-<script>
-    $(document).ready(function(){
-        // Obtener referencia al botón de búsqueda
-        const searchButton = document.getElementById('searchButton');
 
-        // Escuchar el evento 'click' en el botón de búsqueda
-        searchButton.addEventListener('click', () => {
-            // Obtener los valores de los campos de entrada
-            const searchTerm = $('#searchInput').val().trim();
-            const startDate = $('#startDateInput').val();
-            const endDate = $('#endDateInput').val();
 
-            // Realizar una solicitud AJAX al script PHP de búsqueda
-            $.ajax({
-                type: 'POST',
-                url: 'admin/search.php',
-                data: { 
-                    searchTerm: searchTerm,
-                    startDate: startDate,
-                    endDate: endDate
-                },
-                dataType: 'json',
-                success: function(data) {
-                    // Limpiar la tabla de resultados
-                    $('#ticketTable').empty();
-
-                    // Verificar si se encontraron resultados
-                    if (data && data.length > 0) {
-                        // Iterar sobre los resultados y agregar filas a la tabla
-                        data.forEach(row => {
-                            const tr = `<tr>
-                                <td>${row.serie}</td>
-                                <td>${row.fecha}</td>
-                                <td>${row.estado_ticket}</td>
-                                <td>${row.nombre_usuario}</td>
-                                <td>${row.email_cliente}</td>
-                                <td>${row.departamento}</td>
-                                <td>${row.id_tecnico}</td>
-                                <td>${row.fecha_solucion}</td>
-                                <td>${row.area}</td>
-                                <td>
-                                    <a href="./lib/pdf.php?id=${row.id}" class="btn btn-sm btn-success" target="_blank"><i class="fa fa-print" aria-hidden="true"></i></a>
-                                    <a href="admin.php?view=ticketedit&id=${row.id}" class="btn btn-sm btn-warning"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                                    <form action="" method="POST" style="display: inline-block;">
-                                        <input type="hidden" name="id_del" value="${row.id}">
-                                        <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
-                                    </form>
-                                </td>
-                            </tr>`;
-                            $('#ticketTable').append(tr);
-                        });
-                    } else {
-                        // Mostrar mensaje de "No se encontraron resultados"
-                        const tr = '<tr><td colspan="10">No se encontraron resultados</td></tr>';
-                        $('#ticketTable').append(tr);
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error al obtener datos:', error);
-                }
-            });
-        });
-    });
-</script>
-
-</body>
-
-<div class="container mt-100">
+<div class="container mt-100" style="margin-left: 120px !important;">
     <div class="col-sm-12 flex-vertical">
         <div class="col-sm-12 text-center">
             <?php include "./inc/reloj.php"; ?>
@@ -318,6 +221,72 @@
                     </div>
                 </div>
                 <br>
+                <div class="container mt-5">
+                    <h2 class="text-center">Tabla de Tickets</h2>
+                    <!-- Campos de entrada para la búsqueda y filtro por fecha -->
+
+                    <div class="input-group mb-3">
+
+                        <select name="ticket" id="ticket" class="form-control">
+                            <?php 
+                                $mysqli = mysqli_connect(SERVER, USER, PASS, BD);
+                                mysqli_set_charset($mysqli, "utf8");
+                                $pagina = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
+                                $regpagina = 15;
+                                $inicio = ($pagina > 1) ? (($pagina * $regpagina) - $regpagina) : 0;
+                                $consulta_admin="SELECT SQL_CALC_FOUND_ROWS ticket.*, administrador.*, tecnico.* FROM ticket INNER JOIN administrador ON ticket.id_admin = administrador.id_admin INNER JOIN tecnico ON ticket.id_tecnico = tecnico.id_tecnico order by id desc LIMIT $inicio, $regpagina";
+                                $selticket_admin=mysqli_query($mysqli,$consulta_admin); 
+                                while ($row=mysqli_fetch_array($selticket_admin, MYSQLI_ASSOC)): ?>
+                            <option value="<?php echo $row['serie']; ?>"><?php echo $row['serie']; ?></option>
+                            <?php endwhile; ?>
+                       </select>
+                       <select name="responsable" id="responsable" class="form-control">
+                            <?php 
+                                $mysqli = mysqli_connect(SERVER, USER, PASS, BD);
+                                mysqli_set_charset($mysqli, "utf8");
+                                $pagina = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
+                                $regpagina = 15;
+                                $inicio = ($pagina > 1) ? (($pagina * $regpagina) - $regpagina) : 0;
+                                $consulta_admin="SELECT SQL_CALC_FOUND_ROWS ticket.*, administrador.*, tecnico.* FROM ticket INNER JOIN administrador ON ticket.id_admin = administrador.id_admin INNER JOIN tecnico ON ticket.id_tecnico = tecnico.id_tecnico order by id desc LIMIT $inicio, $regpagina";
+                                $selticket_admin=mysqli_query($mysqli,$consulta_admin); 
+                                while ($row=mysqli_fetch_array($selticket_admin, MYSQLI_ASSOC)): ?>
+                            <option value="<?php echo $row['id_tecnico']; ?>"><?php echo strtoupper($row['nombres_tecnico'] . " " . $row['a_paterno_tecnico'] . " " . $row['a_materno_tecnico']); ?></option>
+                            <?php endwhile; ?>
+                       </select>
+                        <select name="estado" id="estado" class="form-control">
+                            <option value="Pendiente">Pendiente</option>
+                            <option value="En proceso">En proceso</option>
+                            <option value="En proceso">Anulado</option>
+                            <option value="Resuelto">Resuelto</option>
+                        </select>
+                        <input type="date" id="fecha_inicio" name="fecha_inicio" class="form-control">
+                        <input type="date" id="fecha_final" name="fecha_final" class="form-control">
+                        <button class="btn btn-dark" type="button" id="searchButton">Buscar</button>
+                        </div>
+
+                    <!-- Tabla donde se mostrarán los registros -->
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Serie</th>
+                                    <th>Fecha</th>
+                                    <th>Estado del Ticket</th>
+                                    <th>Nombre de Usuario</th>
+                                    <th>Email del Cliente</th>
+                                    <th>Departamento</th>
+                                    <th>Técnico</th>
+                                    <th>Fecha de Solución</th>
+                                    <th>Área</th>
+                                    <th>Opciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ticketTable">
+                                <!-- Aquí se mostrarán los resultados de la búsqueda -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="table-responsive">
@@ -426,7 +395,7 @@
                                         <td class="text-center"><?php echo $row['fecha']; ?></td>
                                         <td class="text-center"><?php echo $row['serie']; ?></td>
                                         <td class="text-center"><?php echo $row['estado_ticket']; ?></td>
-                                        <td class="text-center"><?php echo $row['nombre_usuario']; ?></td>
+                                        <td class="text-center"><?php echo $row['nombre_usuario']; ?>a</td>
                                         <td class="text-center"><?php echo $row['email_cliente']; ?></td>
                                         <td class="text-center"><?php echo $row['departamento']; ?></td>
                                         <td class="text-center"><?php echo strtoupper($row['nombres_tecnico'] . " " . $row['a_paterno_tecnico'] . " " . $row['a_materno_tecnico']); ?></td>
@@ -529,3 +498,80 @@
 <?php
 }
 ?>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        // Obtener referencia al botón de búsqueda
+        const searchButton = document.getElementById('searchButton');
+
+        // Escuchar el evento 'click' en el botón de búsqueda
+        searchButton.addEventListener('click', () => {
+            // Obtener los valores de los campos de entrada
+            console.log('CLICK')
+            let searchTerm = $('#ticket').val();
+            console.log(searchTerm);
+            let startDate = $('#fecha_inicio').val();
+            let endDate = $('#fecha_final').val();
+            let responsable = $('#responsable').val();
+            console.log(responsable)
+            let estado = $('#estado').val();
+            console.log(estado)
+            $.ajax({
+                type: 'POST',
+                url: 'admin/search.php',
+                data: { 
+                    searchTerm: searchTerm,
+                    startDate: startDate,
+                    endDate: endDate
+                },
+                dataType: 'json',
+                success: function(data) {
+                    // Limpiar la tabla de resultados
+                    $('#ticketTable').empty();
+
+                    // Verificar si se encontraron resultados
+                    if (data && data.length > 0) {
+                        // Iterar sobre los resultados y agregar filas a la tabla
+                        data = data.filter((el ) => el.serie === searchTerm )
+                        data = data.filter((el ) => el.id_tecnico === responsable )
+                        data = data.filter((el) => el.estado_ticket === estado)
+                        data.forEach(row => {
+                            const tr = `<tr>
+                                <td>${row.serie}</td>
+                                <td>${row.fecha}</td>
+                                <td>${row.estado_ticket}</td>
+                                <td>${row.nombre_usuario}</td>
+                                <td>${row.email_cliente}</td>
+                                <td>${row.departamento}</td>
+                                <td>${row.id_tecnico}</td>
+                                <td>${row.fecha_solucion}</td>
+                                <td>${row.area}</td>
+                                <td>
+                                    <a href="./lib/pdf.php?id=${row.id}" class="btn btn-sm btn-success" target="_blank"><i class="fa fa-print" aria-hidden="true"></i></a>
+                                    <a href="admin.php?view=ticketedit&id=${row.id}" class="btn btn-sm btn-warning"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                    <form action="" method="POST" style="display: inline-block;">
+                                        <input type="hidden" name="id_del" value="${row.id}">
+                                        <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                    </form>
+                                </td>
+                            </tr>`;
+                            $('#ticketTable').append(tr);
+                        });
+                        console.log(data);  
+                    } else {
+                        // Mostrar mensaje de "No se encontraron resultados"
+                        const tr = '<tr><td colspan="10">No se encontraron resultados</td></tr>';
+                        $('#ticketTable').append(tr);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error al obtener datos:', error);
+                }
+            });
+        });
+    });
+</script>
+
+
+</body>

@@ -3,12 +3,13 @@
 require_once '../lib/config.php';
 
 // Obtener la cadena de búsqueda del parámetro POST
-$searchTerm = isset($_POST['searchTerm']) ? trim($_POST['searchTerm']) : '';
+$searchTerm = isset($_POST['ticket']) ? trim($_POST['ticket']) : '';
 
 // Obtener las fechas de inicio y fin del rango, si están disponibles
-$startDate = isset($_POST['startDate']) ? trim($_POST['startDate']) : '';
-$endDate = isset($_POST['endDate']) ? trim($_POST['endDate']) : '';
-
+$startDate = isset($_POST['fecha_inicio']) ? trim($_POST['fecha_final']) : '';
+$endDate = isset($_POST['fecha_inicio']) ? trim($_POST['fecha_final']) : '';
+$estado = isset($_POST['estado']);
+$responsable = isset($_POST['responsable']);
 // Inicializar la variable para la consulta SQL
 $sql = "SELECT id,serie, fecha, estado_ticket, nombre_usuario, email_cliente, departamento, id_tecnico, fecha_solucion, area FROM ticket WHERE 1=1 ";
 
@@ -20,12 +21,14 @@ if (!empty($searchTerm)) {
     $sql .= "AND (serie LIKE ? OR estado_ticket LIKE ? OR nombre_usuario LIKE ? OR email_cliente LIKE ? OR departamento LIKE ? OR id_tecnico LIKE ? OR fecha_solucion LIKE ? OR area LIKE ? OR fecha LIKE ?) ";
     $searchTerm = "%$searchTerm%"; // Agregar comodines de búsqueda
     // Agregar los parámetros para la consulta preparada
+    $estado = "%$estado%"; 
+    $responsable = "%$responsable%"; 
+    $params[] = $searchTerm;
+    $params[] = $estado;
     $params[] = $searchTerm;
     $params[] = $searchTerm;
     $params[] = $searchTerm;
-    $params[] = $searchTerm;
-    $params[] = $searchTerm;
-    $params[] = $searchTerm;
+    $params[] = $responsable;
     $params[] = $searchTerm;
     $params[] = $searchTerm;
     $params[] = $searchTerm;
