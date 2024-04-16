@@ -224,9 +224,8 @@
                 <div class="container mt-5">
                     <h2 class="text-center">Tabla de Tickets</h2>
                     <!-- Campos de entrada para la búsqueda y filtro por fecha -->
-
-                    <div class="input-group mb-3">
-
+                    <div class="row">
+                        <div class="col-12 mt-2 mb-2">
                         <select name="ticket" id="ticket" class="form-control">
                             <?php 
                                 $mysqli = mysqli_connect(SERVER, USER, PASS, BD);
@@ -240,7 +239,9 @@
                             <option value="<?php echo $row['serie']; ?>"><?php echo $row['serie']; ?></option>
                             <?php endwhile; ?>
                        </select>
-                       <select name="responsable" id="responsable" class="form-control">
+                       </div>
+                        <div class="col-4 mt-2 mb-2">
+                        <select name="responsable" id="responsable" class="form-control">
                             <?php 
                                 $mysqli = mysqli_connect(SERVER, USER, PASS, BD);
                                 mysqli_set_charset($mysqli, "utf8");
@@ -253,17 +254,38 @@
                             <option value="<?php echo $row['id_tecnico']; ?>"><?php echo strtoupper($row['nombres_tecnico'] . " " . $row['a_paterno_tecnico'] . " " . $row['a_materno_tecnico']); ?></option>
                             <?php endwhile; ?>
                        </select>
+                       </div>
+                        <div class="col-4">
                         <select name="estado" id="estado" class="form-control">
                             <option value="Pendiente">Pendiente</option>
                             <option value="En proceso">En proceso</option>
                             <option value="En proceso">Anulado</option>
                             <option value="Resuelto">Resuelto</option>
-                        </select>
-                        <input type="date" id="fecha_inicio" name="fecha_inicio" class="form-control">
-                        <input type="date" id="fecha_final" name="fecha_final" class="form-control">
-                        <button class="btn btn-dark" type="button" id="searchButton">Buscar</button>
+                        </select>      
                         </div>
+                        <div class="col-4">
+                        <!-- FALTA EL AREA -->     
+                        </div>
+                        <div class="col-3">
+                            <label for="">Desde fecha: </label>
+                            <input type="date" id="fecha_inicio" name="fecha_inicio" class="form-control">
+                        </div>
+                        <div class="col-3">
+                            <label for="">Hasta fecha: </label>
+                            <input type="date" id="fecha_final" name="fecha_final" class="form-control">
+                        </div>
+                        <div class="col-6">
 
+                        </div>
+                        <div class="col-10">
+
+                        </div>
+                        <div class="col-2" style="clear:both;" >
+                        <button class="btn btn-dark btn-block" type="button" id="searchButton" style="float:right">Buscar</button>
+                        <button class="btn btn-dark btn-block" type="button" id="searchButton" style="float:right">Limpiar filtro</button>
+                        </div>
+                    </div>
+                    
                     <!-- Tabla donde se mostrarán los registros -->
                     <div class="table-responsive">
                         <table class="table table-striped">
