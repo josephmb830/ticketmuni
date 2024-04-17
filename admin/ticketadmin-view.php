@@ -226,19 +226,7 @@
                     <!-- Campos de entrada para la búsqueda y filtro por fecha -->
                     <div class="row">
                         <div class="col-12 mt-2 mb-2">
-                        <select name="ticket" id="ticket" class="form-control">
-                            <?php 
-                                $mysqli = mysqli_connect(SERVER, USER, PASS, BD);
-                                mysqli_set_charset($mysqli, "utf8");
-                                $pagina = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
-                                $regpagina = 15;
-                                $inicio = ($pagina > 1) ? (($pagina * $regpagina) - $regpagina) : 0;
-                                $consulta_admin="SELECT SQL_CALC_FOUND_ROWS ticket.*, administrador.*, tecnico.* FROM ticket INNER JOIN administrador ON ticket.id_admin = administrador.id_admin INNER JOIN tecnico ON ticket.id_tecnico = tecnico.id_tecnico order by id desc LIMIT $inicio, $regpagina";
-                                $selticket_admin=mysqli_query($mysqli,$consulta_admin); 
-                                while ($row=mysqli_fetch_array($selticket_admin, MYSQLI_ASSOC)): ?>
-                            <option value="<?php echo $row['serie']; ?>"><?php echo $row['serie']; ?></option>
-                            <?php endwhile; ?>
-                       </select>
+                        <input type="text" class="form-control" name="ticket" id="ticket">
                        </div>
                         <div class="col-4 mt-2 mb-2">
                         <select name="responsable" id="responsable" class="form-control">
@@ -248,9 +236,9 @@
                                 $pagina = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
                                 $regpagina = 15;
                                 $inicio = ($pagina > 1) ? (($pagina * $regpagina) - $regpagina) : 0;
-                                $consulta_admin="SELECT SQL_CALC_FOUND_ROWS ticket.*, administrador.*, tecnico.* FROM ticket INNER JOIN administrador ON ticket.id_admin = administrador.id_admin INNER JOIN tecnico ON ticket.id_tecnico = tecnico.id_tecnico order by id desc LIMIT $inicio, $regpagina";
-                                $selticket_admin=mysqli_query($mysqli,$consulta_admin); 
-                                while ($row=mysqli_fetch_array($selticket_admin, MYSQLI_ASSOC)): ?>
+                                $consulta_tecnico="SELECT * FROM tecnico";
+                                $selticket_tecnico=mysqli_query($mysqli,$consulta_tecnico); 
+                                while ($row=mysqli_fetch_array($selticket_tecnico, MYSQLI_ASSOC)): ?>
                             <option value="<?php echo $row['id_tecnico']; ?>"><?php echo strtoupper($row['nombres_tecnico'] . " " . $row['a_paterno_tecnico'] . " " . $row['a_materno_tecnico']); ?></option>
                             <?php endwhile; ?>
                        </select>
@@ -531,7 +519,7 @@
         searchButton.addEventListener('click', () => {
             // Obtener los valores de los campos de entrada
             console.log('CLICK')
-            let searchTerm = $('#ticket').val();
+            let searchTerm = $('#ticket').val().trim();
             console.log(searchTerm);
             let startDate = $('#fecha_inicio').val();
             let endDate = $('#fecha_final').val();
@@ -555,9 +543,11 @@
                     // Verificar si se encontraron resultados
                     if (data && data.length > 0) {
                         // Iterar sobre los resultados y agregar filas a la tabla
-                        data = data.filter((el ) => el.serie === searchTerm )
-                        data = data.filter((el ) => el.id_tecnico === responsable )
-                        data = data.filter((el) => el.estado_ticket === estado)
+                        console.log(data)
+                        data = data.filter((el ) => el.id_tecnico == responsable )
+                        console.log(data)
+                        data = data.filter((el) => el.estado_ticket == estado)
+                        console.log(data)
                         data.forEach(row => {
                             const tr = `<tr>
                                 <td>${row.serie}</td>
