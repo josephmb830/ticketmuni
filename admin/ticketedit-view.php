@@ -289,7 +289,7 @@
                               </div>
                           </div>
 
-                            <!-- <div class="form-group">
+                            <div class="form-group">
                                 <label class="col-sm-2 control-label">Especialista encargado</label>
                                 <div class='col-sm-10'>
                                     <div class="input-group">
@@ -307,7 +307,7 @@
                                         <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
                                     </div>
                                 </div>
-                            </div> -->
+                            </div>
 
 
   

@@ -243,7 +243,7 @@
                             <?php endwhile; ?>
                        </select>
                        </div>
-                        <div class="col-4">
+                       <div class="col-4 mt-2 mb-2">
                         <select name="estado" id="estado" class="form-control">
                             <option value="Pendiente">Pendiente</option>
                             <option value="En proceso">En proceso</option>
