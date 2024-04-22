@@ -11,7 +11,9 @@ $endDate = isset($_POST['fecha_inicio']) ? trim($_POST['fecha_final']) : '';
 $estado = isset($_POST['estado']);
 $responsable = isset($_POST['responsable']);
 // Inicializar la variable para la consulta SQL
-$sql = "SELECT id,serie, fecha, estado_ticket, nombre_usuario, email_cliente, departamento, id_tecnico, fecha_solucion, area FROM ticket WHERE 1=1 ";
+
+$sql = "SELECT * FROM ticket INNER JOIN tecnico ON ticket.id_tecnico = tecnico.id_tecnico WHERE 1=1 ";
+
 
 // Inicializar el array de parámetros para la consulta preparada
 $params = array();
@@ -60,10 +62,10 @@ $result = $stmt->get_result();
 // Crear un array para almacenar los resultados
 $tickets = array();
 
+
 // Verificar si hay resultados
 if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        // Agregar cada fila como un elemento al array
+    while ($row = $result->fetch_assoc()) { 
         $tickets[] = $row;
     }
 }

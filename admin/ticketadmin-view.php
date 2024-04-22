@@ -1,8 +1,3 @@
-<?php 
-    if ($_GET['ticket']){
-        var_dump($_POST['ticket']);
-    }
-?>
 <?php if( $_SESSION['nombre']!="" && $_SESSION['clave']!="" && $_SESSION['tipo']=="admin"){ ?>
         
             <?php
@@ -221,8 +216,7 @@
                     </div>
                 </div>
                 <br>
-                <div class="container mt-5">
-                    <h2 class="text-center">Tabla de Tickets</h2>
+                <div class="container mt-5 mb-5">
                     <!-- Campos de entrada para la búsqueda y filtro por fecha -->
                     <div class="row">
                         <div class="col-12 mt-2 mb-2">
@@ -230,6 +224,7 @@
                        </div>
                         <div class="col-4 mt-2 mb-2">
                         <select name="responsable" id="responsable" class="form-control">
+                            <option value="">Escoja una opcion</option>
                             <?php 
                                 $mysqli = mysqli_connect(SERVER, USER, PASS, BD);
                                 mysqli_set_charset($mysqli, "utf8");
@@ -245,14 +240,32 @@
                        </div>
                        <div class="col-4 mt-2 mb-2">
                         <select name="estado" id="estado" class="form-control">
+                        <option value="">Escoja una opcion</option>
                             <option value="Pendiente">Pendiente</option>
                             <option value="En proceso">En proceso</option>
                             <option value="En proceso">Anulado</option>
                             <option value="Resuelto">Resuelto</option>
                         </select>      
                         </div>
-                        <div class="col-4">
-                        <!-- FALTA EL AREA -->     
+                        <div class="col-4 mt-2 mb-2">
+                        <!-- FALTA EL AREA -->  
+                        <select class="form-control" name="departamento" id="departamento">
+                                <option value="">Escoja una opcion</option>
+                                  <option value="Mantenimiento preventivo">Mantenimiento preventivo</option>
+                                  <option value="Mantenimiento correctivo">Mantenimiento correctivo</option>
+                                  <option value="Instalacion de accesorios">Instalacion de accesorios</option>
+                                  <option value="Instalacion de equipo">Instalacion de equipo</option>
+                                  <option value="Instalacion de red">Instalacion de red</option>
+                                  <option value="Configuracion de equipo">Configuracion de equipo</option>
+                                  <option value="Configuracion de servicio de red">Configuracion de servicio de red</option>
+                                  <option value="Instalacicion, mantenimiento y actualizacion de software">Instalacicion, mantenimiento y actualizacion de software</option>
+                                  <option value="Clave de usuario">Clave de usuario</option>
+                                  <option value="Otros">Otros</option>
+
+
+
+
+                                </select>  
                         </div>
                         <div class="col-3">
                             <label for="">Desde fecha: </label>
@@ -268,36 +281,13 @@
                         <div class="col-10">
 
                         </div>
-                        <div class="col-2" style="clear:both;" >
+                        <div class="col-2 mb-5" style="clear:both;" >
                         <button class="btn btn-dark btn-block" type="button" id="searchButton" style="float:right">Buscar</button>
-                        <button class="btn btn-dark btn-block" type="button" id="searchButton" style="float:right">Limpiar filtro</button>
+                        <button class="btn btn-dark btn-block" type="button" id="clearButton" style="float:right">Limpiar filtro</button>
                         </div>
                     </div>
-                    
-                    <!-- Tabla donde se mostrarán los registros -->
-                    <div class="table-responsive">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Serie</th>
-                                    <th>Fecha</th>
-                                    <th>Estado del Ticket</th>
-                                    <th>Nombre de Usuario</th>
-                                    <th>Email del Cliente</th>
-                                    <th>Departamento</th>
-                                    <th>Técnico</th>
-                                    <th>Fecha de Solución</th>
-                                    <th>Área</th>
-                                    <th>Opciones</th>
-                                </tr>
-                            </thead>
-                            <tbody id="ticketTable">
-                                <!-- Aquí se mostrarán los resultados de la búsqueda -->
-                            </tbody>
-                        </table>
-                    </div>
                 </div>
-                <div class="row">
+                <div class="row mt-5">
                     <div class="col-md-12">
                         <div class="table-responsive">
                             <?php
@@ -345,7 +335,7 @@
 
                                 if (mysqli_num_rows($selticket_admin) + mysqli_num_rows($selticket_cliente) > 0):
                             ?>
-                            <table class="table table-hover table-striped table-bordered">
+                            <table class="table table-hover table-striped table-bordered mt-5">
                                 <thead>
                                     <tr>
                                         <th class="text-center">#</th>
@@ -363,7 +353,7 @@
                                 </thead>
 
                                 
-                                <tbody>
+                                <tbody id="ticketTable">
 
                                 
                                     <?php
@@ -514,7 +504,15 @@
     $(document).ready(function(){
         // Obtener referencia al botón de búsqueda
         const searchButton = document.getElementById('searchButton');
-
+        $('#clearButton').click(function() {
+            console.log('CLICK')
+            document.getElementById("ticket").value = '';
+            document.getElementById("responsable").selectedIndex = 0;
+            document.getElementById("estado").selectedIndex = 0;
+            document.getElementById("departamento").selectedIndex = 0;
+            document.getElementById("fecha_inicio").value = '';
+            document.getElementById("fecha_final").value = '';
+        })
         // Escuchar el evento 'click' en el botón de búsqueda
         searchButton.addEventListener('click', () => {
             // Obtener los valores de los campos de entrada
@@ -526,7 +524,8 @@
             let responsable = $('#responsable').val();
             console.log(responsable)
             let estado = $('#estado').val();
-            console.log(estado)
+            let departament = $('#departamento').val()
+            console.log(departament);
             $.ajax({
                 type: 'POST',
                 url: 'admin/search.php',
@@ -544,19 +543,28 @@
                     if (data && data.length > 0) {
                         // Iterar sobre los resultados y agregar filas a la tabla
                         console.log(data)
-                        data = data.filter((el ) => el.id_tecnico == responsable )
+                        if ( responsable ){
+                            data = data.filter((el ) => el.id_tecnico == responsable )
+                        } 
                         console.log(data)
-                        data = data.filter((el) => el.estado_ticket == estado)
+                        if ( estado ){
+                            data = data.filter((el) => el.estado_ticket == estado)
+                        }
                         console.log(data)
+                        if ( departament ){
+                            data = data.filter((el) => el.departamento == departament )
+                        }
                         data.forEach(row => {
+
                             const tr = `<tr>
-                                <td>${row.serie}</td>
+                                <td class="text-center"></td>
                                 <td>${row.fecha}</td>
+                                <td>${row.serie}</td>
                                 <td>${row.estado_ticket}</td>
-                                <td>${row.nombre_usuario}</td>
-                                <td>${row.email_cliente}</td>
+                                <td>${row.nombre_admin}</td>
+                                <td>${row.email_admin}</td>
                                 <td>${row.departamento}</td>
-                                <td>${row.id_tecnico}</td>
+                                <td>${row.nombres_tecnico}</td>
                                 <td>${row.fecha_solucion}</td>
                                 <td>${row.area}</td>
                                 <td>

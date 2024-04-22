@@ -288,7 +288,7 @@
                                   </div>
                               </div>
                           </div>
-
+                            <!--
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Especialista encargado</label>
                                 <div class='col-sm-10'>
@@ -308,7 +308,7 @@
                                     </div>
                                 </div>
                             </div>
-
+                                          -->
 
   
                             <div class="form-group">
