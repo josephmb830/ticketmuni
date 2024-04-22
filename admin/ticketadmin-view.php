@@ -516,16 +516,15 @@
         // Escuchar el evento 'click' en el botón de búsqueda
         searchButton.addEventListener('click', () => {
             // Obtener los valores de los campos de entrada
-            console.log('CLICK')
             let searchTerm = $('#ticket').val().trim();
-            console.log(searchTerm);
             let startDate = $('#fecha_inicio').val();
+            console.log(startDate)
             let endDate = $('#fecha_final').val();
+            console.log(endDate)
             let responsable = $('#responsable').val();
-            console.log(responsable)
-            let estado = $('#estado').val();
+            let estado = $('#estado').val();    
             let departament = $('#departamento').val()
-            console.log(departament);
+
             $.ajax({
                 type: 'POST',
                 url: 'admin/search.php',
@@ -543,6 +542,17 @@
                     if (data && data.length > 0) {
                         // Iterar sobre los resultados y agregar filas a la tabla
                         console.log(data)
+                        if ( startDate ){
+                            data = data.filter((el) => Date.parse(el.fecha_solucion) > Date.parse(startDate))
+                            console.log(data)
+                            data = data.filter((el) => Date.parse(el.fecha) > Date.parse(startDate))
+                            console.log(data);
+
+                        }
+                        if ( endDate ){
+                            data = data.filter((el) => Date.parse(el.fecha_solucion) < Date.parse(endDate))
+                            data = data.filter((el) => Date.parse(el.fecha) < Date.parse(endDate))
+                        }
                         if ( responsable ){
                             data = data.filter((el ) => el.id_tecnico == responsable )
                         } 
