@@ -121,6 +121,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css">
     <!-- Estilos CSS personalizados -->
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/fontawesome.min.css" integrity="sha384-BY+fdrpOd3gfeRvTSMT+VUZmA728cfF9Z2G42xpaRkUGu2i3DyzpTURDo5A6CaLK" crossorigin="anonymous">
 </head>
 
 
@@ -184,32 +185,37 @@
             <div class="col-sm-12 text-center">
                         
                     </div>
-                    <div class="col-md-2-5 border-r bg-blue text-center">
-                    <a href="./admin.php?view=ticketadmin&ticket=all" class="text-white">
+                    <div class="col-md-2-5 border-r bg-blue text-center p-5">
+                    <a href="./admin.php?view=ticketadmin&ticket=all" class="text-white text-center">
+                            <i class="fa-regular fa-newspaper" style="font-size:100px"></i>
                             <h3 class="f-25">Todos los Tickets</h3>
                             <p class="f-25 text-center"><?php echo $num_total_all; ?></p>
                         </a>
                     </div>
-                    <div class="col-md-2-5 text-white border-r bg-yellow text-center">
-                    <a href="./admin.php?view=ticketadmin&ticket=pending" class="text-white">
+                    <div class="col-md-2-5 text-white border-r bg-yellow text-center p-5">
+                    <a href="./admin.php?view=ticketadmin&ticket=pending" class="text-white text-center">
+                            <i class="fa-regular fa-newspaper" style="font-size:100px"></i>
                             <h3 class="f-25">Tickets Pendientes</h3>
                             <p class="f-25 text-center"><?php echo $num_total_pend; ?></p>
                         </a>
                     </div>
-                    <div class="col-md-2-5 border-r bg-green text-center">
-                    <a href="./admin.php?view=ticketadmin&ticket=process" class="text-white">
+                    <div class="col-md-2-5 border-r bg-green text-center p-5">
+                    <a href="./admin.php?view=ticketadmin&ticket=process" class="text-white text-center">
+                    <i class="fa-regular fa-newspaper" style="font-size:100px"></i>
                             <h3 class="f-25">Tickets en Proceso</h3>
                             <p class="f-25 text-center"><?php echo $num_total_proceso; ?></p>
                         </a>
                     </div>
-                    <div class="col-md-2-5 text-white border-r bg-gray text-center">
-                    <a href="./admin.php?view=ticketadmin&ticket=resolved" class="text-white">
+                    <div class="col-md-2-5 text-white border-r bg-gray text-center p-5">
+                    <a href="./admin.php?view=ticketadmin&ticket=resolved" class="text-white text-center">
+                            <i class="fa-regular fa-newspaper" style="font-size:100px"></i> 
                             <h3 class="f-25">Tickets Resueltos</h3>
                             <p class="f-25 text-center"><?php echo $num_total_res; ?></p>
                         </a>
                     </div>
-                    <div class="col-md-2-5 text-white border-r bg-red text-center">
+                    <div class="col-md-2-5 text-white border-r bg-red text-center p-5">
                     <a href="./admin.php?view=ticketadmin&ticket=canceled" class="text-white">
+                            <i class="fa-regular fa-newspaper" style="font-size:100px"></i>
                             <h3 class="f-25">Tickets Anulados</h3>
                             <p class="f-25 text-center"><?php echo $num_total_can; ?></p>
                         </a>
@@ -543,9 +549,9 @@
                         // Iterar sobre los resultados y agregar filas a la tabla
                         console.log(data)
                         if ( startDate ){
-                            data = data.filter((el) => Date.parse(el.fecha_solucion) > Date.parse(startDate))
+                            data = data.filter((el) => Date.parse(el.fecha_solucion) >= Date.parse(startDate))
                             console.log(data)
-                            data = data.filter((el) => Date.parse(el.fecha) > Date.parse(startDate))
+                            data = data.filter((el) => Date.parse(el.fecha) >= Date.parse(startDate))
                             console.log(data);
 
                         }
