@@ -284,10 +284,13 @@
                         <div class="col-6">
 
                         </div>
-                        <div class="col-10">
+                        <div class="col-1" style="position:relative;">
+                            <button id="toPDF" class="btn btn-success" style="position:absolute; bottom:0; left:0;"><i class="fa-regular fa-file-pdf" style="font-size:30px;"></i></button>
+                        </div>
+                        <div class="col-9">
 
                         </div>
-                        <div class="col-2 mb-5" style="clear:both;" >
+                        <div class="col-2" style="clear:both;" >
                         <button class="btn btn-dark btn-block" type="button" id="searchButton" style="float:right">Buscar</button>
                         <button class="btn btn-dark btn-block" type="button" id="clearButton" style="float:right">Limpiar filtro</button>
                         </div>
@@ -295,7 +298,7 @@
                 </div>
                 <div class="row mt-5">
                     <div class="col-md-12">
-                        <div class="table-responsive">
+                        <div  class="table-responsive">
                             <?php
                                 $mysqli = mysqli_connect(SERVER, USER, PASS, BD);
                                 mysqli_set_charset($mysqli, "utf8");
@@ -341,7 +344,7 @@
 
                                 if (mysqli_num_rows($selticket_admin) + mysqli_num_rows($selticket_cliente) > 0):
                             ?>
-                            <table class="table table-hover table-striped table-bordered mt-5">
+                            <table id="pdf" class="table table-hover table-striped table-bordered table-responsive" style="max-width:100%;width:852px;" >
                                 <thead>
                                     <tr>
                                         <th class="text-center">#</th>
