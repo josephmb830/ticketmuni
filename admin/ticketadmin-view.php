@@ -509,6 +509,10 @@
 ?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js" integrity="sha512-2/YdOMV+YNpanLCF5MdQwaoFRVbTmrJ4u4EpqS/USXAQNUDgI5uwYi6J98WVtJKcfe1AbgerygzDFToxAlOGEQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 <script type="text/javascript">
     $(document).ready(function(){
         // Obtener referencia al botón de búsqueda
@@ -521,6 +525,14 @@
             document.getElementById("departamento").selectedIndex = 0;
             document.getElementById("fecha_inicio").value = '';
             document.getElementById("fecha_final").value = '';
+        })
+        $('#toPDF').click( function (){
+            const { jsPDF } = window.jspdf;
+            var doc = new jsPDF('l', 'pt');
+            var elem = document.getElementById("pdf");
+            var res = doc.autoTableHtmlToJson(pdf);
+            doc.autoTable(res.columns, res.data);
+            doc.save("tickets.pdf");
         })
         // Escuchar el evento 'click' en el botón de búsqueda
         searchButton.addEventListener('click', () => {
