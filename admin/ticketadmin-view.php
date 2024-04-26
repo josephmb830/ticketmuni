@@ -539,15 +539,13 @@
             // Obtener los valores de los campos de entrada
             let searchTerm = $('#ticket').val().trim();
             let startDate = $('#fecha_inicio').val();
-            console.log(startDate)
             let endDate = $('#fecha_final').val();
-            console.log(endDate)
             let responsable = $('#responsable').val();
             let estado = $('#estado').val();    
             let departament = $('#departamento').val()
 
             $.ajax({
-                type: 'POST',
+                type: 'GET',
                 url: 'admin/search.php',
                 data: { 
                     searchTerm: searchTerm,
@@ -559,67 +557,70 @@
                     // Limpiar la tabla de resultados
                     $('#ticketTable').empty();
 
-                    // Verificar si se encontraron resultados
-                    if (data && data.length > 0) {
-                        // Iterar sobre los resultados y agregar filas a la tabla
-                        console.log(data)
-                        if ( startDate ){
-                            data = data.filter((el) => Date.parse(el.fecha_solucion) >= Date.parse(startDate))
-                            console.log(data)
-                            data = data.filter((el) => Date.parse(el.fecha) >= Date.parse(startDate))
-                            console.log(data);
+                    console.log(data)
 
-                        }
-                        if ( endDate ){
-                            data = data.filter((el) => Date.parse(el.fecha_solucion) < Date.parse(endDate))
-                            data = data.filter((el) => Date.parse(el.fecha) < Date.parse(endDate))
-                        }
-                        if ( responsable ){
-                            data = data.filter((el ) => el.id_tecnico == responsable )
-                        } 
-                        console.log(data)
-                        if ( estado ){
-                            data = data.filter((el) => el.estado_ticket == estado)
-                        }
-                        console.log(data)
-                        if ( departament ){
-                            data = data.filter((el) => el.departamento == departament )
-                        }
-                        data.forEach(row => {
+            //         // Verificar si se encontraron resultados
+            //         if (data && data.length > 0) {
+            //             // Iterar sobre los resultados y agregar filas a la tabla
+            //             console.log(data)
+            //             if ( startDate ){
+            //                 data = data.filter((el) => Date.parse(el.fecha_solucion) >= Date.parse(startDate))
+            //                 console.log(data)
+            //                 data = data.filter((el) => Date.parse(el.fecha) >= Date.parse(startDate))
+            //                 console.log(data);
 
-                            const tr = `<tr>
-                                <td class="text-center"></td>
-                                <td>${row.fecha}</td>
-                                <td>${row.serie}</td>
-                                <td>${row.estado_ticket}</td>
-                                <td>${row.nombre_admin}</td>
-                                <td>${row.email_admin}</td>
-                                <td>${row.departamento}</td>
-                                <td>${row.nombres_tecnico}</td>
-                                <td>${row.fecha_solucion}</td>
-                                <td>${row.area}</td>
-                                <td>
-                                    <a href="./lib/pdf.php?id=${row.id}" class="btn btn-sm btn-success" target="_blank"><i class="fa fa-print" aria-hidden="true"></i></a>
-                                    <a href="admin.php?view=ticketedit&id=${row.id}" class="btn btn-sm btn-warning"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                                    <form action="" method="POST" style="display: inline-block;">
-                                        <input type="hidden" name="id_del" value="${row.id}">
-                                        <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
-                                    </form>
-                                </td>
-                            </tr>`;
-                            $('#ticketTable').append(tr);
-                        });
-                        console.log(data);  
-                    } else {
-                        // Mostrar mensaje de "No se encontraron resultados"
-                        const tr = '<tr><td colspan="10">No se encontraron resultados</td></tr>';
-                        $('#ticketTable').append(tr);
-                    }
+            //             }
+            //             if ( endDate ){
+            //                 data = data.filter((el) => Date.parse(el.fecha_solucion) < Date.parse(endDate))
+            //                 data = data.filter((el) => Date.parse(el.fecha) < Date.parse(endDate))
+            //             }
+            //             if ( responsable ){
+            //                 data = data.filter((el ) => el.id_tecnico == responsable )
+            //             } 
+            //             console.log(data)
+            //             if ( estado ){
+            //                 data = data.filter((el) => el.estado_ticket == estado)
+            //             }
+            //             console.log(data)
+            //             if ( departament ){
+            //                 data = data.filter((el) => el.departamento == departament )
+            //             }
+            //             data.forEach(row => {
+
+            //                 const tr = `<tr>
+            //                     <td class="text-center"></td>
+            //                     <td>${row.fecha}</td>
+            //                     <td>${row.serie}</td>
+            //                     <td>${row.estado_ticket}</td>
+            //                     <td>${row.nombre_admin}</td>
+            //                     <td>${row.email_admin}</td>
+            //                     <td>${row.departamento}</td>
+            //                     <td>${row.nombres_tecnico}</td>
+            //                     <td>${row.fecha_solucion}</td>
+            //                     <td>${row.area}</td>
+            //                     <td>
+            //                         <a href="./lib/pdf.php?id=${row.id}" class="btn btn-sm btn-success" target="_blank"><i class="fa fa-print" aria-hidden="true"></i></a>
+            //                         <a href="admin.php?view=ticketedit&id=${row.id}" class="btn btn-sm btn-warning"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+            //                         <form action="" method="POST" style="display: inline-block;">
+            //                             <input type="hidden" name="id_del" value="${row.id}">
+            //                             <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+            //                         </form>
+            //                     </td>
+            //                 </tr>`;
+            //                 $('#ticketTable').append(tr);
+            //             });
+            //             console.log(data);  
+            //         } else {
+            //             // Mostrar mensaje de "No se encontraron resultados"
+            //             const tr = '<tr><td colspan="10">No se encontraron resultados</td></tr>';
+            //             $('#ticketTable').append(tr);
+            //         }
                 },
                 error: function(xhr, status, error) {
                     console.error('Error al obtener datos:', error);
                 }
             });
+            console.log(searchTerm);
         });
     });
 </script>
