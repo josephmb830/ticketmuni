@@ -285,7 +285,12 @@
 
                         </div>
                         <div class="col-1" style="position:relative;">
-                            <button id="toPDF" class="btn btn-success" style="position:absolute; bottom:0; left:0;"><i class="fa-regular fa-file-pdf" style="font-size:30px;"></i></button>
+                        <form action="./lib/pdf_ticket.php" method="POST" style="display: inline-block;">
+                                        <textarea name="tickets" style="opacity:0" cols="30" rows="10" id="all_tickets"></textarea>
+                                        <button type="submit" id="toPDF" class="btn btn-success d-none" style="position:absolute; bottom:0; left:0;"><i class="fa-regular fa-file-pdf" style="font-size:30px;"></i></button>
+
+                                </form>
+
                         </div>
                         <div class="col-9">
 
@@ -515,6 +520,7 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
+        var tickets;
         // Obtener referencia al botón de búsqueda
         const searchButton = document.getElementById('searchButton');
         $('#clearButton').click(function() {
@@ -527,12 +533,14 @@
             document.getElementById("fecha_final").value = '';
         })
         $('#toPDF').click( function (){
+            /*
             const { jsPDF } = window.jspdf;
             var doc = new jsPDF('l', 'pt');
             var elem = document.getElementById("pdf");
             var res = doc.autoTableHtmlToJson(pdf);
             doc.autoTable(res.columns, res.data);
-            doc.save("tickets.pdf");
+            doc.save("tickets.pdf");*/
+
         })
         // Escuchar el evento 'click' en el botón de búsqueda
         searchButton.addEventListener('click', () => {
@@ -609,7 +617,12 @@
                             </tr>`;
                             $('#ticketTable').append(tr);
                         });
-                        console.log(data);  
+                       console.log(data); 
+                        tickets = JSON.stringify(data);
+                        $('#toPDF').removeClass('d-none').addClass('d-block');
+                        console.log(tickets);
+                        $('#all_tickets').append(tickets);
+  
                     } else {
                         // Mostrar mensaje de "No se encontraron resultados"
                         const tr = '<tr><td colspan="10">No se encontraron resultados</td></tr>';
