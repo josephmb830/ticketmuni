@@ -3,9 +3,7 @@
 require_once '../lib/config.php';
 
 // Obtener la cadena de búsqueda del parámetro POST
-$searchTerm = isset($_GET['ticket']) ? trim($_GET['ticket']) : '';
-return print_r($searchTerm);
-
+$searchTerm = isset($_POST['ticket']) ? trim($_POST['ticket']) : '';
 
 // Obtener las fechas de inicio y fin del rango, si están disponibles
 $startDate = isset($_POST['fecha_inicio']) ? trim($_POST['fecha_final']) : '';
