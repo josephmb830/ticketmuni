@@ -14,13 +14,12 @@ $responsable = isset($_POST['responsable']);
 
 $sql = "SELECT * FROM ticket INNER JOIN tecnico ON ticket.id_tecnico = tecnico.id_tecnico WHERE 1=1 ";
 
-
 // Inicializar el array de parámetros para la consulta preparada
 $params = array();
 
 // Verificar si se proporciona un término de búsqueda
 if (!empty($searchTerm)) {
-    $sql .= "AND (serie LIKE ? OR estado_ticket LIKE ? OR nombre_usuario LIKE ? OR email_cliente LIKE ? OR departamento LIKE ? OR id_tecnico LIKE ? OR fecha_solucion LIKE ? OR area LIKE ? OR fecha LIKE ?) ";
+    $sql .= "AND (serie LIKE ? OR estado_ticket LIKE ? OR departamento LIKE ? OR id_tecnico LIKE ? OR fecha_solucion LIKE ? OR area LIKE ? OR fecha LIKE ?) ";
     $searchTerm = "%$searchTerm%"; // Agregar comodines de búsqueda
     // Agregar los parámetros para la consulta preparada
     $estado = "%$estado%"; 
@@ -31,8 +30,6 @@ if (!empty($searchTerm)) {
     $params[] = $searchTerm;
     $params[] = $searchTerm;
     $params[] = $responsable;
-    $params[] = $searchTerm;
-    $params[] = $searchTerm;
     $params[] = $searchTerm;
 }
 
@@ -65,7 +62,24 @@ $tickets = array();
 
 // Verificar si hay resultados
 if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) { 
+    while ($row = $result->fetch_assoc()) {
+        if ( $row['id_cliente'] != null){
+            $joinsql = "SELECT * FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente INNER JOIN tecnico ON ticket.id_tecnico = tecnico.id_tecnico WHERE id =".$row['id'];
+            $stmt_2 = $conn->prepare($joinsql);
+            $stmt_2->execute();
+            $result_2 = $stmt_2->get_result();
+            $result_2 = $result_2->fetch_assoc();
+            $row = $result_2;
+        }
+
+        if ($row['id_admin'] != null){
+            $joinsql = "SELECT * FROM ticket INNER JOIN administrador ON ticket.id_admin = administrador.id_admin INNER JOIN tecnico ON ticket.id_tecnico = tecnico.id_tecnico WHERE id=".$row['id'];
+            $stmt_2 = $conn->prepare($joinsql);
+            $stmt_2->execute();
+            $result_2 = $stmt_2->get_result();
+            $result_2 = $result_2->fetch_assoc();
+            $row = $result_2;
+        }
         $tickets[] = $row;
     }
 }
