@@ -16,7 +16,9 @@
         $hoy = date('d/m/Y   h:i:s  a', TIME());
 
         if(isset($_POST['fecha_ticket']) && isset($_POST['name_ticket']) && isset($_POST['email_ticket'])){
+          try{
 
+          
           /*Este codigo nos servira para generar un numero diferente para cada ticket*/
           $codigo = ""; 
           $longitud = 2; 
@@ -54,9 +56,10 @@
           } elseif ($_SESSION['tipo'] == "tecnico") {
             $id_x = 'id_tecnico';
         }
-
-          $campos_ticket = "fecha, $id_x, departamento, asunto, mensaje, estado_ticket, area, serie";
-          $valores_ticket = "'$fecha_ticket', '$id', '$departamento_ticket', '$asunto_ticket', '$mensaje_ticket', '$estado_ticket', '$area_ticket', '$id_ticket'";
+          $hoy = date_create();
+          $hoy = date_timestamp_get($hoy);
+          $campos_ticket = "$id_x, departamento, asunto, mensaje, estado_ticket, area, serie";
+          $valores_ticket = "'$id', '$departamento_ticket', '$asunto_ticket', '$mensaje_ticket', '$estado_ticket', '$area_ticket', '$id_ticket'";
 
           // Guardar el ticket en la base de datos
           if (MysqlQuery::Guardar("ticket", $campos_ticket, $valores_ticket)) {
@@ -86,6 +89,9 @@
                 </div>
             ';
           }
+        }catch(Exception $e){
+          echo var_dump($e);
+        }
         }
 ?>
         <div class="w-full">
@@ -104,7 +110,7 @@
                             <label class="col-sm-2 control-label">Fecha</label>
                             <div class='col-sm-10'>
                                 <div class="input-group">
-                                    <input class="form-control" type="text" id="fechainput" placeholder="Fecha" name="fecha_ticket"  required=""   value ="<?php echo $hoy ?>" readonly>
+                                    <input class="form-control" type="text" id="fechainput" placeholder="Fecha" name="fecha_ticket"  required   value ="<?php echo $hoy ?>" readonly>
                                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                 </div>
                             </div>
@@ -158,16 +164,56 @@
                           <label  class="col-sm-2 control-label">Area</label>
                           <div class="col-sm-10">
                               <div class='input-group'>
-                              <input type="text" class="form-control" placeholder="Area" required="" pattern="[a-zA-Z ]{1,30}" name="area_ticket" title="Area" value="<?php echo $area_cli ?>" readonly>
-                                <span class="input-group-addon"><i class="fa fa-users"></i></span>
-                              </div>
+                              <select name="area" id="" class="form-control" placeholder="">
+                                <option value="">Escoja un área</option>
+                                <option value="Procaduría Pública Municipal">Procaduría Pública Municipal</option>
+                                <option value="Concejo municipal">Concejo municipal</option>
+                                <option value="Órgano de control institucional">Órgano de control institucional</option>
+                                <option value="Comisión de regidores">Comisión de regidores</option>
+                                <option value="Alcaldía">Alcaldía</option>
+                                <option value="Concejo de Coordinación local">Concejo de Coordinación local</option>
+                                <option value="Junta de Delegados Vecinales">Junta de Delegados Vecinales</option>
+                                <option value="Gerencia Municipal">Gerencia Municipal</option>
+                                <option value="Secretaría General">Secretaría General</option>
+                                <option value="Oficina de Atención al Ciudadano y Gestión Documentaria">Oficina de Atención al Ciudadano y Gestión Documentaria</option>
+                                <option value="Oficina de Estado Civil">"Oficina de Estado Civil</option>
+                                <option value="Oficina General de Participación Vecinal">Oficina General de Participación Vecinal</option>
+                                <option value="Oficina General de Comunicaciones">Oficina General de Comunicaciones</option>
+                                <option value="Oficina General de Administración">Oficina General de Administración</option>
+                                <option value="Oficina de Tesorería">Oficina de Tesorería</option>
+                                <option value="Oficina de Gestión de Recursos Humanos">Oficina de Gestión de Recursos Humanos</option>
+                                <option value="Oficina de Contabilidad">Oficina de Contabilidad</option>
+                                <option value="Oficina de Abastecimiento y Control Patrimonial">Oficina de Abastecimiento y Control Patrimonial</option>
+                                <option value="Oficina de Tecnología de Información">Oficina de Tecnología de Información</option>
+                                <option value="Oficina de Contabilidad">Oficina de Contabilidad</option>
+                                <option value="Oficina de Abastecimiento y Control Patrimonial">Oficina de Abastecimiento y Control Patrimonial</option>
+                                <option value="Gerencia de Administración Tributaria">Gerencia de Administración Tributaria</option>
+                                  <option value="Subgerencia de Recaudación Tributaria">Subgerencia de Recaudación Tributaria</option>
+                                  <option value="Subgerencia de Ejecución Coactiva">Subgerencia de Ejecución Coactiva</option>
+                                  <option value="Subgerencia de registro, ORientaci[on al Contribuyente y Fiscalización Tributaria">Subgerencia de registro, ORientaci[on al Contribuyente y Fiscalización Tributaria</option>
+                                <option value="Gerencia de Desarrollo Territorial e Infraestructura">Gerencia de Desarrollo Territorial e Infraestructura</option>
+                                  <option value="Subgerencia de Desarrollo Territorial">Subgerencia de Desarrollo Territorial</option>
+                                <option value="Subgerencia de Comercialización, Anuncios y Desarrollo Económico">Subgerencia de Comercialización, Anuncios y Desarrollo Económico</option>
+                                <option value="Subgerencia de Gestión de Riesgo de Desastres">Subgerencia de Gestión de Riesgo de Desastres</option>
+
+                                <option value="Subgerencia de Serenazgo">Subgerencia de Serenazgo</option>
+                                <option value="Subgerencia de Fiscalización y Sanciones">Subgerencia de Fiscalización y Sanciones</option>
+                                <option value="Subgerencia de Limpieza Pública">Subgerencia de Limpieza Pública</option>
+                                <option value="Subgerencia de Áreas Verdes y Ornato">Subgerencia de Áreas Verdes y Ornato</option>
+
+                                <option value="Gerencia de Desarrollo Humano, Educación, Cultura, Deportes y Recreación">Gerencia de Desarrollo Humano, Educación, Cultura, Deportes y Recreación</option>
+
+                                <option value="Subgerencia de Programas Sociales y Salud.">Subgerencia de Programas Sociales y Salud.</option>
+                                <option value="Subgerencia de Servicios Sociales.">Subgerencia de Servicios Socilaes.</option>
+                              </select>
+                              <span class="input-group-addon"><i class="fa-solid fa-chart-area"></i></span>
                           </div>
                         </div>
                         
 
-                        <div class="form-group">
+                        <div class="form-group" style="margin-top:50px;">
                           <label  class="col-sm-2 control-label">Tipo de Insidente</label>
-                          <div class="col-sm-10">
+                          <div class="col-sm-10" style="margin-left:10px; max-width:80%; width: 100%;">
                               <div class='input-group'>
                                 <select class="form-control" name="departamento_ticket">
                                 <option value="Escoja una opcion">Escoja una opcion</option>
@@ -181,10 +227,6 @@
                                   <option value="Instalacicion, mantenimiento y actualizacion de software">Instalacicion, mantenimiento y actualizacion de software</option>
                                   <option value="Clave de usuario">Clave de usuario</option>
                                   <option value="Otros">Otros</option>
-
-
-
-
                                 </select>
                                 <span class="input-group-addon"><i class="fa fa-wrench"></i></span>
                               </div> 
@@ -193,7 +235,7 @@
 
                         <div class="form-group">
                           <label  class="col-sm-2 control-label">Asunto</label>
-                          <div class="col-sm-10">
+                          <div class="col-sm-10" style="margin-left:10px; max-width:80%; width: 100%;">
                               <div class='input-group'>
                                 <input type="text" class="form-control" placeholder="Asunto" name="asunto_ticket" required="">
                                 <span class="input-group-addon"><i class="fa fa-paperclip"></i></span>
@@ -203,7 +245,7 @@
 
                         <div class="form-group">
                           <label  class="col-sm-2 control-label">Descripcion del Asunto </label>
-                          <div class="col-sm-10">
+                          <div class="col-sm-10" style="margin-left:10px; max-width:80%; width: 100%;">
                             <textarea class="form-control" rows="3" placeholder="Escriba el problema que presenta su producto" name="mensaje_ticket" required=""></textarea>
                           </div>
                         </div>
@@ -214,7 +256,7 @@
                           <!-- Cuadro de información -->  
                           <div class="form-group">
                               <label class="control-label font-italic col-sm-2">Adjuntar archivos (Opcional)</label>
-                              <div class="alert alert-info col-md-9">
+                              <div class="alert alert-info col-sm-10" style="margin-left:25px; max-width:75%; width: 100%;">
                                   <strong>ℹ Información:</strong> Puede subir hasta 3 archivos (4MB en total).<br>
                                   Formatos permitidos: .pdf, .jpeg, .jpg, .png
                               </div>
@@ -222,9 +264,11 @@
 
                           <!-- Botón para seleccionar archivos con evento onchange para validación -->
                           <div class="form-group">
-                              <label><span class="col-md-2"></span>Seleccionar Archivos</label>
-                              <div class="col-sm-10">
+                              <div class="row" style="clear:both;">
+                              <label class="control-label col-sm-2">Seleccionar Archivos</label>
+                              <div class="col-sm-10" style="margin-left:23px; max-width:50%; width: 100%;float:left;">
                                 <input type="file" class="form-control-file" name="archivos[]" accept=".pdf, .jpeg, .jpg, .png" multiple onchange="validarArchivos(this)" />
+                              </div>
                               </div>
                           </div>
 

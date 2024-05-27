@@ -120,8 +120,13 @@
     <!-- Enlace al archivo CSS de Bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css">
     <!-- Estilos CSS personalizados -->
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="./css/styles.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/fontawesome.min.css" integrity="sha384-BY+fdrpOd3gfeRvTSMT+VUZmA728cfF9Z2G42xpaRkUGu2i3DyzpTURDo5A6CaLK" crossorigin="anonymous">
+    <style>
+        body{
+            overflow-x:auto;
+        }
+    </style>
 </head>
 
 
@@ -132,105 +137,58 @@
 
 
 
-<div class="container mt-100" style="margin-left: 120px !important;">
+<div class="container-fluid mt-100" style="margin-left:75px">
+    <div class="row">
     <div class="col-sm-12 flex-vertical">
         <div class="col-sm-12 text-center">
             <?php include "./inc/reloj.php"; ?>
             <br>              
         </div>  
     </div>
-    </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            
-    <div class="container mt-100">
-
-
-
-
-          
-
-
-            <div class="container mt-250 h-screen">
+    </div>
+            <div class="container-fluid mt-250 h-screen" style="max-width:80%; width:100%;margin:auto;">
             <div class="row">
-            <div class="col-sm-12 text-center">
-                        
-                    </div>
-                    <div class="col-md-2-5 border-r bg-blue text-center p-5">
-                    <a href="./admin.php?view=ticketadmin&ticket=all" class="text-white text-center">
-                            <i class="fa-regular fa-newspaper" style="font-size:100px"></i>
-                            <h3 class="f-25">Todos los Tickets</h3>
-                            <p class="f-25 text-center"><?php echo $num_total_all; ?></p>
+                    <div class="col-md-2-5 border-r bg-blue text-center pt-4 pb-4">
+                        <a href="./admin.php?view=ticketasig&ticket=all" class="text-white">
+                            <h3 class="f-20 text-center">Todos los Tickets</h3>
+                            <p class="f-20 text-center"><?php echo $num_total_all; ?></p>
                         </a>
                     </div>
-                    <div class="col-md-2-5 text-white border-r bg-yellow text-center p-5">
-                    <a href="./admin.php?view=ticketadmin&ticket=pending" class="text-white text-center">
-                            <i class="fa-regular fa-newspaper" style="font-size:100px"></i>
-                            <h3 class="f-25">Tickets Pendientes</h3>
-                            <p class="f-25 text-center"><?php echo $num_total_pend; ?></p>
+                    <div class="col-md-2-5 text-white border-r bg-yellow text-center pt-4 pb-4">
+                        <a href="./admin.php?view=ticketasig&ticket=pending" class="text-white ">
+                            <h3 class="f-20 text-center">Tickets Pendientes</h3>
+                            <p class="f-20 text-center"><?php echo $num_total_pend; ?></p>
                         </a>
                     </div>
-                    <div class="col-md-2-5 border-r bg-green text-center p-5">
-                    <a href="./admin.php?view=ticketadmin&ticket=process" class="text-white text-center">
-                    <i class="fa-regular fa-newspaper" style="font-size:100px"></i>
-                            <h3 class="f-25">Tickets en Proceso</h3>
-                            <p class="f-25 text-center"><?php echo $num_total_proceso; ?></p>
+                    <div class="col-md-2-5 border-r bg-green text-center pt-4 pb-4">
+                        <a href="./admin.php?view=ticketasig&ticket=process" class="text-white ">
+                            <h3 class="f-20 text-center">Tickets en Proceso</h3>
+                            <p class="f-20 text-center"><?php echo $num_total_proceso; ?></p>
                         </a>
                     </div>
-                    <div class="col-md-2-5 text-white border-r bg-gray text-center p-5">
-                    <a href="./admin.php?view=ticketadmin&ticket=resolved" class="text-white text-center">
-                            <i class="fa-regular fa-newspaper" style="font-size:100px"></i> 
-                            <h3 class="f-25">Tickets Resueltos</h3>
-                            <p class="f-25 text-center"><?php echo $num_total_res; ?></p>
+                    <div class="col-md-2-5 text-white border-r bg-gray text-center pt-4 pb-4">
+                        <a href="./admin.php?view=ticketasig&ticket=resolved" class="text-white">
+                            <h3 class="f-20 text-center">Tickets Resueltos</h3>
+                            <p class="f-20 text-center"><?php echo $num_total_res; ?></p>
                         </a>
                     </div>
-                    <div class="col-md-2-5 text-white border-r bg-red text-center p-5">
-                    <a href="./admin.php?view=ticketadmin&ticket=canceled" class="text-white">
-                            <i class="fa-regular fa-newspaper" style="font-size:100px"></i>
-                            <h3 class="f-25">Tickets Anulados</h3>
-                            <p class="f-25 text-center"><?php echo $num_total_can; ?></p>
+                    <div class="col-md-2-5 text-white border-r bg-red text-center pt-4 pb-4">
+                    <a href="./admin.php?view=ticketasig&ticket=canceled" class="text-white">
+                            <h3 class="f-20 text-center">Tickets Anulados</h3>
+                            <p class="f-20 text-center"><?php echo $num_total_can; ?></p>
                         </a>
                     </div>
                 </div>
                 <br>
-                <div class="container mt-5 mb-5">
+                <div class="container-fluid mt-5 mb-5">
                     <!-- Campos de entrada para la búsqueda y filtro por fecha -->
                     <div class="row">
                         <div class="col-12 mt-2 mb-2">
-                        <input type="text" class="form-control" name="ticket" id="ticket">
-                       </div>
+                        <input type="text" class="form-control" name="ticket" id="ticket" placeholder="Buscar por palabra clave...">
+                        </div>
                         <div class="col-4 mt-2 mb-2">
                         <select name="responsable" id="responsable" class="form-control">
-                            <option value="">Escoja una opcion</option>
+                            <option value="">Seleccione un técnico...</option>
                             <?php 
                                 $mysqli = mysqli_connect(SERVER, USER, PASS, BD);
                                 mysqli_set_charset($mysqli, "utf8");
@@ -243,10 +201,10 @@
                             <option value="<?php echo $row['id_tecnico']; ?>"><?php echo strtoupper($row['nombres_tecnico'] . " " . $row['a_paterno_tecnico'] . " " . $row['a_materno_tecnico']); ?></option>
                             <?php endwhile; ?>
                        </select>
-                       </div>
-                       <div class="col-4 mt-2 mb-2">
+                        </div>
+                        <div class="col-4 mt-2 mb-2">
                         <select name="estado" id="estado" class="form-control">
-                        <option value="">Escoja una opcion</option>
+                        <option value="">Seleccione el estado de ticket...</option>
                             <option value="Pendiente">Pendiente</option>
                             <option value="En proceso">En proceso</option>
                             <option value="En proceso">Anulado</option>
@@ -256,7 +214,7 @@
                         <div class="col-4 mt-2 mb-2">
                         <!-- FALTA EL AREA -->  
                         <select class="form-control" name="departamento" id="departamento">
-                                <option value="">Escoja una opcion</option>
+                                <option value="">Escoja la área de falla...</option>
                                   <option value="Mantenimiento preventivo">Mantenimiento preventivo</option>
                                   <option value="Mantenimiento correctivo">Mantenimiento correctivo</option>
                                   <option value="Instalacion de accesorios">Instalacion de accesorios</option>
@@ -271,7 +229,7 @@
 
 
 
-                                </select>  
+                                </select>
                         </div>
                         <div class="col-3">
                             <label for="">Desde fecha: </label>
@@ -282,18 +240,18 @@
                             <input type="date" id="fecha_final" name="fecha_final" class="form-control">
                         </div>
                         <div class="col-6">
-
+                            
                         </div>
                         <div class="col-1" style="position:relative;">
-                        <form action="./lib/pdf_ticket.php" method="POST" style="display: inline-block;">
+                                <form action="./lib/pdf_ticket.php" method="POST" style="display: inline-block;">
                                         <textarea name="tickets" style="opacity:0" cols="30" rows="10" id="all_tickets"></textarea>
                                         <button type="submit" id="toPDF" class="btn btn-success d-none" style="position:absolute; bottom:0; left:0;"><i class="fa-regular fa-file-pdf" style="font-size:30px;"></i></button>
-
+        
                                 </form>
-
+                           
                         </div>
                         <div class="col-9">
-
+                            
                         </div>
                         <div class="col-2" style="clear:both;" >
                         <button class="btn btn-dark btn-block" type="button" id="searchButton" style="float:right">Buscar</button>
@@ -302,7 +260,7 @@
                     </div>
                 </div>
                 <div class="row mt-5">
-                    <div class="col-md-12">
+                    <div class="col-12">
                         <div  class="table-responsive">
                             <?php
                                 $mysqli = mysqli_connect(SERVER, USER, PASS, BD);
@@ -349,7 +307,7 @@
 
                                 if (mysqli_num_rows($selticket_admin) + mysqli_num_rows($selticket_cliente) > 0):
                             ?>
-                            <table id="pdf" class="table table-hover table-striped table-bordered table-responsive" style="max-width:100%;width:852px;" >
+                            <table id="pdf" class="table table-hover table-striped table-bordered table-responsive">
                                 <thead>
                                     <tr>
                                         <th class="text-center">#</th>
@@ -360,16 +318,16 @@
                                         <th class="text-center">Email</th>
                                         <th class="text-center">Tipo de falla</th>
                                         <th class="text-center">Tecnico</th>
-                                        <th class="text-center">Fecha de actualizacion de estado</th>
-                                        <th class="text-center">Area</th>
+                                        
+                                        
                                         <th class="text-center">Opciones</th>
                                     </tr>
                                 </thead>
 
                                 
                                 <tbody id="ticketTable">
+                                    
 
-                                
                                     <?php
                                         $ct=$inicio+1;
                                         while ($row=mysqli_fetch_array($selticket_admin, MYSQLI_ASSOC)): 
@@ -384,8 +342,8 @@
                                         <td class="text-center"><?php echo $row['email_admin']; ?></td>
                                         <td class="text-center"><?php echo $row['departamento']; ?></td>
                                         <td class="text-center"><?php echo strtoupper($row['nombres_tecnico'] . " " . $row['a_paterno_tecnico'] . " " . $row['a_materno_tecnico']); ?></td>
-                                        <td class="text-center"><?php echo $row['fecha_solucion']; ?></td>
-                                        <td class="text-center"><?php echo "Informática"; ?></td>
+                                        
+                                        
                                         <td class="text-center">
                                             <a href="./lib/pdf.php?id=<?php echo $row['id']; ?>" class="btn btn-sm btn-success" target="_blank"><i class="fa fa-print" aria-hidden="true"></i></a>
 
@@ -413,8 +371,8 @@
                                         <td class="text-center"><?php echo $row['email_cliente']; ?></td>
                                         <td class="text-center"><?php echo $row['departamento']; ?></td>
                                         <td class="text-center"><?php echo strtoupper($row['nombres_tecnico'] . " " . $row['a_paterno_tecnico'] . " " . $row['a_materno_tecnico']); ?></td>
-                                        <td class="text-center"><?php echo $row['fecha_solucion']; ?></td>
-                                        <td class="text-center"><?php echo $row['area']; ?></td>
+                                        
+                                        
                                         <td class="text-center">
                                             <a href="./lib/pdf.php?id=<?php echo $row['id']; ?>" class="btn btn-sm btn-success" target="_blank"><i class="fa fa-print" aria-hidden="true"></i></a>
 
@@ -512,12 +470,12 @@
 <?php
 }
 ?>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js" integrity="sha512-2/YdOMV+YNpanLCF5MdQwaoFRVbTmrJ4u4EpqS/USXAQNUDgI5uwYi6J98WVtJKcfe1AbgerygzDFToxAlOGEQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
+<script
+  src="https://code.jquery.com/jquery-3.7.1.min.js"
+  integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+  crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <script type="text/javascript">
     $(document).ready(function(){
         var tickets;
@@ -540,7 +498,7 @@
             var res = doc.autoTableHtmlToJson(pdf);
             doc.autoTable(res.columns, res.data);
             doc.save("tickets.pdf");*/
-
+            
         })
         // Escuchar el evento 'click' en el botón de búsqueda
         searchButton.addEventListener('click', () => {
@@ -550,10 +508,10 @@
             console.log(startDate)
             let endDate = $('#fecha_final').val();
             console.log(endDate)
-            let responsable = $('#responsable').val();
-            let estado = $('#estado').val();    
+            let responsable = $('#responsable').val();    
+            let estado = $('#estado').val();
             let departament = $('#departamento').val()
-
+            
             $.ajax({
                 type: 'POST',
                 url: 'admin/search.php',
@@ -566,7 +524,7 @@
                 success: function(data) {
                     // Limpiar la tabla de resultados
                     $('#ticketTable').empty();
-
+                    
                     // Verificar si se encontraron resultados
                     if (data && data.length > 0) {
                         // Iterar sobre los resultados y agregar filas a la tabla
@@ -594,13 +552,35 @@
                             data = data.filter((el) => el.departamento == departament )
                         }
                         data.forEach(row => {
-
-                            const tr = `<tr>
+                            let tr = '';
+                            if ( row.id_cliente != null){
+                                tr = `<tr>
                                 <td class="text-center"></td>
                                 <td>${row.fecha}</td>
                                 <td>${row.serie}</td>
                                 <td>${row.estado_ticket}</td>
-                                <td>${row.nombre_admin}</td>
+                                <td>${row.nombres}</td>
+                                <td>${row.email_cliente}</td>
+                                <td>${row.departamento}</td>
+                                <td>${row.nombres_tecnico}</td>
+                                <td>${row.fecha_solucion}</td>
+                                <td>${row.area}</td>
+                                <td>
+                                    <a href="./lib/pdf.php?id=${row.id}" class="btn btn-sm btn-success" target="_blank"><i class="fa fa-print" aria-hidden="true"></i></a>
+                                    <a href="admin.php?view=ticketedit&id=${row.id}" class="btn btn-sm btn-warning"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                    <form action="" method="POST" style="display: inline-block;">
+                                        <input type="hidden" name="id_del" value="${row.id}">
+                                        <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                    </form>
+                                </td>
+                            </tr>`;
+                            }else if (row.id_admin != null){
+                                tr = `<tr>
+                                <td class="text-center"></td>
+                                <td>${row.fecha}</td>
+                                <td>${row.serie}</td>
+                                <td>${row.estado_ticket}</td>
+                                <td>${row.nombre_completo}</td>
                                 <td>${row.email_admin}</td>
                                 <td>${row.departamento}</td>
                                 <td>${row.nombres_tecnico}</td>
@@ -615,14 +595,16 @@
                                     </form>
                                 </td>
                             </tr>`;
+                            }
+                            
                             $('#ticketTable').append(tr);
                         });
-                       console.log(data); 
+                        console.log(data); 
                         tickets = JSON.stringify(data);
                         $('#toPDF').removeClass('d-none').addClass('d-block');
                         console.log(tickets);
                         $('#all_tickets').append(tickets);
-  
+
                     } else {
                         // Mostrar mensaje de "No se encontraron resultados"
                         const tr = '<tr><td colspan="10">No se encontraron resultados</td></tr>';
@@ -639,3 +621,4 @@
 
 
 </body>
+</html>

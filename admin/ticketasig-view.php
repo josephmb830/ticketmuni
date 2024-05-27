@@ -1,8 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabla de Búsqueda de Tickets</title>
+    <!-- Enlace al archivo CSS de Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css">
+    <!-- Estilos CSS personalizados -->
+    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/fontawesome.min.css" integrity="sha384-BY+fdrpOd3gfeRvTSMT+VUZmA728cfF9Z2G42xpaRkUGu2i3DyzpTURDo5A6CaLK" crossorigin="anonymous">
+</head>
+
+
+<body>
 <?php if( $_SESSION['nombre']!="" && $_SESSION['clave']!="" && $_SESSION['tipo']=="admin"){ 
     $usuario = $_SESSION['nombre'];
     $nombre = $_SESSION['nombre_completo'];
     ?>
-        <div class="container mt-100">
+        <div class="container-fluid mt-100" style="margin-left:100px;">
           <div class="row">
           <div class="col-sm-12 text-center">
             <?php include "./inc/reloj.php"; ?>
@@ -35,40 +50,119 @@
                 $num_total_can=mysqli_num_rows($num_ticket_can);
             ?>
 
-            <div class="container h-screen">
-            <div class="row mt-250">
-                    <div class="col-md-2-5 border-r bg-blue text-center">
+            <div class="container-fluid h-screen mt-250" style="padding: 0 !important; margin-left:210px !important; max-width:78% !important; width:100%; margin:auto;">
+            <div class="row">
+                    <div class="col-md-2-5 border-r bg-blue text-center pt-4 pb-4">
                         <a href="./admin.php?view=ticketasig&ticket=all" class="text-white">
-                            <h3 class="f-25">Todos los Tickets</h3>
-                            <p class="f-25 text-center"><?php echo $num_total_all; ?></p>
+                            <h3 class="f-20 text-center">Todos los Tickets</h3>
+                            <p class="f-20 text-center"><?php echo $num_total_all; ?></p>
                         </a>
                     </div>
-                    <div class="col-md-2-5 text-white border-r bg-yellow text-center">
+                    <div class="col-md-2-5 text-white border-r bg-yellow text-center pt-4 pb-4">
                         <a href="./admin.php?view=ticketasig&ticket=pending" class="text-white ">
-                            <h3 class="f-25">Tickets Pendientes</h3>
-                            <p class="f-25 text-center"><?php echo $num_total_pend; ?></p>
+                            <h3 class="f-20 text-center">Tickets Pendientes</h3>
+                            <p class="f-20 text-center"><?php echo $num_total_pend; ?></p>
                         </a>
                     </div>
-                    <div class="col-md-2-5 border-r bg-green text-center">
+                    <div class="col-md-2-5 border-r bg-green text-center pt-4 pb-4">
                         <a href="./admin.php?view=ticketasig&ticket=process" class="text-white ">
-                            <h3 class="f-25">Tickets en Proceso</h3>
-                            <p class="f-25 text-center"><?php echo $num_total_proceso; ?></p>
+                            <h3 class="f-20 text-center">Tickets en Proceso</h3>
+                            <p class="f-20 text-center"><?php echo $num_total_proceso; ?></p>
                         </a>
                     </div>
-                    <div class="col-md-2-5 text-white border-r bg-gray text-center">
+                    <div class="col-md-2-5 text-white border-r bg-gray text-center pt-4 pb-4" >
                         <a href="./admin.php?view=ticketasig&ticket=resolved" class="text-white">
-                            <h3 class="f-25">Tickets Resueltos</h3>
-                            <p class="f-25 text-center"><?php echo $num_total_res; ?></p>
+                            <h3 class="f-20 text-center">Tickets Resueltos</h3>
+                            <p class="f-20 text-center"><?php echo $num_total_res; ?></p>
                         </a>
                     </div>
-                    <div class="col-md-2-5 text-white border-r bg-red text-center">
+                    <div class="col-md-2-5 text-white border-r bg-red text-center pt-4 pb-4">
                     <a href="./admin.php?view=ticketasig&ticket=canceled" class="text-white">
-                            <h3 class="f-25">Tickets Anulados</h3>
-                            <p class="f-25 text-center"><?php echo $num_total_can; ?></p>
+                            <h3 class="f-20 text-center">Tickets Anulados</h3>
+                            <p class="f-20 text-center"><?php echo $num_total_can; ?></p>
                         </a>
                     </div>
                 </div>
                 <br>
+                <div class="container-fluid mt-5 mb-5">
+                    <!-- Campos de entrada para la búsqueda y filtro por fecha -->
+                    <div class="row">
+                        <div class="col-12 mt-2 mb-2">
+                        <input type="text" class="form-control" name="ticket" id="ticket" placeholder="Buscar por palabra clave...">
+                        </div>
+                        <div class="col-4 mt-2 mb-2">
+                        <select name="responsable" id="responsable" class="form-control">
+                            <option value="">Seleccione un técnico...</option>
+                            <?php 
+                                $mysqli = mysqli_connect(SERVER, USER, PASS, BD);
+                                mysqli_set_charset($mysqli, "utf8");
+                                $pagina = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
+                                $regpagina = 15;
+                                $inicio = ($pagina > 1) ? (($pagina * $regpagina) - $regpagina) : 0;
+                                $consulta_tecnico="SELECT * FROM tecnico";
+                                $selticket_tecnico=mysqli_query($mysqli,$consulta_tecnico); 
+                                while ($row=mysqli_fetch_array($selticket_tecnico, MYSQLI_ASSOC)): ?>
+                            <option value="<?php echo $row['id_tecnico']; ?>"><?php echo strtoupper($row['nombres_tecnico'] . " " . $row['a_paterno_tecnico'] . " " . $row['a_materno_tecnico']); ?></option>
+                            <?php endwhile; ?>
+                       </select>
+                        </div>
+                        <div class="col-4 mt-2 mb-2">
+                        <select name="estado" id="estado" class="form-control">
+                        <option value="">Seleccione el estado de ticket...</option>
+                            <option value="Pendiente">Pendiente</option>
+                            <option value="En proceso">En proceso</option>
+                            <option value="En proceso">Anulado</option>
+                            <option value="Resuelto">Resuelto</option>
+                        </select>      
+                        </div>
+                        <div class="col-4 mt-2 mb-2">
+                        <!-- FALTA EL AREA -->  
+                        <select class="form-control" name="departamento" id="departamento">
+                                <option value="">Escoja la área de falla...</option>
+                                  <option value="Mantenimiento preventivo">Mantenimiento preventivo</option>
+                                  <option value="Mantenimiento correctivo">Mantenimiento correctivo</option>
+                                  <option value="Instalacion de accesorios">Instalacion de accesorios</option>
+                                  <option value="Instalacion de equipo">Instalacion de equipo</option>
+                                  <option value="Instalacion de red">Instalacion de red</option>
+                                  <option value="Configuracion de equipo">Configuracion de equipo</option>
+                                  <option value="Configuracion de servicio de red">Configuracion de servicio de red</option>
+                                  <option value="Instalacicion, mantenimiento y actualizacion de software">Instalacicion, mantenimiento y actualizacion de software</option>
+                                  <option value="Clave de usuario">Clave de usuario</option>
+                                  <option value="Otros">Otros</option>
+
+
+
+
+                                </select>
+                        </div>
+                        <div class="col-3">
+                            <label for="">Desde fecha: </label>
+                            <input type="date" id="fecha_inicio" name="fecha_inicio" class="form-control">
+                        </div>
+                        <div class="col-3">
+                            <label for="">Hasta fecha: </label>
+                            <input type="date" id="fecha_final" name="fecha_final" class="form-control">
+                        </div>
+                        <div class="col-6">
+                            
+                        </div>
+                        <div class="col-1" style="position:relative;">
+                                <form action="./lib/pdf_ticket.php" method="POST" style="display: inline-block;">
+                                        <textarea name="tickets" style="opacity:0" cols="30" rows="10" id="all_tickets"></textarea>
+                                        <button type="submit" id="toPDF" class="btn btn-success d-none" style="position:absolute; bottom:0; left:0;"><i class="fa-regular fa-file-pdf" style="font-size:30px;"></i></button>
+        
+                                </form>
+                           
+                        </div>
+                        <div class="col-9">
+                            
+                        </div>
+                        <div class="col-2" style="clear:both;" >
+                        <button class="btn btn-dark btn-block" type="button" id="searchButton" style="float:right">Buscar</button>
+                        <button class="btn btn-dark btn-block" type="button" id="clearButton" style="float:right">Limpiar filtro</button>
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="table-responsive">
@@ -125,7 +219,7 @@
 
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="ticketTable">
                                     <?php
                                         $ct=$inicio+1;
                                         while ($row=mysqli_fetch_array($selticket, MYSQLI_ASSOC)): 
@@ -217,7 +311,7 @@
     ?>
     
 
-        <div class="container mt-100">
+        <div class="container mt-100" style="margin-left:200px;">
           <div class="row">
           <div class="col-sm-12 text-center">
             <?php include "./inc/reloj.php"; ?>
@@ -250,40 +344,119 @@
                 $num_total_can=mysqli_num_rows($num_ticket_can);
             ?>
 
-            <div class="container h-screen">
+            <div class="container-fluid h-screen" style="padding: 0 !important; margin-left:210px !important; max-width:78% !important; width:100%; margin:auto;">
             <div class="row mt-250">
-                    <div class="col-md-2-5 border-r bg-blue text-center">
+                    <div class="col-md-2-5 border-r bg-blue text-center pt-4 pb-4">
                         <a href="./admin.php?view=ticketasig&ticket=all" class="text-white">
-                            <h3 class="f-25">Todos los Tickets</h3>
-                            <p class="f-25 text-center"><?php echo $num_total_all; ?></p>
+                            <h3 class="f-20 text-center">Todos los Tickets</h3>
+                            <p class="f-20 text-center"><?php echo $num_total_all; ?></p>
                         </a>
                     </div>
-                    <div class="col-md-2-5 text-white border-r bg-yellow text-center">
+                    <div class="col-md-2-5 text-white border-r bg-yellow text-center pt-4 pb-4">
                         <a href="./admin.php?view=ticketasig&ticket=pending" class="text-white ">
-                            <h3 class="f-25">Tickets Pendientes</h3>
-                            <p class="f-25 text-center"><?php echo $num_total_pend; ?></p>
+                            <h3 class="f-20 text-center">Tickets Pendientes</h3>
+                            <p class="f-20 text-center"><?php echo $num_total_pend; ?></p>
                         </a>
                     </div>
-                    <div class="col-md-2-5 border-r bg-green text-center">
+                    <div class="col-md-2-5 border-r bg-green text-center pt-4 pb-4">
                         <a href="./admin.php?view=ticketasig&ticket=process" class="text-white ">
-                            <h3 class="f-25">Tickets en Proceso</h3>
-                            <p class="f-25 text-center"><?php echo $num_total_proceso; ?></p>
+                            <h3 class="f-20 text-center">Tickets en Proceso</h3>
+                            <p class="f-20 text-center"><?php echo $num_total_proceso; ?></p>
                         </a>
                     </div>
-                    <div class="col-md-2-5 text-white border-r bg-gray text-center">
+                    <div class="col-md-2-5 text-white border-r bg-gray text-center pt-4 pb-4">
                         <a href="./admin.php?view=ticketasig&ticket=resolved" class="text-white">
-                            <h3 class="f-25">Tickets Resueltos</h3>
-                            <p class="f-25 text-center"><?php echo $num_total_res; ?></p>
+                            <h3 class="f-20 text-center">Tickets Resueltos</h3>
+                            <p class="f-20 text-center"><?php echo $num_total_res; ?></p>
                         </a>
                     </div>
-                    <div class="col-md-2-5 text-white border-r bg-red text-center">
+                    <div class="col-md-2-5 text-white border-r bg-red text-center pt-4 pb-4">
                     <a href="./admin.php?view=ticketasig&ticket=canceled" class="text-white">
-                            <h3 class="f-25">Tickets Anulados</h3>
-                            <p class="f-25 text-center"><?php echo $num_total_can; ?></p>
+                            <h3 class="f-20 text-center">Tickets Anulados</h3>
+                            <p class="f-20 text-center"><?php echo $num_total_can; ?></p>
                         </a>
                     </div>
                 </div>
                 <br>
+                <div class="container-fluid mt-5 mb-5">
+                    <!-- Campos de entrada para la búsqueda y filtro por fecha -->
+                    <div class="row">
+                        <div class="col-12 mt-2 mb-2">
+                        <input type="text" class="form-control" name="ticket" id="ticket" placeholder="Buscar por palabra clave...">
+                        </div>
+                        <div class="col-4 mt-2 mb-2">
+                        <select name="responsable" id="responsable" class="form-control">
+                            <option value="">Seleccione un técnico...</option>
+                            <?php 
+                                $mysqli = mysqli_connect(SERVER, USER, PASS, BD);
+                                mysqli_set_charset($mysqli, "utf8");
+                                $pagina = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
+                                $regpagina = 15;
+                                $inicio = ($pagina > 1) ? (($pagina * $regpagina) - $regpagina) : 0;
+                                $consulta_tecnico="SELECT * FROM tecnico";
+                                $selticket_tecnico=mysqli_query($mysqli,$consulta_tecnico); 
+                                while ($row=mysqli_fetch_array($selticket_tecnico, MYSQLI_ASSOC)): ?>
+                            <option value="<?php echo $row['id_tecnico']; ?>"><?php echo strtoupper($row['nombres_tecnico'] . " " . $row['a_paterno_tecnico'] . " " . $row['a_materno_tecnico']); ?></option>
+                            <?php endwhile; ?>
+                       </select>
+                        </div>
+                        <div class="col-4 mt-2 mb-2">
+                        <select name="estado" id="estado" class="form-control">
+                        <option value="">Seleccione el estado de ticket...</option>
+                            <option value="Pendiente">Pendiente</option>
+                            <option value="En proceso">En proceso</option>
+                            <option value="En proceso">Anulado</option>
+                            <option value="Resuelto">Resuelto</option>
+                        </select>      
+                        </div>
+                        <div class="col-4 mt-2 mb-2">
+                        <!-- FALTA EL AREA -->  
+                        <select class="form-control" name="departamento" id="departamento">
+                                <option value="">Escoja la área de falla...</option>
+                                  <option value="Mantenimiento preventivo">Mantenimiento preventivo</option>
+                                  <option value="Mantenimiento correctivo">Mantenimiento correctivo</option>
+                                  <option value="Instalacion de accesorios">Instalacion de accesorios</option>
+                                  <option value="Instalacion de equipo">Instalacion de equipo</option>
+                                  <option value="Instalacion de red">Instalacion de red</option>
+                                  <option value="Configuracion de equipo">Configuracion de equipo</option>
+                                  <option value="Configuracion de servicio de red">Configuracion de servicio de red</option>
+                                  <option value="Instalacicion, mantenimiento y actualizacion de software">Instalacicion, mantenimiento y actualizacion de software</option>
+                                  <option value="Clave de usuario">Clave de usuario</option>
+                                  <option value="Otros">Otros</option>
+
+
+
+
+                                </select>
+                        </div>
+                        <div class="col-3">
+                            <label for="">Desde fecha: </label>
+                            <input type="date" id="fecha_inicio" name="fecha_inicio" class="form-control">
+                        </div>
+                        <div class="col-3">
+                            <label for="">Hasta fecha: </label>
+                            <input type="date" id="fecha_final" name="fecha_final" class="form-control">
+                        </div>
+                        <div class="col-6">
+                            
+                        </div>
+                        <div class="col-1" style="position:relative;">
+                                <form action="./lib/pdf_ticket.php" method="POST" style="display: inline-block;">
+                                        <textarea name="tickets" style="opacity:0" cols="30" rows="10" id="all_tickets"></textarea>
+                                        <button type="submit" id="toPDF" class="btn btn-success d-none" style="position:absolute; bottom:0; left:0;"><i class="fa-regular fa-file-pdf" style="font-size:30px;"></i></button>
+        
+                                </form>
+                           
+                        </div>
+                        <div class="col-9">
+                            
+                        </div>
+                        <div class="col-2" style="clear:both;" >
+                        <button class="btn btn-dark btn-block" type="button" id="searchButton" style="float:right">Buscar</button>
+                        <button class="btn btn-dark btn-block" type="button" id="clearButton" style="float:right">Limpiar filtro</button>
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="table-responsive">
@@ -340,7 +513,7 @@
 
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="ticketTable">
                                     <?php
                                         $ct=$inicio+1;
                                         while ($row=mysqli_fetch_array($selticket, MYSQLI_ASSOC)): 
@@ -428,7 +601,7 @@
             <?php
 } else{
 ?>
-        <div class="container">
+        <div class="container" style="margin-left:120px;">
             <div class="row">
                 <div class="col-sm-4">
                     
@@ -446,32 +619,163 @@
 <?php
 }
 ?>
+<!--
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.2.1/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <div class="none">
   <canvas id="myChart"></canvas>
 </div>
+-->
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<script>
-  const ctx = document.getElementById('myChart');
 
-  new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-      datasets: [{
-        label: '# of Votes',
-        data: [12, 19, 3, 5, 2, 3],
-        borderWidth: 1
-      }]
-    },
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true
-        }
-      }
-    }
-  });
+<script
+  src="https://code.jquery.com/jquery-3.7.1.min.js"
+  integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+  crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        var tickets;
+        // Obtener referencia al botón de búsqueda
+        const searchButton = document.getElementById('searchButton');
+        $('#clearButton').click(function() {
+            console.log('CLICK')
+            document.getElementById("ticket").value = '';
+            document.getElementById("responsable").selectedIndex = 0;
+            document.getElementById("estado").selectedIndex = 0;
+            document.getElementById("departamento").selectedIndex = 0;
+            document.getElementById("fecha_inicio").value = '';
+            document.getElementById("fecha_final").value = '';
+        })
+        $('#toPDF').click( function (){
+            /*
+            const { jsPDF } = window.jspdf;
+            var doc = new jsPDF('l', 'pt');
+            var elem = document.getElementById("pdf");
+            var res = doc.autoTableHtmlToJson(pdf);
+            doc.autoTable(res.columns, res.data);
+            doc.save("tickets.pdf");*/
+            
+        })
+        // Escuchar el evento 'click' en el botón de búsqueda
+        searchButton.addEventListener('click', () => {
+            // Obtener los valores de los campos de entrada
+            let searchTerm = $('#ticket').val().trim();
+            let startDate = $('#fecha_inicio').val();
+            console.log(startDate)
+            let endDate = $('#fecha_final').val();
+            console.log(endDate)
+            let responsable = $('#responsable').val();    
+            let estado = $('#estado').val();
+            let departament = $('#departamento').val()
+            
+            $.ajax({
+                type: 'POST',
+                url: 'admin/search.php',
+                data: { 
+                    searchTerm: searchTerm,
+                    startDate: startDate,
+                    endDate: endDate
+                },
+                dataType: 'json',
+                success: function(data) {
+                    // Limpiar la tabla de resultados
+                    $('#ticketTable').empty();
+                    
+                    // Verificar si se encontraron resultados
+                    if (data && data.length > 0) {
+                        // Iterar sobre los resultados y agregar filas a la tabla
+                        console.log(data)
+                        if ( startDate ){
+                            data = data.filter((el) => Date.parse(el.fecha_solucion) >= Date.parse(startDate))
+                            console.log(data)
+                            data = data.filter((el) => Date.parse(el.fecha) >= Date.parse(startDate))
+                            console.log(data);
+
+                        }
+                        if ( endDate ){
+                            data = data.filter((el) => Date.parse(el.fecha_solucion) < Date.parse(endDate))
+                            data = data.filter((el) => Date.parse(el.fecha) < Date.parse(endDate))
+                        }
+                        if ( responsable ){
+                            data = data.filter((el ) => el.id_tecnico == responsable )
+                        } 
+                        console.log(data)
+                        if ( estado ){
+                            data = data.filter((el) => el.estado_ticket == estado)
+                        }
+                        console.log(data)
+                        if ( departament ){
+                            data = data.filter((el) => el.departamento == departament )
+                        }
+                        data.forEach(row => {
+                            let tr = '';
+                            if ( row.id_cliente != null){
+                                tr = `<tr>
+                                <td class="text-center"></td>
+                                <td>${row.fecha}</td>
+                                <td>${row.serie}</td>
+                                <td>${row.estado_ticket}</td>
+                                <td>${row.nombres}</td>
+                                <td>${row.email_cliente}</td>
+                                <td>${row.departamento}</td>
+                                <td>${row.nombres_tecnico}</td>
+                                <td>${row.fecha_solucion}</td>
+                                <td>${row.area}</td>
+                                <td>
+                                    <a href="./lib/pdf.php?id=${row.id}" class="btn btn-sm btn-success" target="_blank"><i class="fa fa-print" aria-hidden="true"></i></a>
+                                    <a href="admin.php?view=ticketedit&id=${row.id}" class="btn btn-sm btn-warning"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                    <form action="" method="POST" style="display: inline-block;">
+                                        <input type="hidden" name="id_del" value="${row.id}">
+                                        <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                    </form>
+                                </td>
+                            </tr>`;
+                            }else if (row.id_admin != null){
+                                tr = `<tr>
+                                <td class="text-center"></td>
+                                <td>${row.fecha}</td>
+                                <td>${row.serie}</td>
+                                <td>${row.estado_ticket}</td>
+                                <td>${row.nombre_completo}</td>
+                                <td>${row.email_admin}</td>
+                                <td>${row.departamento}</td>
+                                <td>${row.nombres_tecnico}</td>
+                                <td>${row.fecha_solucion}</td>
+                                <td>${row.area}</td>
+                                <td>
+                                    <a href="./lib/pdf.php?id=${row.id}" class="btn btn-sm btn-success" target="_blank"><i class="fa fa-print" aria-hidden="true"></i></a>
+                                    <a href="admin.php?view=ticketedit&id=${row.id}" class="btn btn-sm btn-warning"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                    <form action="" method="POST" style="display: inline-block;">
+                                        <input type="hidden" name="id_del" value="${row.id}">
+                                        <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                    </form>
+                                </td>
+                            </tr>`;
+                            }
+                            
+                            $('#ticketTable').append(tr);
+                        });
+                        console.log(data); 
+                        tickets = JSON.stringify(data);
+                        $('#toPDF').removeClass('d-none').addClass('d-block');
+                        console.log(tickets);
+                        $('#all_tickets').append(tickets);
+
+                    } else {
+                        // Mostrar mensaje de "No se encontraron resultados"
+                        const tr = '<tr><td colspan="10">No se encontraron resultados</td></tr>';
+                        $('#ticketTable').append(tr);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error al obtener datos:', error);
+                }
+            });
+        });
+    });
 </script>
+</body>
+</html>

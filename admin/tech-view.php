@@ -51,6 +51,17 @@
                 <h1>Tabla de Técnicos Registrados</h1>            </div>
           </div>
                     <div class="col-md-12">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-12">
+                                    <div class="container-fluid mt-5 mb-5" style="clear:Both;">
+                    <!-- Campos de entrada para la búsqueda y filtro por fecha -->
+                                    <input type="text" class="form-control" style="max-width:90%;float:left;" name="techs" id="techs" placeholder="Buscar por palabra clave...">
+                                    <button id="filter" class="btn btn-primary" style="max-width:10%;float:left;" >Filtrar</button>
+                                </div>
+                                </div>
+                            </div>
+                    <div class="col-md-12">
                         <div class="table-responsive">
                             <?php 
                                 $mysqli = mysqli_connect(SERVER, USER, PASS, BD);
@@ -60,7 +71,7 @@
                                 $regpagina = 15;
                                 $inicio = ($pagina > 1) ? (($pagina * $regpagina) - $regpagina) : 0;
 
-                                $selusers=mysqli_query($mysqli,"SELECT SQL_CALC_FOUND_ROWS * FROM cliente LIMIT $inicio, $regpagina");
+                                $selusers=mysqli_query($mysqli,"SELECT SQL_CALC_FOUND_ROWS * FROM tecnico LIMIT $inicio, $regpagina");
 
                                 $totalregistros = mysqli_query($mysqli,"SELECT FOUND_ROWS()");
                                 $totalregistros = mysqli_fetch_array($totalregistros, MYSQLI_ASSOC);
@@ -79,20 +90,20 @@
                                         
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="techsTable">
                                     <?php
                                         $ct=$inicio+1;
                                         while ($row=mysqli_fetch_array($selusers, MYSQLI_ASSOC)): 
                                     ?>
                                     <tr>
                                         <td class="text-center"><?php echo $ct; ?></td>
-                                        <td class="text-center"><?php echo strtoupper($row['nombres'] . " " . $row['a_paterno'] . " " . $row['a_materno']); ?></td>
-                                        <td class="text-center"><?php echo $row['nombre_usuario']; ?></td>
-                                        <td class="text-center"><?php echo $row['email_cliente']; ?></td>
+                                        <td class="text-center"><?php echo strtoupper($row['nombres_tecnico'] . " " . $row['a_paterno_tecnico'] . " " . $row['a_materno_tecnico']); ?></td>
+                                        <td class="text-center"><?php echo $row['nombre_tecnico']; ?></td>
+                                        <td class="text-center"><?php echo $row['email_tecnico']; ?></td>
                                         <td class="text-center">
-                                        <!--<a href="admin.php?view=configusuario&id=<?php echo $row['id_cliente']; ?>" class="btn btn-sm btn-warning"><i class="fa fa-pencil" aria-hidden="true"></i></a>-->
+                                        <a href="admin.php?view=configtecnico&id=<?php echo $row['id_tecnico']; ?>" class="btn btn-sm btn-warning"><i class="fa fa-pencil" aria-hidden="true"></i></a>
                                             <form action="" method="POST" style="display: inline-block;">
-                                                <input type="hidden" name="id_del" value="<?php echo $row['id_cliente']; ?>">
+                                                <input type="hidden" name="id_del" value="<?php echo $row['id_tecnico']; ?>">
                                                 <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
                                             </form>
                                         </td>
@@ -175,3 +186,82 @@
 <?php
 }
 ?>
+<script type="text/javascript">
+    $(document).ready(function(){
+        var clients;
+        $('#techs').on("change", function(){
+            let searchTerm = $('#techs').val().trim();
+            $.ajax({
+                type: 'POST',
+                url: 'admin/filter_tecnics.php',
+                data: { 
+                    searchTerm: searchTerm
+                },
+                dataType: 'json',
+                success: function(data) {
+                    console.log( data );
+                    if ( data.length > 0 ){
+                        $('#techsTable').empty();
+                        data.forEach((row) => {
+                            tr = `<tr>
+                                <td class="text-center"></td>
+                                <td>${row.nombres_tecnico} ${row.a_paterno_tecnico} ${row.a_materno_tecnico}</td>
+                                <td>${row.nombre_tecnico}</td>
+                                <td>${row.email_tecnico}</td>
+                                
+                                <td>
+                                    <a href="admin.php?view=configtecnico&id=${row.id}" class="btn btn-sm btn-warning"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                    <form action="" method="POST" style="display: inline-block;">
+                                        <input type="hidden" name="id_del" value="${row.id}">
+                                        <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                    </form>
+                                </td>
+                            </tr>`;
+                            $('#techsTable').append(tr);
+                        })
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error al obtener datos:', error);
+                } 
+            });
+        })
+        $('#filter').click( function(){
+            let searchTerm = $('#clients').val().trim();
+            $.ajax({
+                type: 'POST',
+                url: 'admin/filter_tecnics.php',
+                data: { 
+                    searchTerm: searchTerm
+                },
+                dataType: 'json',
+                success: function(data) {
+                    console.log( data );
+                    if ( data.length > 0 ){
+                        $('#techsTable').empty();
+                        data.forEach((row) => {
+                            tr = `<tr>
+                                <td class="text-center"></td>
+                                <td>${row.nombres_tecnico} ${row.a_paterno_tecnico} ${row.a_materno_tecnico}</td>
+                                <td>${row.nombre_tecnico}</td>
+                                <td>${row.email_tecnico}</td>
+                                
+                                <td>
+                                    <a href="admin.php?view=configtecnico&id=${row.id}" class="btn btn-sm btn-warning"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                    <form action="" method="POST" style="display: inline-block;">
+                                        <input type="hidden" name="id_del" value="${row.id}">
+                                        <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                    </form>
+                                </td>
+                            </tr>`;
+                            $('#techsTable').append(tr);
+                        })
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error al obtener datos:', error);
+                } 
+            });
+        })
+    });
+</script>

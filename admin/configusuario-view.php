@@ -85,21 +85,19 @@
         /*Script para actualizar datos de cuenta*/
         if(isset($_POST['old_pass_update']) && isset($_POST['new_pass_update'])){
 
-          $nombre_complete_update=MysqlQuery::RequestPost('name_complete_update');
+          $nombre_complete_update=utf8_encode(MysqlQuery::RequestPost('name_complete_update'));
           $old_user_update=MysqlQuery::RequestPost('old_user_update');
           $new_user_update=MysqlQuery::RequestPost('new_user_update');
           $old_pass_update=md5(MysqlQuery::RequestPost('old_pass_update'));
           $new_pass_update=md5(MysqlQuery::RequestPost('new_pass_update'));
           $email_update=MysqlQuery::RequestPost('email_update');
+          $a_paterno=utf8_encode(MysqlQuery::RequestPost('a_paterno'));
+          $a_materno=utf8_encode(MysqlQuery::RequestPost('a_materno'));
           
-           $sql=Mysql::consulta("SELECT * FROM cliente WHERE  nombre_completo='$old_user_update'");
+           $sql=Mysql::consulta("SELECT * FROM cliente WHERE id_cliente=".$_GET['id']);
            
           if(mysqli_num_rows($sql)>=1){
-            MysqlQuery::Actualizar("cliente", "clave='$new_pass_update'", "clave='$old_pass_update'");
-
-            $_SESSION['nombre']=$new_user_update;
-            $_SESSION['clave']=$new_pass_update;
-
+            if(Mysql::consulta("UPDATE cliente SET nombres='$nombre_complete_update', a_paterno='$a_paterno', a_materno='$a_materno', nombre_usuario='$new_user_update', clave='$new_pass_update', email_cliente='$email_update'  WHERE id_cliente=".$_GET['id'])){
             echo '
               <div class="alert alert-info alert-dismissible fade in col-sm-3 animated bounceInDown" role="alert" style="position:fixed; top:70px; right:10px; z-index:10;"> 
                   <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
@@ -109,6 +107,7 @@
                   </p>
               </div>
             ';
+            }
           }else{
             echo '
               <div class="alert alert-danger alert-dismissible fade in col-sm-3 animated bounceInDown" role="alert" style="position:fixed; top:70px; right:10px; z-index:10;"> 
@@ -134,7 +133,6 @@
               $idu=$variable;
               $sqlu=Mysql::consulta("SELECT * FROM cliente WHERE id_cliente='$idu'");
               $regu=mysqli_fetch_array($sqlu, MYSQLI_ASSOC);
-
             echo '<h2 class="text-info">Bienvenido a la configuración de cuenta ' . $regu['nombre_usuario'] . '</h2> ';
             }else{
 
@@ -156,30 +154,39 @@
                 <div class="panel-body text-center well">
                   <form action="" method="post" role="form">
                     <div class="form-group">
+                      
                       <label class="text-primary"><i class="fa fa-male"></i>&nbsp;&nbsp;Nombre completo</label>
-                      <input type="text" class="form-control" value="<?php echo $regu['nombres'] . " " . $regu['a_paterno'] . " " . $regu['a_materno'];  ?>" placeholder="Nombre completo" name="name_complete_update" required="" pattern="[a-zA-Z ]{1,40}" title="Nombre Apellido" maxlength="40">
+                      <input type="text" class="form-control" value="<?php echo $regu['nombres'];?>" autocomplete="off" placeholder="Nombres " name="name_complete_update"  title="Nombre Apellido" maxlength="60">
+                    </div>
+                    <div class="form-group">
+                      <label class="text-primary"><i class="fa fa-male"></i>&nbsp;&nbsp;Apellido Paterno</label>
+                      <input type="text" class="form-control" value="<?php echo $regu['a_paterno'];?>" autocomplete="off" placeholder="Apellido Paterno" name="a_paterno"  title="Nombre Apellido" maxlength="60">
+                    </div>
+                    <div class="form-group">
+                      <label class="text-primary"><i class="fa fa-male"></i>&nbsp;&nbsp;Apellido Materno</label>
+                      <input type="text" class="form-control" value="<?php echo $regu['a_materno']; ?>" autocomplete="off" placeholder="Apellido Materno" name="a_materno"  title="Nombre Apellido" maxlength="60">
                     </div>
                     <div class="form-group">
                       <label class="text-danger"><i class="fa fa-user"></i>&nbsp;&nbsp;Nombre de usuario actual</label>
-                      <input type="text" class="form-control" placeholder="Nombre de usuario actual" name="old_user_update" required="" pattern="[a-zA-Z0-9 ]{1,30}" title="Ejemplo7" maxlength="20">
+                      <input type="text" class="form-control" value="<?php echo $regu['nombre_usuario'] ?>" placeholder="Nombre de usuario actual" autocomplete="off" name="old_user_update" title="Solo es validos letras y numeros no caracteres especiales" maxlength="20" pattern="[a-zA-Z0-9 ]{1,30}">
                     </div>
                     <div class="form-group  has-success has-feedback">
                       <label class="text-primary"><i class="fa fa-user"></i>&nbsp;&nbsp;Nombre de usuario nuevo</label>
-                      <input type="text" class="form-control" id="input_user" placeholder="Nombre de usuario nuevo" name="new_user_update" required="" pattern="[a-zA-Z0-9 ]{1,30}" title="Ejemplo7" maxlength="20">
+                      <input type="text" class="form-control" id="input_user" placeholder="Nombre de usuario nuevo" name="new_user_update" pattern="[a-zA-Z0-9 ]{1,30}" title="Ejemplo7" maxlength="20">
                       <div id="com_form"></div>
                     </div>-->
                     <div class="form-group">
                       <label class="text-danger"><i class="fa fa-key"></i>&nbsp;&nbsp;Contraseña actual</label>
-                      <input type="password" class="form-control" placeholder="Contraseña actual" name="old_pass_update" required="">
+                      <input type="password" class="form-control" placeholder="Contraseña actual" name="old_pass_update">
                     </div>
                     <div class="form-group">
                       <label class="text-primary"><i class="fa fa-unlock-alt"></i>&nbsp;&nbsp;Contraseña nueva</label>
-                      <input type="password" class="form-control" placeholder="Nueva Contraseña" name="new_pass_update" required="">
+                      <input type="password" class="form-control" placeholder="Nueva Contraseña" name="new_pass_update" >
                     </div>
                     <div class="form-group">
                       <label class="text-primary"><i class="fa fa-envelope-o"></i>&nbsp;&nbsp;Email</label>
-                      <input type="email" class="form-control"  placeholder="Escriba su email" name="email_update" required="">
-                    </div>-->
+                      <input type="email" class="form-control"  placeholder="Escriba su email" autcomplete="off" value="<?php echo $regu['email_cliente'] ?>" name="email_update">
+                    </div>
                     <button type="submit" class="btn btn-info">Actualizar datos</button>
                   </form>
                 </div>

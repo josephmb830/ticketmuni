@@ -10,3 +10,309 @@
 [15-Jun-2021 13:56:36 America/Lima] PHP Warning:  mysqli_set_charset() expects parameter 1 to be mysqli, boolean given in /home/cquctpih/public_html/ticket/lib/class_mysql.php on line 10
 [15-Jun-2021 13:56:36 America/Lima] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, boolean given in /home/cquctpih/public_html/ticket/lib/class_.php on line 15
 [15-Jun-2021 13:56:36 America/Lima] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, null given in /home/cquctpih/public_html/ticket/process/login.php on line 8
+[16-May-2024 20:50:13 UTC] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, bool given in /home/tierimbc/ticket.liabm.com/process/login.php on line 80
+[16-May-2024 15:50:43 America/Bogota] PHP Notice:  Undefined index: area_ticket in /home/tierimbc/ticket.liabm.com/lib/class_mysql.php on line 55
+[16-May-2024 15:51:09 America/Bogota] PHP Notice:  Undefined index: area_ticket in /home/tierimbc/ticket.liabm.com/lib/class_mysql.php on line 55
+[16-May-2024 15:51:17 America/Bogota] PHP Notice:  Undefined index: area_ticket in /home/tierimbc/ticket.liabm.com/lib/class_mysql.php on line 55
+[16-May-2024 15:51:24 America/Bogota] PHP Notice:  Undefined index: area_ticket in /home/tierimbc/ticket.liabm.com/lib/class_mysql.php on line 55
+[16-May-2024 20:52:17 UTC] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, bool given in /home/tierimbc/ticket.liabm.com/process/login.php on line 80
+[16-May-2024 20:56:20 UTC] PHP Notice:  Undefined index: type in /home/tierimbc/ticket.liabm.com/admin/admin-view.php on line 1
+[16-May-2024 16:02:12 America/Bogota] PHP Notice:  Undefined index: area_ticket in /home/tierimbc/ticket.liabm.com/lib/class_mysql.php on line 55
+[16-May-2024 16:02:20 America/Bogota] PHP Notice:  Undefined index: area_ticket in /home/tierimbc/ticket.liabm.com/lib/class_mysql.php on line 55
+[16-May-2024 16:02:27 America/Bogota] PHP Notice:  Undefined index: area_ticket in /home/tierimbc/ticket.liabm.com/lib/class_mysql.php on line 55
+[16-May-2024 16:02:37 America/Bogota] PHP Notice:  Undefined index: area_ticket in /home/tierimbc/ticket.liabm.com/lib/class_mysql.php on line 55
+[16-May-2024 16:12:59 America/Bogota] PHP Notice:  Undefined index: email in /home/tierimbc/ticket.liabm.com/user/ticket-view.php on line 4
+[16-May-2024 21:17:58 UTC] PHP Notice:  Undefined index: type in /home/tierimbc/ticket.liabm.com/admin/admin-view.php on line 1
+[16-May-2024 16:20:42 America/Bogota] PHP Fatal error:  Uncaught Error: Call to undefined method mysqli_stmt::get_result() in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php:117
+Stack trace:
+#0 /home/tierimbc/ticket.liabm.com/admin.php(30): include()
+#1 {main}
+  thrown in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 117
+[16-May-2024 21:21:15 UTC] PHP Notice:  Undefined index: tipo in /home/tierimbc/ticket.liabm.com/admin.php on line 7
+[16-May-2024 21:21:15 UTC] PHP Notice:  session_start(): A session had already been started - ignoring in /home/tierimbc/ticket.liabm.com/admin.php on line 8
+[16-May-2024 21:21:15 UTC] PHP Notice:  Undefined index: nombre in /home/tierimbc/ticket.liabm.com/inc/slidebar.php on line 9
+[16-May-2024 21:21:15 UTC] PHP Notice:  Undefined index: tipo in /home/tierimbc/ticket.liabm.com/inc/slidebar.php on line 17
+[16-May-2024 21:21:15 UTC] PHP Notice:  Undefined index: tipo in /home/tierimbc/ticket.liabm.com/inc/slidebar.php on line 20
+[16-May-2024 21:21:15 UTC] PHP Notice:  Undefined index: tipo in /home/tierimbc/ticket.liabm.com/inc/slidebar.php on line 25
+[16-May-2024 16:21:15 America/Bogota] PHP Notice:  Undefined index: tipo in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 112
+[16-May-2024 16:21:15 America/Bogota] PHP Notice:  Undefined index: tipo in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 327
+[16-May-2024 16:21:15 America/Bogota] PHP Notice:  Undefined variable: reg in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 525
+[16-May-2024 16:21:15 America/Bogota] PHP Notice:  Undefined variable: reg in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 535
+[16-May-2024 16:21:15 America/Bogota] PHP Notice:  Undefined variable: readonly in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 546
+[16-May-2024 16:21:15 America/Bogota] PHP Notice:  Undefined variable: reg in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 547
+[16-May-2024 16:21:15 America/Bogota] PHP Notice:  Undefined variable: reg in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 547
+[16-May-2024 16:21:15 America/Bogota] PHP Notice:  Undefined variable: reg in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 547
+[16-May-2024 16:21:15 America/Bogota] PHP Notice:  Undefined variable: reg in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 547
+[16-May-2024 16:21:15 America/Bogota] PHP Notice:  Undefined variable: reg in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 573
+[16-May-2024 16:21:15 America/Bogota] PHP Notice:  Undefined variable: reg in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 580
+[16-May-2024 16:21:15 America/Bogota] PHP Notice:  Undefined variable: reg in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 587
+[16-May-2024 16:21:15 America/Bogota] PHP Notice:  Undefined variable: reg in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 594
+[16-May-2024 16:21:15 America/Bogota] PHP Notice:  Undefined variable: reg in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 601
+[16-May-2024 16:22:26 America/Bogota] PHP Fatal error:  Uncaught Error: Call to undefined method mysqli_stmt::get_result() in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php:117
+Stack trace:
+#0 /home/tierimbc/ticket.liabm.com/admin.php(30): include()
+#1 {main}
+  thrown in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 117
+[16-May-2024 21:24:30 UTC] PHP Warning:  Undefined array key "type" in /home/tierimbc/ticket.liabm.com/admin/admin-view.php on line 1
+[16-May-2024 21:25:18 UTC] PHP Notice:  Undefined index: tipo in /home/tierimbc/ticket.liabm.com/admin.php on line 7
+[16-May-2024 21:25:18 UTC] PHP Notice:  session_start(): A session had already been started - ignoring in /home/tierimbc/ticket.liabm.com/admin.php on line 8
+[16-May-2024 21:25:18 UTC] PHP Notice:  Undefined index: nombre in /home/tierimbc/ticket.liabm.com/inc/slidebar.php on line 9
+[16-May-2024 21:25:18 UTC] PHP Notice:  Undefined index: tipo in /home/tierimbc/ticket.liabm.com/inc/slidebar.php on line 17
+[16-May-2024 21:25:18 UTC] PHP Notice:  Undefined index: tipo in /home/tierimbc/ticket.liabm.com/inc/slidebar.php on line 20
+[16-May-2024 21:25:18 UTC] PHP Notice:  Undefined index: tipo in /home/tierimbc/ticket.liabm.com/inc/slidebar.php on line 25
+[16-May-2024 21:25:18 UTC] PHP Notice:  Undefined index: nombre in /home/tierimbc/ticket.liabm.com/admin/tech-view.php on line 1
+[16-May-2024 21:25:32 UTC] PHP Notice:  Undefined index: type in /home/tierimbc/ticket.liabm.com/admin/admin-view.php on line 1
+[16-May-2024 16:27:13 America/Bogota] PHP Fatal error:  Uncaught Error: Call to undefined method mysqli_stmt::get_result() in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php:117
+Stack trace:
+#0 /home/tierimbc/ticket.liabm.com/admin.php(30): include()
+#1 {main}
+  thrown in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 117
+[16-May-2024 16:28:22 America/Bogota] PHP Fatal error:  Uncaught Error: Call to undefined method mysqli_stmt::get_result() in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php:110
+Stack trace:
+#0 /home/tierimbc/ticket.liabm.com/admin.php(30): include()
+#1 {main}
+  thrown in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 110
+[16-May-2024 21:29:06 UTC] PHP Notice:  Undefined index: tipo in /home/tierimbc/ticket.liabm.com/admin.php on line 7
+[16-May-2024 21:29:06 UTC] PHP Notice:  A session had already been started - ignoring session_start() in /home/tierimbc/ticket.liabm.com/admin.php on line 8
+[16-May-2024 21:29:06 UTC] PHP Notice:  Undefined index: nombre in /home/tierimbc/ticket.liabm.com/inc/slidebar.php on line 9
+[16-May-2024 21:29:06 UTC] PHP Notice:  Undefined index: tipo in /home/tierimbc/ticket.liabm.com/inc/slidebar.php on line 17
+[16-May-2024 21:29:06 UTC] PHP Notice:  Undefined index: tipo in /home/tierimbc/ticket.liabm.com/inc/slidebar.php on line 20
+[16-May-2024 21:29:06 UTC] PHP Notice:  Undefined index: tipo in /home/tierimbc/ticket.liabm.com/inc/slidebar.php on line 25
+[16-May-2024 16:29:06 America/Bogota] PHP Notice:  Undefined index: tipo in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 105
+[16-May-2024 16:29:06 America/Bogota] PHP Notice:  Undefined index: tipo in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 320
+[16-May-2024 16:29:06 America/Bogota] PHP Notice:  Undefined variable: reg in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 518
+[16-May-2024 16:29:06 America/Bogota] PHP Notice:  Undefined variable: reg in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 528
+[16-May-2024 16:29:06 America/Bogota] PHP Notice:  Undefined variable: readonly in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 539
+[16-May-2024 16:29:06 America/Bogota] PHP Notice:  Undefined variable: reg in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 540
+[16-May-2024 16:29:06 America/Bogota] PHP Notice:  Undefined variable: reg in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 540
+[16-May-2024 16:29:06 America/Bogota] PHP Notice:  Undefined variable: reg in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 540
+[16-May-2024 16:29:06 America/Bogota] PHP Notice:  Undefined variable: reg in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 540
+[16-May-2024 16:29:06 America/Bogota] PHP Notice:  Undefined variable: reg in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 566
+[16-May-2024 16:29:06 America/Bogota] PHP Notice:  Undefined variable: reg in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 573
+[16-May-2024 16:29:06 America/Bogota] PHP Notice:  Undefined variable: reg in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 580
+[16-May-2024 16:29:06 America/Bogota] PHP Notice:  Undefined variable: reg in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 587
+[16-May-2024 16:29:06 America/Bogota] PHP Notice:  Undefined variable: reg in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 594
+[16-May-2024 16:30:00 America/Bogota] PHP Fatal error:  Uncaught Error: Call to undefined method mysqli_stmt::get_result() in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php:110
+Stack trace:
+#0 /home/tierimbc/ticket.liabm.com/admin.php(30): include()
+#1 {main}
+  thrown in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 110
+[16-May-2024 21:30:24 UTC] PHP Warning:  Undefined array key "tipo" in /home/tierimbc/ticket.liabm.com/admin.php on line 7
+[16-May-2024 21:30:24 UTC] PHP Notice:  session_start(): Ignoring session_start() because a session is already active (started from /home/tierimbc/ticket.liabm.com/admin.php on line 2) in /home/tierimbc/ticket.liabm.com/admin.php on line 8
+[16-May-2024 21:30:24 UTC] PHP Warning:  Undefined array key "nombre" in /home/tierimbc/ticket.liabm.com/inc/slidebar.php on line 9
+[16-May-2024 21:30:24 UTC] PHP Warning:  Undefined array key "tipo" in /home/tierimbc/ticket.liabm.com/inc/slidebar.php on line 17
+[16-May-2024 21:30:24 UTC] PHP Warning:  Undefined array key "tipo" in /home/tierimbc/ticket.liabm.com/inc/slidebar.php on line 20
+[16-May-2024 21:30:24 UTC] PHP Warning:  Undefined array key "tipo" in /home/tierimbc/ticket.liabm.com/inc/slidebar.php on line 25
+[16-May-2024 16:30:24 America/Bogota] PHP Warning:  Undefined array key "tipo" in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 105
+[16-May-2024 16:30:24 America/Bogota] PHP Warning:  Undefined array key "tipo" in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 320
+[16-May-2024 16:30:24 America/Bogota] PHP Warning:  Undefined variable $reg in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 518
+[16-May-2024 16:30:24 America/Bogota] PHP Warning:  Trying to access array offset on null in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 518
+[16-May-2024 16:30:24 America/Bogota] PHP Warning:  Undefined variable $reg in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 528
+[16-May-2024 16:30:24 America/Bogota] PHP Warning:  Trying to access array offset on null in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 528
+[16-May-2024 16:30:24 America/Bogota] PHP Warning:  Undefined variable $readonly in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 539
+[16-May-2024 16:30:24 America/Bogota] PHP Warning:  Undefined variable $reg in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 540
+[16-May-2024 16:30:24 America/Bogota] PHP Warning:  Trying to access array offset on null in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 540
+[16-May-2024 16:30:24 America/Bogota] PHP Warning:  Undefined variable $reg in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 540
+[16-May-2024 16:30:24 America/Bogota] PHP Warning:  Trying to access array offset on null in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 540
+[16-May-2024 16:30:24 America/Bogota] PHP Warning:  Undefined variable $reg in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 540
+[16-May-2024 16:30:24 America/Bogota] PHP Warning:  Trying to access array offset on null in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 540
+[16-May-2024 16:30:24 America/Bogota] PHP Warning:  Undefined variable $reg in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 540
+[16-May-2024 16:30:24 America/Bogota] PHP Warning:  Trying to access array offset on null in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 540
+[16-May-2024 16:30:24 America/Bogota] PHP Warning:  Undefined variable $reg in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 566
+[16-May-2024 16:30:24 America/Bogota] PHP Warning:  Trying to access array offset on null in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 566
+[16-May-2024 16:30:24 America/Bogota] PHP Warning:  Undefined variable $reg in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 573
+[16-May-2024 16:30:24 America/Bogota] PHP Warning:  Trying to access array offset on null in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 573
+[16-May-2024 16:30:24 America/Bogota] PHP Warning:  Undefined variable $reg in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 580
+[16-May-2024 16:30:24 America/Bogota] PHP Warning:  Trying to access array offset on null in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 580
+[16-May-2024 16:30:24 America/Bogota] PHP Warning:  Undefined variable $reg in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 587
+[16-May-2024 16:30:24 America/Bogota] PHP Warning:  Trying to access array offset on null in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 587
+[16-May-2024 16:30:24 America/Bogota] PHP Warning:  Undefined variable $reg in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 594
+[16-May-2024 16:30:24 America/Bogota] PHP Warning:  Trying to access array offset on null in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 594
+[16-May-2024 21:30:52 UTC] PHP Warning:  Undefined array key "type" in /home/tierimbc/ticket.liabm.com/admin/admin-view.php on line 1
+[16-May-2024 21:33:04 UTC] PHP Notice:  Undefined index: tipo in /home/tierimbc/ticket.liabm.com/admin.php on line 7
+[16-May-2024 21:33:04 UTC] PHP Notice:  A session had already been started - ignoring session_start() in /home/tierimbc/ticket.liabm.com/admin.php on line 8
+[16-May-2024 21:33:04 UTC] PHP Notice:  Undefined index: nombre in /home/tierimbc/ticket.liabm.com/inc/slidebar.php on line 9
+[16-May-2024 21:33:04 UTC] PHP Notice:  Undefined index: tipo in /home/tierimbc/ticket.liabm.com/inc/slidebar.php on line 17
+[16-May-2024 21:33:04 UTC] PHP Notice:  Undefined index: tipo in /home/tierimbc/ticket.liabm.com/inc/slidebar.php on line 20
+[16-May-2024 21:33:04 UTC] PHP Notice:  Undefined index: tipo in /home/tierimbc/ticket.liabm.com/inc/slidebar.php on line 25
+[16-May-2024 21:33:04 UTC] PHP Notice:  Undefined index: nombre in /home/tierimbc/ticket.liabm.com/admin/tech-view.php on line 1
+[16-May-2024 16:33:14 America/Bogota] PHP Fatal error:  Uncaught Error: Call to undefined method mysqli_stmt::get_result() in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php:110
+Stack trace:
+#0 /home/tierimbc/ticket.liabm.com/admin.php(30): include()
+#1 {main}
+  thrown in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 110
+[16-May-2024 21:33:17 UTC] PHP Notice:  Undefined index: type in /home/tierimbc/ticket.liabm.com/admin/admin-view.php on line 1
+[16-May-2024 16:33:44 America/Bogota] PHP Fatal error:  Uncaught Error: Call to undefined method mysqli_stmt::get_result() in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php:110
+Stack trace:
+#0 /home/tierimbc/ticket.liabm.com/admin.php(30): include()
+#1 {main}
+  thrown in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 110
+[16-May-2024 16:33:45 America/Bogota] PHP Fatal error:  Uncaught Error: Call to undefined method mysqli_stmt::get_result() in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php:110
+Stack trace:
+#0 /home/tierimbc/ticket.liabm.com/admin.php(30): include()
+#1 {main}
+  thrown in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 110
+[16-May-2024 16:33:47 America/Bogota] PHP Fatal error:  Uncaught Error: Call to undefined method mysqli_stmt::get_result() in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php:110
+Stack trace:
+#0 /home/tierimbc/ticket.liabm.com/admin.php(30): include()
+#1 {main}
+  thrown in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 110
+[16-May-2024 16:33:47 America/Bogota] PHP Fatal error:  Uncaught Error: Call to undefined method mysqli_stmt::get_result() in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php:110
+Stack trace:
+#0 /home/tierimbc/ticket.liabm.com/admin.php(30): include()
+#1 {main}
+  thrown in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 110
+[16-May-2024 16:33:47 America/Bogota] PHP Fatal error:  Uncaught Error: Call to undefined method mysqli_stmt::get_result() in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php:110
+Stack trace:
+#0 /home/tierimbc/ticket.liabm.com/admin.php(30): include()
+#1 {main}
+  thrown in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 110
+[16-May-2024 16:33:48 America/Bogota] PHP Fatal error:  Uncaught Error: Call to undefined method mysqli_stmt::get_result() in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php:110
+Stack trace:
+#0 /home/tierimbc/ticket.liabm.com/admin.php(30): include()
+#1 {main}
+  thrown in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 110
+[16-May-2024 16:33:49 America/Bogota] PHP Fatal error:  Uncaught Error: Call to undefined method mysqli_stmt::get_result() in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php:110
+Stack trace:
+#0 /home/tierimbc/ticket.liabm.com/admin.php(30): include()
+#1 {main}
+  thrown in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 110
+[16-May-2024 16:33:50 America/Bogota] PHP Fatal error:  Uncaught Error: Call to undefined method mysqli_stmt::get_result() in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php:110
+Stack trace:
+#0 /home/tierimbc/ticket.liabm.com/admin.php(30): include()
+#1 {main}
+  thrown in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 110
+[16-May-2024 16:33:51 America/Bogota] PHP Fatal error:  Uncaught Error: Call to undefined method mysqli_stmt::get_result() in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php:110
+Stack trace:
+#0 /home/tierimbc/ticket.liabm.com/admin.php(30): include()
+#1 {main}
+  thrown in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 110
+[16-May-2024 16:33:52 America/Bogota] PHP Fatal error:  Uncaught Error: Call to undefined method mysqli_stmt::get_result() in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php:110
+Stack trace:
+#0 /home/tierimbc/ticket.liabm.com/admin.php(30): include()
+#1 {main}
+  thrown in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 110
+[16-May-2024 16:34:04 America/Bogota] PHP Fatal error:  Uncaught Error: Call to undefined method mysqli_stmt::get_result() in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php:110
+Stack trace:
+#0 /home/tierimbc/ticket.liabm.com/admin.php(30): include()
+#1 {main}
+  thrown in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 110
+[16-May-2024 21:34:39 UTC] PHP Notice:  Undefined index: tipo in /home/tierimbc/ticket.liabm.com/admin.php on line 7
+[16-May-2024 21:34:39 UTC] PHP Notice:  A session had already been started - ignoring session_start() in /home/tierimbc/ticket.liabm.com/admin.php on line 8
+[16-May-2024 21:34:39 UTC] PHP Notice:  Undefined index: nombre in /home/tierimbc/ticket.liabm.com/inc/slidebar.php on line 9
+[16-May-2024 21:34:39 UTC] PHP Notice:  Undefined index: tipo in /home/tierimbc/ticket.liabm.com/inc/slidebar.php on line 17
+[16-May-2024 21:34:39 UTC] PHP Notice:  Undefined index: tipo in /home/tierimbc/ticket.liabm.com/inc/slidebar.php on line 20
+[16-May-2024 21:34:39 UTC] PHP Notice:  Undefined index: tipo in /home/tierimbc/ticket.liabm.com/inc/slidebar.php on line 25
+[16-May-2024 16:34:39 America/Bogota] PHP Notice:  Undefined index: tipo in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 105
+[16-May-2024 16:34:39 America/Bogota] PHP Notice:  Undefined index: tipo in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 320
+[16-May-2024 16:34:39 America/Bogota] PHP Notice:  Undefined variable: reg in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 518
+[16-May-2024 16:34:39 America/Bogota] PHP Notice:  Undefined variable: reg in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 528
+[16-May-2024 16:34:39 America/Bogota] PHP Notice:  Undefined variable: readonly in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 539
+[16-May-2024 16:34:39 America/Bogota] PHP Notice:  Undefined variable: reg in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 540
+[16-May-2024 16:34:39 America/Bogota] PHP Notice:  Undefined variable: reg in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 540
+[16-May-2024 16:34:39 America/Bogota] PHP Notice:  Undefined variable: reg in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 540
+[16-May-2024 16:34:39 America/Bogota] PHP Notice:  Undefined variable: reg in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 540
+[16-May-2024 16:34:39 America/Bogota] PHP Notice:  Undefined variable: reg in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 566
+[16-May-2024 16:34:39 America/Bogota] PHP Notice:  Undefined variable: reg in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 573
+[16-May-2024 16:34:39 America/Bogota] PHP Notice:  Undefined variable: reg in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 580
+[16-May-2024 16:34:39 America/Bogota] PHP Notice:  Undefined variable: reg in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 587
+[16-May-2024 16:34:39 America/Bogota] PHP Notice:  Undefined variable: reg in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 594
+[16-May-2024 16:34:52 America/Bogota] PHP Fatal error:  Call to undefined method mysqli_stmt::get_result() in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 110
+[16-May-2024 16:35:34 America/Bogota] PHP Fatal error:  Uncaught Error: Call to undefined method mysqli_stmt::get_result() in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php:110
+Stack trace:
+#0 /home/tierimbc/ticket.liabm.com/admin.php(30): include()
+#1 {main}
+  thrown in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 110
+[16-May-2024 21:36:03 UTC] PHP Warning:  Undefined array key "tipo" in /home/tierimbc/ticket.liabm.com/admin.php on line 7
+[16-May-2024 21:36:03 UTC] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in /home/tierimbc/ticket.liabm.com/admin.php on line 8
+[16-May-2024 21:36:03 UTC] PHP Warning:  Undefined array key "nombre" in /home/tierimbc/ticket.liabm.com/inc/slidebar.php on line 9
+[16-May-2024 21:36:03 UTC] PHP Warning:  Undefined array key "tipo" in /home/tierimbc/ticket.liabm.com/inc/slidebar.php on line 17
+[16-May-2024 21:36:03 UTC] PHP Warning:  Undefined array key "tipo" in /home/tierimbc/ticket.liabm.com/inc/slidebar.php on line 20
+[16-May-2024 21:36:03 UTC] PHP Warning:  Undefined array key "tipo" in /home/tierimbc/ticket.liabm.com/inc/slidebar.php on line 25
+[16-May-2024 16:36:03 America/Bogota] PHP Warning:  Undefined array key "tipo" in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 105
+[16-May-2024 16:36:03 America/Bogota] PHP Warning:  Undefined array key "tipo" in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 320
+[16-May-2024 16:36:03 America/Bogota] PHP Warning:  Undefined variable $reg in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 518
+[16-May-2024 16:36:03 America/Bogota] PHP Warning:  Trying to access array offset on value of type null in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 518
+[16-May-2024 16:36:03 America/Bogota] PHP Warning:  Undefined variable $reg in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 528
+[16-May-2024 16:36:03 America/Bogota] PHP Warning:  Trying to access array offset on value of type null in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 528
+[16-May-2024 16:36:03 America/Bogota] PHP Warning:  Undefined variable $readonly in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 539
+[16-May-2024 16:36:03 America/Bogota] PHP Warning:  Undefined variable $reg in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 540
+[16-May-2024 16:36:03 America/Bogota] PHP Warning:  Trying to access array offset on value of type null in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 540
+[16-May-2024 16:36:03 America/Bogota] PHP Warning:  Undefined variable $reg in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 540
+[16-May-2024 16:36:03 America/Bogota] PHP Warning:  Trying to access array offset on value of type null in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 540
+[16-May-2024 16:36:03 America/Bogota] PHP Warning:  Undefined variable $reg in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 540
+[16-May-2024 16:36:03 America/Bogota] PHP Warning:  Trying to access array offset on value of type null in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 540
+[16-May-2024 16:36:03 America/Bogota] PHP Warning:  Undefined variable $reg in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 540
+[16-May-2024 16:36:03 America/Bogota] PHP Warning:  Trying to access array offset on value of type null in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 540
+[16-May-2024 16:36:03 America/Bogota] PHP Warning:  Undefined variable $reg in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 566
+[16-May-2024 16:36:03 America/Bogota] PHP Warning:  Trying to access array offset on value of type null in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 566
+[16-May-2024 16:36:03 America/Bogota] PHP Warning:  Undefined variable $reg in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 573
+[16-May-2024 16:36:03 America/Bogota] PHP Warning:  Trying to access array offset on value of type null in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 573
+[16-May-2024 16:36:03 America/Bogota] PHP Warning:  Undefined variable $reg in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 580
+[16-May-2024 16:36:03 America/Bogota] PHP Warning:  Trying to access array offset on value of type null in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 580
+[16-May-2024 16:36:03 America/Bogota] PHP Warning:  Undefined variable $reg in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 587
+[16-May-2024 16:36:03 America/Bogota] PHP Warning:  Trying to access array offset on value of type null in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 587
+[16-May-2024 16:36:03 America/Bogota] PHP Warning:  Undefined variable $reg in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 594
+[16-May-2024 16:36:03 America/Bogota] PHP Warning:  Trying to access array offset on value of type null in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 594
+[16-May-2024 16:39:29 America/Bogota] PHP Fatal error:  Uncaught Error: Call to undefined method mysqli_stmt::get_result() in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php:110
+Stack trace:
+#0 /home/tierimbc/ticket.liabm.com/admin.php(30): include()
+#1 {main}
+  thrown in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 110
+[16-May-2024 21:39:46 UTC] PHP Notice:  Undefined index: type in /home/tierimbc/ticket.liabm.com/admin/admin-view.php on line 1
+[16-May-2024 21:40:00 UTC] PHP Notice:  Undefined index: type in /home/tierimbc/ticket.liabm.com/admin/admin-view.php on line 1
+[16-May-2024 16:40:23 America/Bogota] PHP Fatal error:  Uncaught Error: Call to undefined method mysqli_stmt::get_result() in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php:110
+Stack trace:
+#0 /home/tierimbc/ticket.liabm.com/admin.php(30): include()
+#1 {main}
+  thrown in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 110
+[16-May-2024 16:52:23 America/Bogota] PHP Warning:  include(./class_mysql.php): failed to open stream: No such file or directory in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 107
+[16-May-2024 16:52:23 America/Bogota] PHP Warning:  include(./class_mysql.php): failed to open stream: No such file or directory in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 107
+[16-May-2024 16:52:23 America/Bogota] PHP Warning:  include(): Failed opening './class_mysql.php' for inclusion (include_path='.:/opt/alt/php72/usr/share/pear') in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 107
+[16-May-2024 16:52:23 America/Bogota] PHP Warning:  mysqli_fetch_array() expects parameter 1 to be mysqli_result, boolean given in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 112
+[16-May-2024 21:57:58 UTC] PHP Warning:  include(./class_mysql.php): failed to open stream: No such file or directory in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 12
+[16-May-2024 21:57:58 UTC] PHP Warning:  include(./class_mysql.php): failed to open stream: No such file or directory in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 12
+[16-May-2024 21:57:58 UTC] PHP Warning:  include(): Failed opening './class_mysql.php' for inclusion (include_path='.:/opt/alt/php72/usr/share/pear') in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 12
+[16-May-2024 16:57:58 America/Bogota] PHP Warning:  mysqli_fetch_array() expects parameter 1 to be mysqli_result, boolean given in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 112
+[16-May-2024 16:57:58 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function fetch_array() on null in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php:113
+Stack trace:
+#0 /home/tierimbc/ticket.liabm.com/admin.php(30): include()
+#1 {main}
+  thrown in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 113
+[16-May-2024 22:00:44 UTC] PHP Warning:  include(./class_mysql.php): failed to open stream: No such file or directory in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 12
+[16-May-2024 22:00:44 UTC] PHP Warning:  include(./class_mysql.php): failed to open stream: No such file or directory in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 12
+[16-May-2024 22:00:44 UTC] PHP Warning:  include(): Failed opening './class_mysql.php' for inclusion (include_path='.:/opt/alt/php72/usr/share/pear') in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 12
+[16-May-2024 17:00:44 America/Bogota] PHP Fatal error:  Uncaught Error: Call to a member function fetch_array() on null in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php:113
+Stack trace:
+#0 /home/tierimbc/ticket.liabm.com/admin.php(30): include()
+#1 {main}
+  thrown in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 113
+[16-May-2024 22:01:00 UTC] PHP Warning:  include(./class_mysql.php): failed to open stream: No such file or directory in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 12
+[16-May-2024 22:01:00 UTC] PHP Warning:  include(./class_mysql.php): failed to open stream: No such file or directory in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 12
+[16-May-2024 22:01:00 UTC] PHP Warning:  include(): Failed opening './class_mysql.php' for inclusion (include_path='.:/opt/alt/php72/usr/share/pear') in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 12
+[16-May-2024 22:01:34 UTC] PHP Warning:  include(./class_mysql.php): failed to open stream: No such file or directory in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 12
+[16-May-2024 22:01:34 UTC] PHP Warning:  include(./class_mysql.php): failed to open stream: No such file or directory in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 12
+[16-May-2024 22:01:34 UTC] PHP Warning:  include(): Failed opening './class_mysql.php' for inclusion (include_path='.:/opt/alt/php72/usr/share/pear') in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 12
+[16-May-2024 22:01:44 UTC] PHP Warning:  include(./class_mysql.php): failed to open stream: No such file or directory in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 12
+[16-May-2024 22:01:44 UTC] PHP Warning:  include(./class_mysql.php): failed to open stream: No such file or directory in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 12
+[16-May-2024 22:01:44 UTC] PHP Warning:  include(): Failed opening './class_mysql.php' for inclusion (include_path='.:/opt/alt/php72/usr/share/pear') in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 12
+[16-May-2024 22:02:16 UTC] PHP Warning:  include(./class_mysql.php): failed to open stream: No such file or directory in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 12
+[16-May-2024 22:02:16 UTC] PHP Warning:  include(./class_mysql.php): failed to open stream: No such file or directory in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 12
+[16-May-2024 22:02:16 UTC] PHP Warning:  include(): Failed opening './class_mysql.php' for inclusion (include_path='.:/opt/alt/php72/usr/share/pear') in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 12
+[16-May-2024 22:02:27 UTC] PHP Warning:  include(./class_mysql.php): failed to open stream: No such file or directory in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 12
+[16-May-2024 22:02:27 UTC] PHP Warning:  include(./class_mysql.php): failed to open stream: No such file or directory in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 12
+[16-May-2024 22:02:27 UTC] PHP Warning:  include(): Failed opening './class_mysql.php' for inclusion (include_path='.:/opt/alt/php72/usr/share/pear') in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 12
+[16-May-2024 22:05:21 UTC] PHP Warning:  include_once(./class_mysql.php): failed to open stream: No such file or directory in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 12
+[16-May-2024 22:05:21 UTC] PHP Warning:  include_once(): Failed opening './class_mysql.php' for inclusion (include_path='.:/opt/alt/php72/usr/share/pear') in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 12
+[16-May-2024 22:06:23 UTC] PHP Fatal error:  Cannot declare class Mysql, because the name is already in use in /home/tierimbc/ticket.liabm.com/admin/class_mysql.php on line 3
+[16-May-2024 17:08:55 America/Bogota] PHP Warning:  mysqli_query() expects parameter 2 to be string, object given in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 109
+[16-May-2024 17:08:55 America/Bogota] PHP Warning:  mysqli_fetch_array() expects parameter 1 to be mysqli_result, null given in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 110
+[16-May-2024 17:11:56 America/Bogota] PHP Notice:  Undefined variable: row in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 112
+[16-May-2024 22:12:58 UTC] PHP Parse error:  syntax error, unexpected '$_GET' (T_VARIABLE), expecting ',' or ')' in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 107
+[16-May-2024 17:13:21 America/Bogota] PHP Notice:  Undefined variable: row in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 112
+[16-May-2024 17:14:18 America/Bogota] PHP Notice:  Undefined variable: row in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 112
+[16-May-2024 17:17:34 America/Bogota] PHP Notice:  Undefined index: nombre_usuario in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 185
+[16-May-2024 17:17:34 America/Bogota] PHP Notice:  Undefined index: email_cliente in /home/tierimbc/ticket.liabm.com/admin/ticketedit-view.php on line 195
+[17-May-2024 04:45:47 UTC] PHP Notice:  Undefined index: type in /home/tierimbc/ticket.liabm.com/admin/admin-view.php on line 1
+[17-May-2024 04:45:55 UTC] PHP Notice:  Undefined index: type in /home/tierimbc/ticket.liabm.com/admin/admin-view.php on line 1
+[17-May-2024 04:50:50 UTC] PHP Notice:  Undefined index: type in /home/tierimbc/ticket.liabm.com/admin/admin-view.php on line 1

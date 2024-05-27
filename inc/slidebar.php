@@ -30,10 +30,10 @@
                 <a href="registro_tecnico.php" class="nav_link"> <i class='fas fa-user'></i> <span class="nav_name">Registro de Técnico</span> </a> 
                 <a href="admin.php?view=config" class="nav_link"> <i class='fas fa-cog'></i> <span class="nav_name">Registro de Administrador</span> </a> 
                 <div class="dropdown">
-                    <button class="bg-transparent border-none f-15"  id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button class="bg-transparent border-none f-15"  id="menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fa-solid fa-address-book"></i><span class="ml-2"> Administrar de Usuarios</span>
                     </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <div id="admin" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <a class="dropdown-item" href="./admin.php?view=admin">Administrador</a>
                         <a class="dropdown-item" href="./admin.php?view=users">Usuario</a>
                         <a class="dropdown-item" href="./admin.php?view=tech">Técnico</a>
@@ -48,45 +48,56 @@
     </div>
    
     <!--Container Main end-->
-    <script>
-        document.addEventListener("DOMContentLoaded", function(event) {
-   
-   const showNavbar = (toggleId, navId, bodyId, headerId) =>{
-   const toggle = document.getElementById(toggleId),
-   nav = document.getElementById(navId),
-   bodypd = document.getElementById(bodyId),
-   headerpd = document.getElementById(headerId)
-   let icon= document.getElementsByClassName("img_logo");
-    
-   // Validate that all variables exist
-   if(toggle && nav && bodypd && headerpd){
-   toggle.addEventListener('click', ()=>{
-   // show navbar
-   nav.classList.toggle('show')
-   // change icon
-   toggle.classList.toggle('bx-x')
-   // add padding to body
-   bodypd.classList.toggle('body-pd')
-   
-   // add padding to header
-   headerpd.classList.toggle('body-pd')
-   })
-   }
-   }
-   
-   showNavbar('header-toggle','nav-bar','body-pd','header')
-   
-   /*===== LINK ACTIVE =====*/
-   const linkColor = document.querySelectorAll('.nav_link')
-   
-   function colorLink(){
-   if(linkColor){
-   linkColor.forEach(l=> l.classList.remove('active'))
-   this.classList.add('active')
-   }
-   }
-   linkColor.forEach(l=> l.addEventListener('click', colorLink))
-   
-    // Your code to run since DOM is loaded and ready
-   });
+    <script type="text/javascript">
+        $(document).ready(function(){
+            var flag = false;
+            $('#admin').hide();
+            $('#menu').click(function(){
+                if ( flag ){
+                    $('#admin').show();
+                }else{
+                    $('#admin').hide();
+                }
+                flag = !flag;
+            })
+            document.addEventListener("DOMContentLoaded", function(event) {
+            const showNavbar = (toggleId, navId, bodyId, headerId) =>{
+            const toggle = document.getElementById(toggleId),
+            nav = document.getElementById(navId),
+            bodypd = document.getElementById(bodyId),
+            headerpd = document.getElementById(headerId)
+            let icon= document.getElementsByClassName("img_logo");
+                
+            // Validate that all variables exist
+            if(toggle && nav && bodypd && headerpd){
+            toggle.addEventListener('click', ()=>{
+            // show navbar
+            nav.classList.toggle('show')
+            // change icon
+            toggle.classList.toggle('bx-x')
+            // add padding to body
+            bodypd.classList.toggle('body-pd')
+            
+            // add padding to header
+            headerpd.classList.toggle('body-pd')
+            })
+            }
+            }
+            
+            showNavbar('header-toggle','nav-bar','body-pd','header')
+            
+            /*===== LINK ACTIVE =====*/
+            const linkColor = document.querySelectorAll('.nav_link')
+            
+            function colorLink(){
+            if(linkColor){
+            linkColor.forEach(l=> l.classList.remove('active'))
+            this.classList.add('active')
+            }
+            }
+            linkColor.forEach(l=> l.addEventListener('click', colorLink))
+            
+                // Your code to run since DOM is loaded and ready
+            });
+        });
     </script>
