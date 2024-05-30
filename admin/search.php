@@ -1,46 +1,71 @@
 <?php
 // Establecer la conexión a la base de datos
-require_once '../lib/config.php';
-include './class_mysql.php';
-// Obtener la cadena de búsqueda del parámetro POST
-$searchTerm = isset($_POST['searchTerm']) ? trim($_POST['searchTerm']) : '';
+require_once '../lib/config.php'; // Asegúrate de que este archivo establece la conexión correctamente
 
-// Obtener las fechas de inicio y fin del rango, si están disponibles
+// Obtener las variables POST
+$searchTerm = isset($_POST['searchTerm']) ? trim($_POST['searchTerm']) : '';
 $startDate = isset($_POST['startDate']) ? trim($_POST['startDate']) : '';
 $endDate = isset($_POST['endDate']) ? trim($_POST['endDate']) : '';
+
+// Preparar el término de búsqueda para LIKE
 $searchTerm = "%$searchTerm%";
-// Inicializar la variable para la consulta SQL
-$sql = "SELECT * FROM ticket INNER JOIN tecnico ON ticket.id_tecnico = tecnico.id_tecnico WHERE 1=1 ";
-if (!empty($searchTerm)){
-    $sql .= 'AND (serie LIKE "'.$searchTerm.'" OR estado_ticket LIKE "'.$searchTerm.'" OR departamento LIKE "'.$searchTerm.'" OR fecha_solucion LIKE "'.$searchTerm.'" OR fecha LIKE "'.$searchTerm.'") ';
+
+// Inicializar la conexión
+$con = mysqli_connect(SERVER, USER, PASS, BD);
+
+if ($con->connect_error) {
+    die("Connection failed: " . $con->connect_error);
 }
+
+// Crear la consulta con placeholders
+$sql = "SELECT ticket.*, cliente.*, tecnico.*, administrador.*
+        FROM ticket
+        LEFT JOIN cliente ON ticket.id_cliente = cliente.id_cliente
+        LEFT JOIN tecnico ON ticket.id_tecnico = tecnico.id_tecnico
+        LEFT JOIN administrador ON ticket.id_admin = administrador.id_admin
+        WHERE 1=1";
+
+$params = [];
+$types = "";
+
+// Añadir condiciones a la consulta
+if (!empty($searchTerm)) {
+    $sql .= " AND (ticket.serie LIKE ? OR ticket.estado_ticket LIKE ? OR ticket.departamento LIKE ? OR ticket.fecha_solucion LIKE ? OR ticket.fecha LIKE ?)";
+    $types .= "sssss";
+    $params[] = $searchTerm;
+    $params[] = $searchTerm;
+    $params[] = $searchTerm;
+    $params[] = $searchTerm;
+    $params[] = $searchTerm;
+}
+
 if (!empty($startDate) && !empty($endDate)) {
-    $sql .= "AND (DATE(fecha) BETWEEN $startDate AND $endDate) ";
+    $sql .= " AND (DATE(ticket.fecha) BETWEEN ? AND ?)";
+    $types .= "ss";
+    $params[] = $startDate;
+    $params[] = $endDate;
 }
-// Inicializar el array de parámetros para la consulta preparada
+
 // Preparar la consulta
-$con = mysqli_connect(SERVER,USER,PASS,BD);
+$stmt = $con->prepare($sql);
 
-$consulta = mysqli_query($con, $sql);
-$tickets = [];
-while ($row = mysqli_fetch_array($consulta, MYSQLI_ASSOC)) {
-    if ($row['id_cliente'] != null){
-        $joinsql = "SELECT * FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente INNER JOIN tecnico ON ticket.id_tecnico = tecnico.id_tecnico WHERE id =".$row['id'];
-        $join_consulta = mysqli_query($con, $joinsql); 
-        $row = mysqli_fetch_array($join_consulta, MYSQLI_ASSOC);
-    }
-    if ( $row['id_admin'] != null ){
-        $joinsql = "SELECT * FROM ticket INNER JOIN administrador ON ticket.id_admin = administrador.id_admin INNER JOIN tecnico ON ticket.id_tecnico = tecnico.id_tecnico WHERE id=".$row['id'];
-        $join_consulta = mysqli_query($con, $joinsql); 
-        $row = mysqli_fetch_array($join_consulta, MYSQLI_ASSOC);
-    }
- $tickets[] = $row;
+if ($types) {
+    $stmt->bind_param($types, ...$params);
 }
-// Devolver los resultados como JSON
 
+$stmt->execute();
+$result = $stmt->get_result();
+
+// Inicializar el array de tickets
+$tickets = [];
+while ($row = $result->fetch_assoc()) {
+    $tickets[] = $row;
+}
+
+// Devolver los resultados como JSON
 echo json_encode($tickets);
 
 // Cerrar la conexión
-$conn->close();
+$stmt->close();
 $con->close();
 ?>

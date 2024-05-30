@@ -482,15 +482,17 @@
         // Obtener referencia al botón de búsqueda
         const searchButton = document.getElementById('searchButton');
         $('#clearButton').click(function() {
-            console.log('CLICK')
+            console.log('CLICK');
             document.getElementById("ticket").value = '';
             document.getElementById("responsable").selectedIndex = 0;
             document.getElementById("estado").selectedIndex = 0;
             document.getElementById("departamento").selectedIndex = 0;
             document.getElementById("fecha_inicio").value = '';
             document.getElementById("fecha_final").value = '';
-        })
-        $('#toPDF').click( function (){
+        });
+
+        $('#toPDF').click(function (){
+            // Implementar funcionalidad de exportar a PDF
             /*
             const { jsPDF } = window.jspdf;
             var doc = new jsPDF('l', 'pt');
@@ -498,19 +500,17 @@
             var res = doc.autoTableHtmlToJson(pdf);
             doc.autoTable(res.columns, res.data);
             doc.save("tickets.pdf");*/
-            
-        })
+        });
+
         // Escuchar el evento 'click' en el botón de búsqueda
         searchButton.addEventListener('click', () => {
             // Obtener los valores de los campos de entrada
             let searchTerm = $('#ticket').val().trim();
             let startDate = $('#fecha_inicio').val();
-            console.log(startDate)
             let endDate = $('#fecha_final').val();
-            console.log(endDate)
             let responsable = $('#responsable').val();    
             let estado = $('#estado').val();
-            let departament = $('#departamento').val()
+            let departament = $('#departamento').val();
             
             $.ajax({
                 type: 'POST',
@@ -524,85 +524,89 @@
                 success: function(data) {
                     // Limpiar la tabla de resultados
                     $('#ticketTable').empty();
-                    
-                    // Verificar si se encontraron resultados
-                    if (data && data.length > 0) {
-                        // Iterar sobre los resultados y agregar filas a la tabla
-                        console.log(data)
-                        if ( startDate ){
-                            data = data.filter((el) => Date.parse(el.fecha_solucion) >= Date.parse(startDate))
-                            console.log(data)
-                            data = data.filter((el) => Date.parse(el.fecha) >= Date.parse(startDate))
-                            console.log(data);
 
+                    // Verificar los datos recibidos
+                    console.log("Datos recibidos: ", data);
+                    
+                    // Aplicar los filtros
+                    if (data && data.length > 0) {
+                        // Filtrar por fechas
+                        if (startDate) {
+                            data = data.filter((el) => Date.parse(el.fecha_solucion) >= Date.parse(startDate));
+                            data = data.filter((el) => Date.parse(el.fecha) >= Date.parse(startDate));
                         }
-                        if ( endDate ){
-                            data = data.filter((el) => Date.parse(el.fecha_solucion) < Date.parse(endDate))
-                            data = data.filter((el) => Date.parse(el.fecha) < Date.parse(endDate))
+                        if (endDate) {
+                            data = data.filter((el) => Date.parse(el.fecha_solucion) < Date.parse(endDate));
+                            data = data.filter((el) => Date.parse(el.fecha) < Date.parse(endDate));
                         }
-                        if ( responsable ){
-                            data = data.filter((el ) => el.id_tecnico == responsable )
-                        } 
-                        console.log(data)
-                        if ( estado ){
-                            data = data.filter((el) => el.estado_ticket == estado)
+                        // Filtrar por responsable
+                        if (responsable) {
+                            data = data.filter((el) => el.id_tecnico == responsable);
                         }
-                        console.log(data)
-                        if ( departament ){
-                            data = data.filter((el) => el.departamento == departament )
+                        // Filtrar por estado
+                        if (estado) {
+                            data = data.filter((el) => el.estado_ticket == estado);
                         }
+                        // Filtrar por departamento
+                        if (departament) {
+                            data = data.filter((el) => el.departamento == departament);
+                        }
+
+                        // Imprimir datos después de los filtros
+                        console.log("Datos después de aplicar filtros: ", data);
+
+                        // Agregar filas a la tabla
                         data.forEach(row => {
                             let tr = '';
-                            if ( row.id_cliente != null){
+                            if (row.id_cliente != null) {
                                 tr = `<tr>
-                                <td class="text-center"></td>
-                                <td>${row.fecha}</td>
-                                <td>${row.serie}</td>
-                                <td>${row.estado_ticket}</td>
-                                <td>${row.nombres}</td>
-                                <td>${row.email_cliente}</td>
-                                <td>${row.departamento}</td>
-                                <td>${row.nombres_tecnico}</td>
-                                <td>${row.fecha_solucion}</td>
-                                <td>${row.area}</td>
-                                <td>
-                                    <a href="./lib/pdf.php?id=${row.id}" class="btn btn-sm btn-success" target="_blank"><i class="fa fa-print" aria-hidden="true"></i></a>
-                                    <a href="admin.php?view=ticketedit&id=${row.id}" class="btn btn-sm btn-warning"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                                    <form action="" method="POST" style="display: inline-block;">
-                                        <input type="hidden" name="id_del" value="${row.id}">
-                                        <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
-                                    </form>
-                                </td>
-                            </tr>`;
-                            }else if (row.id_admin != null){
+                                    <td class="text-center"></td>
+                                    <td>${row.fecha}</td>
+                                    <td>${row.serie}</td>
+                                    <td>${row.estado_ticket}</td>
+                                    <td>${row.nombres}</td>
+                                    <td>${row.email_cliente}</td>
+                                    <td>${row.departamento}</td>
+                                    <td>${row.nombres_tecnico}</td>
+                                    <td>${row.fecha_solucion}</td>
+                                    <td>${row.area}</td>
+                                    <td>
+                                        <a href="./lib/pdf.php?id=${row.id}" class="btn btn-sm btn-success" target="_blank"><i class="fa fa-print" aria-hidden="true"></i></a>
+                                        <a href="admin.php?view=ticketedit&id=${row.id}" class="btn btn-sm btn-warning"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                        <form action="" method="POST" style="display: inline-block;">
+                                            <input type="hidden" name="id_del" value="${row.id}">
+                                            <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                        </form>
+                                    </td>
+                                </tr>`;
+                            } else if (row.id_admin != null) {
                                 tr = `<tr>
-                                <td class="text-center"></td>
-                                <td>${row.fecha}</td>
-                                <td>${row.serie}</td>
-                                <td>${row.estado_ticket}</td>
-                                <td>${row.nombre_completo}</td>
-                                <td>${row.email_admin}</td>
-                                <td>${row.departamento}</td>
-                                <td>${row.nombres_tecnico}</td>
-                                <td>${row.fecha_solucion}</td>
-                                <td>${row.area}</td>
-                                <td>
-                                    <a href="./lib/pdf.php?id=${row.id}" class="btn btn-sm btn-success" target="_blank"><i class="fa fa-print" aria-hidden="true"></i></a>
-                                    <a href="admin.php?view=ticketedit&id=${row.id}" class="btn btn-sm btn-warning"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                                    <form action="" method="POST" style="display: inline-block;">
-                                        <input type="hidden" name="id_del" value="${row.id}">
-                                        <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
-                                    </form>
-                                </td>
-                            </tr>`;
+                                    <td class="text-center"></td>
+                                    <td>${row.fecha}</td>
+                                    <td>${row.serie}</td>
+                                    <td>${row.estado_ticket}</td>
+                                    <td>${row.nombre_completo}</td>
+                                    <td>${row.email_admin}</td>
+                                    <td>${row.departamento}</td>
+                                    <td>${row.nombres_tecnico}</td>
+                                    <td>${row.fecha_solucion}</td>
+                                    <td>${row.area}</td>
+                                    <td>
+                                        <a href="./lib/pdf.php?id=${row.id}" class="btn btn-sm btn-success" target="_blank"><i class="fa fa-print" aria-hidden="true"></i></a>
+                                        <a href="admin.php?view=ticketedit&id=${row.id}" class="btn btn-sm btn-warning"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                        <form action="" method="POST" style="display: inline-block;">
+                                            <input type="hidden" name="id_del" value="${row.id}">
+                                            <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                        </form>
+                                    </td>
+                                </tr>`;
                             }
-                            
                             $('#ticketTable').append(tr);
                         });
-                        console.log(data); 
+
+                        // Mostrar botón para exportar a PDF si hay tickets
                         tickets = JSON.stringify(data);
                         $('#toPDF').removeClass('d-none').addClass('d-block');
-                        console.log(tickets);
                         $('#all_tickets').append(tickets);
 
                     } else {
@@ -618,6 +622,7 @@
         });
     });
 </script>
+
 
 
 </body>
