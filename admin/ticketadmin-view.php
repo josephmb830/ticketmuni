@@ -149,31 +149,31 @@
             <div class="container-fluid mt-250 h-screen" style="max-width:80%; width:100%;margin:auto;">
             <div class="row">
                     <div class="col-md-2-5 border-r bg-blue text-center pt-4 pb-4">
-                        <a href="./admin.php?view=ticketasig&ticket=all" class="text-white">
+                        <a href="./admin.php?view=ticketadmin&ticket=all" class="text-white">
                             <h3 class="f-20 text-center">Todos los Tickets</h3>
                             <p class="f-20 text-center"><?php echo $num_total_all; ?></p>
                         </a>
                     </div>
                     <div class="col-md-2-5 text-white border-r bg-yellow text-center pt-4 pb-4">
-                        <a href="./admin.php?view=ticketasig&ticket=pending" class="text-white ">
+                        <a href="./admin.php?view=ticketadmin&ticket=pending" class="text-white ">
                             <h3 class="f-20 text-center">Tickets Pendientes</h3>
                             <p class="f-20 text-center"><?php echo $num_total_pend; ?></p>
                         </a>
                     </div>
                     <div class="col-md-2-5 border-r bg-green text-center pt-4 pb-4">
-                        <a href="./admin.php?view=ticketasig&ticket=process" class="text-white ">
+                        <a href="./admin.php?view=ticketadmin&ticket=process" class="text-white ">
                             <h3 class="f-20 text-center">Tickets en Proceso</h3>
                             <p class="f-20 text-center"><?php echo $num_total_proceso; ?></p>
                         </a>
                     </div>
                     <div class="col-md-2-5 text-white border-r bg-gray text-center pt-4 pb-4">
-                        <a href="./admin.php?view=ticketasig&ticket=resolved" class="text-white">
+                        <a href="./admin.php?view=ticketadmin&ticket=resolved" class="text-white">
                             <h3 class="f-20 text-center">Tickets Resueltos</h3>
                             <p class="f-20 text-center"><?php echo $num_total_res; ?></p>
                         </a>
                     </div>
                     <div class="col-md-2-5 text-white border-r bg-red text-center pt-4 pb-4">
-                    <a href="./admin.php?view=ticketasig&ticket=canceled" class="text-white">
+                    <a href="./admin.php?view=ticketadmin&ticket=canceled" class="text-white">
                             <h3 class="f-20 text-center">Tickets Anulados</h3>
                             <p class="f-20 text-center"><?php echo $num_total_can; ?></p>
                         </a>
