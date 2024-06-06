@@ -274,18 +274,7 @@
                                 if(isset($_GET['ticket'])){
                                     if($_GET['ticket']=="all"){
                                         $consulta_admin="SELECT SQL_CALC_FOUND_ROWS ticket.*, administrador.*, tecnico.* FROM ticket INNER JOIN administrador ON ticket.id_admin = administrador.id_admin INNER JOIN tecnico ON ticket.id_tecnico = tecnico.id_tecnico order by id desc LIMIT $inicio, $regpagina";
-                                        $consulta_cliente="SELECT SQL_CALC_FOUND_ROWS ticket.*, cliente.*, tecnico.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente INNER JOIN tecnico ON ticket.id_tecnico = tecnico.id_tecnico order by id desc LIMIT $inicio, $regpagina";
-                                        $consulta= "SELECT SQL_CALC_FOUND_ROWS 
-                                                        ticket.*, 
-                                                        administrador.*, 
-                                                        cliente.*, 
-                                                        tecnico.* 
-                                                    FROM ticket 
-                                                    LEFT JOIN administrador ON ticket.id_admin = administrador.id_admin 
-                                                    LEFT JOIN cliente ON ticket.id_cliente = cliente.id_cliente 
-                                                    INNER JOIN tecnico ON ticket.id_tecnico = tecnico.id_tecnico 
-                                                    ORDER BY id DESC 
-                                                    LIMIT $inicio, $regpagina";                                      
+                                        $consulta_cliente="SELECT SQL_CALC_FOUND_ROWS ticket.*, cliente.*, tecnico.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente INNER JOIN tecnico ON ticket.id_tecnico = tecnico.id_tecnico order by id desc LIMIT $inicio, $regpagina";                                       
                                     }elseif($_GET['ticket']=="pending"){
                                         $consulta_admin="SELECT SQL_CALC_FOUND_ROWS ticket.*, administrador.*, tecnico.* FROM ticket INNER JOIN administrador ON ticket.id_admin = administrador.id_admin INNER JOIN tecnico ON ticket.id_tecnico = tecnico.id_tecnico WHERE ticket.estado_ticket = 'Pendiente' order by id desc LIMIT $inicio, $regpagina";
                                         $consulta_cliente="SELECT SQL_CALC_FOUND_ROWS ticket.*, cliente.*, tecnico.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente INNER JOIN tecnico ON ticket.id_tecnico = tecnico.id_tecnico WHERE ticket.estado_ticket = 'Pendiente' order by id desc LIMIT $inicio, $regpagina";
@@ -305,29 +294,18 @@
                                 }else{
                                     $consulta_admin="SELECT SQL_CALC_FOUND_ROWS ticket.*, administrador.*, tecnico.* FROM ticket INNER JOIN administrador ON ticket.id_admin = administrador.id_admin INNER JOIN tecnico ON ticket.id_tecnico = tecnico.id_tecnico order by id desc LIMIT $inicio, $regpagina";
                                     $consulta_cliente="SELECT SQL_CALC_FOUND_ROWS ticket.*, cliente.*, tecnico.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente INNER JOIN tecnico ON ticket.id_tecnico = tecnico.id_tecnico order by id desc LIMIT $inicio, $regpagina";
-                                    $consulta= "SELECT SQL_CALC_FOUND_ROWS 
-                                                        ticket.*, 
-                                                        administrador.*, 
-                                                        cliente.*, 
-                                                        tecnico.* 
-                                                    FROM ticket 
-                                                    LEFT JOIN administrador ON ticket.id_admin = administrador.id_admin 
-                                                    LEFT JOIN cliente ON ticket.id_cliente = cliente.id_cliente 
-                                                    INNER JOIN tecnico ON ticket.id_tecnico = tecnico.id_tecnico 
-                                                    ORDER BY id DESC 
-                                                    LIMIT $inicio, $regpagina"; 
                                 }
 
 
-                                $selticket=mysqli_query($mysqli,$consulta);
-                                
+                                $selticket_admin=mysqli_query($mysqli,$consulta_admin);
+                                $selticket_cliente=mysqli_query($mysqli,$consulta_cliente);
 
                                 $totalregistros = mysqli_query($mysqli,"SELECT FOUND_ROWS()");
                                 $totalregistros = mysqli_fetch_array($totalregistros, MYSQLI_ASSOC);
                         
                                 $numeropaginas = ceil($totalregistros["FOUND_ROWS()"]/$regpagina);
 
-                                if (mysqli_num_rows($selticket) > 0):
+                                if (mysqli_num_rows($selticket_admin) + mysqli_num_rows($selticket_cliente) > 0):
                             ?>
                             <table id="pdf" class="table table-hover table-striped table-bordered table-responsive">
                                 <thead>
@@ -352,7 +330,7 @@
 
                                     <?php
                                         $ct=$inicio+1;
-                                        while ($row=mysqli_fetch_array($selticket, MYSQLI_ASSOC)): 
+                                        while ($row=mysqli_fetch_array($selticket_admin, MYSQLI_ASSOC)): 
                             
                                     ?>
                                     <tr>
@@ -382,7 +360,34 @@
                                         $ct++;
                                         endwhile; 
 
+                                        while ($row = mysqli_fetch_array($selticket_cliente, MYSQLI_ASSOC)) :
+                                    ?>
+                                    <tr>
+                                        <td class="text-center"><?php echo $ct; ?></td>
+                                        <td class="text-center"><?php echo $row['fecha']; ?></td>
+                                        <td class="text-center"><?php echo $row['serie']; ?></td>
+                                        <td class="text-center"><?php echo $row['estado_ticket']; ?></td>
+                                        <td class="text-center"><?php echo $row['nombre_usuario']; ?>a</td>
+                                        <td class="text-center"><?php echo $row['email_cliente']; ?></td>
+                                        <td class="text-center"><?php echo $row['departamento']; ?></td>
+                                        <td class="text-center"><?php echo strtoupper($row['nombres_tecnico'] . " " . $row['a_paterno_tecnico'] . " " . $row['a_materno_tecnico']); ?></td>
                                         
+                                        
+                                        <td class="text-center">
+                                            <a href="./lib/pdf.php?id=<?php echo $row['id']; ?>" class="btn btn-sm btn-success" target="_blank"><i class="fa fa-print" aria-hidden="true"></i></a>
+
+                                            <a href="admin.php?view=ticketedit&id=<?php echo $row['id']; ?>" class="btn btn-sm btn-warning"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+
+                                            <form action="" method="POST" style="display: inline-block;">
+                                                <input type="hidden" name="id_del" value="<?php echo $row['id']; ?>">
+                                                <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                            </form>
+                                        </td>
+                                      
+                                    </tr>
+                                    <?php
+                                        $ct++;
+                                        endwhile;
                                     ?>
                                 </tbody>
                             </table>
