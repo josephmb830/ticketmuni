@@ -173,7 +173,7 @@
                         </a>
                     </div>
                     <div class="col-md-2-5 text-white border-r bg-red text-center pt-4 pb-4">
-                    <a href="./admin.php?view=ticketadmin&ticket=canceled" class="text-white">
+                    <a href="./admin.php?view=ticketadmin &ticket=canceled" class="text-white">
                             <h3 class="f-20 text-center">Tickets Anulados</h3>
                             <p class="f-20 text-center"><?php echo $num_total_can; ?></p>
                         </a>
