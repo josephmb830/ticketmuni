@@ -47,9 +47,10 @@
         $cierre_edit = MysqlQuery::RequestPost('fecha_solucion_ticket');
         $tecnico_edit = MysqlQuery::RequestPost('id_tecnico');
         $codequipo_edit = MysqlQuery::RequestPost('codequipo_ticket');
+        $id_admin = MysqlQuery::RequestPost('id_admin');
 
         // Utilizando consultas preparadas
-        $sqlUpdate = "UPDATE ticket SET estado_ticket=?, diagnostico=?, solucion=?, observaciones=?, id_tecnico=?, fecha_solucion=?, codequipo=? WHERE id=?";
+        $sqlUpdate = "UPDATE ticket SET estado_ticket=?, id_admin=?, diagnostico=?, solucion=?, observaciones=?, id_tecnico=?, fecha_solucion=?, codequipo=? WHERE id=?";
 
 
         // Preparar la consulta
@@ -57,7 +58,7 @@
 
         if ($stmt) {
             // Vincular los parámetros
-            mysqli_stmt_bind_param($stmt, "sssssssi", $estado_edit, $diagnostico_edit, $solucion_edit, $observaciones_edit, $tecnico_edit, $cierre_edit, $codequipo_edit, $id_edit);
+            mysqli_stmt_bind_param($stmt, "ssssssssi", $estado_edit, $id_admin, $diagnostico_edit, $solucion_edit, $observaciones_edit, $tecnico_edit, $cierre_edit, $codequipo_edit, $id_edit);
 
 
             // Ejecutar la consulta preparada
@@ -111,18 +112,6 @@
             $reg = mysqli_fetch_array($sql, MYSQLI_ASSOC);
         } elseif ($regall['id_admin'] == !null) {
             $sql = Mysql::consulta("SELECT * FROM ticket INNER JOIN administrador ON ticket.id_admin = administrador.id_admin INNER JOIN tecnico ON ticket.id_tecnico = tecnico.id_tecnico WHERE id = '$id'");
-            $reg = mysqli_fetch_array($sql, MYSQLI_ASSOC);
-        } elseif (is_null($regall['id_cliente']) || is_null($regall['id_admin'])) {
-            $sql = Mysql::consulta("SELECT
-                ticket.*, 
-                administrador.*, 
-                cliente.*, 
-                tecnico.* 
-                FROM ticket 
-                LEFT JOIN administrador ON ticket.id_admin = administrador.id_admin 
-                LEFT JOIN cliente ON ticket.id_cliente = cliente.id_cliente 
-                INNER JOIN tecnico ON ticket.id_tecnico = tecnico.id_tecnico 
-                WHERE ticket.id = '$id'"); 
             $reg = mysqli_fetch_array($sql, MYSQLI_ASSOC);
         }
         
@@ -193,14 +182,7 @@
                               <label  class="col-sm-2 control-label">Nombre</label>
                               <div class="col-sm-10">
                                   <div class='input-group'>
-                                      <input type="text" readonly="" class="form-control"  name="name_ticket" readonly="" <?php
-                                            if (isset($reg['nombre_usuario'])) {
-                                                $nombre = $reg['nombre_usuario'];
-                                            } else {
-                                                $nombre = $reg['nombre_admin'];
-                                            }
-                                            ?>
-                                            value="<?php echo $nombre; ?>">
+                                      <input type="text" readonly="" class="form-control"  name="name_ticket" readonly="" value="<?php echo $reg['nombre_usuario']?>">
                                     <span class="input-group-addon"><i class="fa fa-user"></i></span>
                                   </div>
                               </div>
@@ -210,14 +192,7 @@
                               <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
                               <div class="col-sm-10">
                                   <div class='input-group'>
-                                      <input type="email" readonly="" class="form-control"  name="email_ticket" readonly="" <?php 
-                                      if (isset($reg['email_cliente'])) {
-                                            $email = $reg['email_cliente'];
-                                      } else {
-                                            $email = $reg['email_admin'];
-                                      }
-                                      ?>
-                                      value="<?php echo $email; ?>">
+                                      <input type="email" readonly="" class="form-control"  name="email_ticket" readonly="" value="<?php echo $reg['email_cliente']?>">
                                     <span class="input-group-addon"><i class="fa fa-envelope-o"></i></span>
                                   </div> 
                               </div>
@@ -364,18 +339,6 @@
         } elseif ($regall['id_admin'] == !null) {
             $sql = Mysql::consulta("SELECT * FROM ticket INNER JOIN administrador ON ticket.id_admin = administrador.id_admin INNER JOIN tecnico ON ticket.id_tecnico = tecnico.id_tecnico WHERE id = '$id'");
             $reg = mysqli_fetch_array($sql, MYSQLI_ASSOC);
-        } elseif (is_null($regall['id_cliente']) || is_null($regall['id_admin'])) {
-            $sql = Mysql::consulta("SELECT
-                ticket.*, 
-                administrador.*, 
-                cliente.*, 
-                tecnico.* 
-                FROM ticket 
-                LEFT JOIN administrador ON ticket.id_admin = administrador.id_admin 
-                LEFT JOIN cliente ON ticket.id_cliente = cliente.id_cliente 
-                INNER JOIN tecnico ON ticket.id_tecnico = tecnico.id_tecnico 
-                WHERE ticket.id = '$id'"); 
-            $reg = mysqli_fetch_array($sql, MYSQLI_ASSOC);
         }
 
     if (true ) {
@@ -446,7 +409,7 @@
                             <label  class="col-sm-2 control-label">Nombre</label>
                             <div class="col-sm-10">
                                 <div class='input-group'>
-                                    <input type="text" readonly="" class="form-control"  name="name_ticket" readonly="" value="<?php echo $reg['nombre_tecnico']?>">
+                                    <input type="text" readonly="" class="form-control"  name="name_ticket" readonly="" value="<?php echo $reg['nombre_usuario']?>">
                                   <span class="input-group-addon"><i class="fa fa-user"></i></span>
                                 </div>
                             </div>
@@ -456,7 +419,7 @@
                             <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
                             <div class="col-sm-10">
                                 <div class='input-group'>
-                                    <input type="email" readonly="" class="form-control"  name="email_ticket" readonly="" value="<?php echo $reg['email_tecnico']?>">
+                                    <input type="email" readonly="" class="form-control"  name="email_ticket" readonly="" value="<?php echo $reg['email_cliente']?>">
                                   <span class="input-group-addon"><i class="fa fa-envelope-o"></i></span>
                                 </div> 
                             </div>
