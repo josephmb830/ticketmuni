@@ -130,7 +130,8 @@
     $reg = [];
     $readonly = '';
 
-    if ($_SESSION['tipo'] == 'admin') {
+    switch ($_SESSION['tipo']) {
+        case 'admin':
             // Consulta inicial para obtener información relevante del ticket
             $sql = Mysql::consulta("SELECT * FROM ticket INNER JOIN tecnico ON ticket.id_tecnico = tecnico.id_tecnico WHERE id = '$id'");
             $regall = mysqli_fetch_array($sql, MYSQLI_ASSOC);
@@ -149,7 +150,9 @@
 
             $reg = mysqli_fetch_array($sql, MYSQLI_ASSOC);
             $readonly = '';
-        } else if ($_SESSION['tipo'] == 'tecnico') {
+            break;
+
+        case 'tecnico':
             // Consulta específica para el técnico
             $sql = Mysql::consulta("SELECT * FROM ticket INNER JOIN tecnico ON ticket.id_tecnico = tecnico.id_tecnico WHERE id = '$id'");
             $regall = mysqli_fetch_array($sql, MYSQLI_ASSOC);
@@ -170,9 +173,10 @@
             $reg = mysqli_fetch_array($sql, MYSQLI_ASSOC);
             $readonly = 'disabled';
 
+        default:
             // Manejar cualquier otro tipo de sesión según sea necesario
-        }
-    
+            break;
+    }
     ?>
 
     <!--************************************ Page content ******************************-->
