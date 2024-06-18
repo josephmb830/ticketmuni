@@ -156,13 +156,13 @@
             var_dump($regall);
 
             // Selección del tipo de usuario que realizó el registro del ticket
-            if (!is_null($regall['id_cliente'])) {
+            if (isset($regall['id_cliente'])) {
                 // Un cliente hizo el registro del ticket
                 $sql = Mysql::consulta("SELECT * FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente INNER JOIN tecnico ON ticket.id_tecnico = tecnico.id_tecnico WHERE id = '$id'");
-            } elseif (!is_null($regall['id_admin'])) {
+            } elseif (isset($regall['id_admin'])) {
                 // Un administrador hizo el registro del ticket
                 $sql = Mysql::consulta("SELECT * FROM ticket INNER JOIN administrador ON ticket.id_admin = administrador.id_admin INNER JOIN tecnico ON ticket.id_tecnico = tecnico.id_tecnico WHERE id = '$id'");
-            } elseif (is_null($regall['id_cliente']) && is_null($regall['id_admin'])) {
+            } elseif (!isset($regall['id_cliente']) && !isset($regall['id_admin'])) {
                 // Caso donde ni cliente ni administrador hicieron el registro del ticket
                 $sql = Mysql::consulta("SELECT ticket.*, administrador.*, cliente.*, tecnico.* FROM ticket LEFT JOIN administrador ON ticket.id_admin = administrador.id_admin LEFT JOIN cliente ON ticket.id_cliente = cliente.id_cliente INNER JOIN tecnico ON ticket.id_tecnico = tecnico.id_tecnico WHERE ticket.id = '$id'");
             }
