@@ -45,7 +45,7 @@
         $diagnostico_edit = MysqlQuery::RequestPost('diagnostico_ticket');
         $solucion_edit = MysqlQuery::RequestPost('solucion_ticket');
         $observaciones_edit = MysqlQuery::RequestPost('observaciones_ticket');
-        $tecnico_edit = MysqlQuery::RequestPost('id_tecnico');
+        $tecnico_edit = MysqlQuery::RequestPost('tecnico_ticket');
         $cierre_edit = MysqlQuery::RequestPost('fecha_solucion_ticket');
         $codequipo_edit = MysqlQuery::RequestPost('codequipo_ticket');
         $id_edit = MysqlQuery::RequestPost('id_edit');
@@ -168,6 +168,7 @@
             }
 
             $reg = mysqli_fetch_array($sql, MYSQLI_ASSOC);
+            var_dump($reg);
             $readonly = 'disabled';
 
             // Manejar cualquier otro tipo de sesión según sea necesario
@@ -254,6 +255,60 @@
                 <!-- Más campos del formulario según sea necesario -->
 
                 <div class="form-group">
+                <label  class="col-sm-2 control-label">Tipo de incidencia</label>
+                <div class="col-sm-10">
+                    <div class='input-group'>
+                        <input type="text" class="form-control"  name="departamento_ticket"  value="<?php echo $reg['departamento']?>" readonly>
+                        <span class="input-group-addon"><i class="fa fa-users"></i></span>
+                    </div> 
+                </div>
+                </div>
+
+                
+                <div class="form-group">
+                <label  class="col-sm-2 control-label">Asunto</label>
+                <div class="col-sm-10">
+                    <div class='input-group'>
+                        <input type="text" readonly="" class="form-control"  name="asunto_ticket" readonly="" value="<?php echo $reg['asunto']?>">
+                        <span class="input-group-addon"><i class="fa fa-paperclip"></i></span>
+                    </div> 
+                </div>
+                </div>
+
+                <!--seleccion de especialista--->
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Especialista encargado</label>
+                    <div class='col-sm-10'>
+                        <div class="input-group">
+                            <select class="form-control" name="tecnico_ticket" <?php echo $readonly="false";?>> 
+                            <option value="<?php echo $reg['id_tecnico']?>"><?php echo strtoupper($reg['nombres_tecnico'] . ' ' . $reg['a_paterno_tecnico'] . ' ' . $reg['a_materno_tecnico'])?> (Actual)</option>
+                                          <?php
+                                            $sql = Mysql::consulta("SELECT * FROM tecnico ");
+                                            while ($reg1 = mysqli_fetch_array($sql)) {
+                                                $id_tecnico = $reg1['id_tecnico'];
+                                                $nombre_completo = strtoupper($reg1['nombres_tecnico'] . ' ' . $reg1['a_paterno_tecnico'] . ' ' . $reg1['a_materno_tecnico']);
+                                                echo '<option value="' . $id_tecnico . '">' . $nombre_completo . ' </option>';
+                                            }
+                                          ?>
+                            </select>
+                            <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!--termino de seleccion de especialista-->
+
+                <div class="form-group">
+                    <label  class="col-sm-2 control-label">Mensaje</label>
+                    <div class="col-sm-10">
+                        <textarea class="form-control" readonly="" rows="3"  name="mensaje_ticket" readonly=""><?php echo $reg['mensaje']?></textarea>
+                    </div>
+                </div>
+
+                <!-- Más campos del formulario según sea necesario -->      
+
+                <div class="form-group">
                     <label class="col-sm-2 control-label">Diagnóstico</label>
                     <div class="col-sm-10">
                         <textarea class="form-control" rows="3" name="diagnostico_ticket" required><?php echo htmlspecialchars($reg['diagnostico'], ENT_QUOTES, 'UTF-8'); ?></textarea>
@@ -264,6 +319,20 @@
                     <label class="col-sm-2 control-label">Solución</label>
                     <div class="col-sm-10">
                         <textarea class="form-control" rows="3" name="solucion_ticket" required><?php echo $reg['solucion'] ?></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label  class="col-sm-2 control-label">Observaciones</label>
+                    <div class="col-sm-10">
+                        <textarea class="form-control" rows="3"  name="observaciones_ticket" required=""><?php echo $reg['observaciones']?></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label  class="col-sm-2 control-label">Serie o cod patrimonial </label>
+                    <div class="col-sm-2">
+                        <textarea class="form-control" rows="3"  name="codequipo_ticket" required=""><?php echo $reg['codequipo']?></textarea>
                     </div>
                 </div>
 
@@ -287,6 +356,13 @@
                                 Proceder a actualizar ticket del usuario
                             </label>
                         </div>
+
+                        <!--    <div class="radio">
+                            <label>
+                                <input type="radio" name="optionsRadios" value="option2">
+                                Enviar solución al email del usuario
+                            </label>
+                        </div> -->
                     </div>
                 </div>
 
