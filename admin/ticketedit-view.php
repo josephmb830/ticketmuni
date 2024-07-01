@@ -153,7 +153,7 @@
             // Consulta específica para el técnico
             $sql = Mysql::consulta("SELECT * FROM ticket INNER JOIN tecnico ON ticket.id_tecnico = tecnico.id_tecnico WHERE id = '$id'");
             $regall = mysqli_fetch_array($sql, MYSQLI_ASSOC);
-            var_dump($regall);
+            // var_dump($regall);
 
             // Selección del tipo de usuario que realizó el registro del ticket
             if (isset($regall['id_cliente'])) {
@@ -168,7 +168,7 @@
             }
 
             $reg = mysqli_fetch_array($sql, MYSQLI_ASSOC);
-            var_dump($reg);
+            // var_dump($reg);
             $readonly = 'disabled';
 
             // Manejar cualquier otro tipo de sesión según sea necesario
