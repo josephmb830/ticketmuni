@@ -555,15 +555,17 @@
                 type: 'POST',
                 url: 'admin/search.php',
                 data: { 
+                    ticket:$('#ticket').val().trim(),
                     searchTerm: searchTerm,
                     startDate: startDate,
                     endDate: endDate
                 },
                 dataType: 'json',
                 success: function(data) {
+                    console.log(data);
                     // Limpiar la tabla de resultados
                     $('#ticketTable').empty();
-
+ 
                     // Verificar los datos recibidos
                     console.log("Datos recibidos: ", data);
                     
@@ -608,7 +610,7 @@
                                     <td>${row.departamento}</td>
                                     <td>${row.nombres_tecnico}</td>
                                     <td>${row.fecha_solucion}</td>
-                                    <td>${row.area}</td>
+                                    <td>${row.area} </td>
                                     <td>
                                         <a href="./lib/pdf.php?id=${row.id}" class="btn btn-sm btn-success" target="_blank"><i class="fa fa-print" aria-hidden="true"></i></a>
                                         <a href="admin.php?view=ticketedit&id=${row.id}" class="btn btn-sm btn-warning"><i class="fa fa-pencil" aria-hidden="true"></i></a>
@@ -653,6 +655,7 @@
                         const tr = '<tr><td colspan="10">No se encontraron resultados</td></tr>';
                         $('#ticketTable').append(tr);
                     }
+ 
                 },
                 error: function(xhr, status, error) {
                     console.error('Error al obtener datos:', error);

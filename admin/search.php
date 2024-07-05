@@ -7,9 +7,14 @@ $searchTerm = isset($_POST['searchTerm']) ? trim($_POST['searchTerm']) : '';
 $startDate = isset($_POST['startDate']) ? trim($_POST['startDate']) : '';
 $endDate = isset($_POST['endDate']) ? trim($_POST['endDate']) : '';
 
+///---------
+$ticket= isset($_POST['ticket']) ? trim($_POST['ticket']) : '';
+$ticket="%$ticket%";
+
+///----------
+
 // Preparar el término de búsqueda para LIKE
 $searchTerm = "%$searchTerm%";
-
 // Inicializar la conexión
 $con = mysqli_connect(SERVER, USER, PASS, BD);
 
@@ -26,22 +31,24 @@ $sql = "SELECT ticket.*, cliente.*, tecnico.*, administrador.*
         WHERE 1=1";
 
 $params = [];
-$types = "";
+$filter = "";
 
 // Añadir condiciones a la consulta
 if (!empty($searchTerm)) {
     $sql .= " AND (ticket.serie LIKE ? OR ticket.estado_ticket LIKE ? OR ticket.departamento LIKE ? OR ticket.fecha_solucion LIKE ? OR ticket.fecha LIKE ?)";
-    $types .= "sssss";
-    $params[] = $searchTerm;
-    $params[] = $searchTerm;
-    $params[] = $searchTerm;
-    $params[] = $searchTerm;
-    $params[] = $searchTerm;
+    $filter = "sssss";
+    //----
+    $params[] = $ticket;
+    //----
+    $params[] = '';
+    $params[] = '';
+    $params[] = '';
+    $params[] = '';
 }
 
 if (!empty($startDate) && !empty($endDate)) {
     $sql .= " AND (DATE(ticket.fecha) BETWEEN ? AND ?)";
-    $types .= "ss";
+    $filter = "ss";
     $params[] = $startDate;
     $params[] = $endDate;
 }
@@ -49,18 +56,28 @@ if (!empty($startDate) && !empty($endDate)) {
 // Preparar la consulta
 $stmt = $con->prepare($sql);
 
-if ($types) {
-    $stmt->bind_param($types, ...$params);
+if ($filter) {
+    $stmt->bind_param($filter, ...$params);
 }
 
 $stmt->execute();
 $result = $stmt->get_result();
 
 // Inicializar el array de tickets
-$tickets = [];
-while ($row = $result->fetch_assoc()) {
-    $tickets[] = $row;
-}
+//----
+$tickets = ["ticket"=>$ticket,
+            "responsable"=>"",
+            "estado"=>"",
+            "departamento"=>"",
+            "fecha_inicio"=>"",
+            "fecha_final"=>""];
+//----
+/*
+if($result->fetch_assoc())
+    while ($row = $result->fetch_assoc()) {
+        $tickets[] = $row;
+    }
+*/
 
 // Devolver los resultados como JSON
 echo json_encode($tickets);
