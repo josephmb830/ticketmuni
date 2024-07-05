@@ -84,7 +84,85 @@
                     </div>
                 </div>
                 <br>
-                
+                <div class="container-fluid mt-5 mb-5">
+                    <!-- Campos de entrada para la búsqueda y filtro por fecha -->
+                    <div class="row">
+                        <div class="col-12 mt-2 mb-2">
+                        <input type="text" class="form-control" name="ticket" id="ticket" placeholder="Buscar por palabra clave...">
+                        </div>
+                        <div class="col-4 mt-2 mb-2">
+                        <select name="responsable" id="responsable" class="form-control">
+                            <option value="">Seleccione un técnico...</option>
+                            <?php 
+                                $mysqli = mysqli_connect(SERVER, USER, PASS, BD);
+                                mysqli_set_charset($mysqli, "utf8");
+                                $pagina = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
+                                $regpagina = 15;
+                                $inicio = ($pagina > 1) ? (($pagina * $regpagina) - $regpagina) : 0;
+                                $consulta_tecnico="SELECT * FROM tecnico";
+                                $selticket_tecnico=mysqli_query($mysqli,$consulta_tecnico); 
+                                while ($row=mysqli_fetch_array($selticket_tecnico, MYSQLI_ASSOC)): ?>
+                            <option value="<?php echo $row['id_tecnico']; ?>"><?php echo strtoupper($row['nombres_tecnico'] . " " . $row['a_paterno_tecnico'] . " " . $row['a_materno_tecnico']); ?></option>
+                            <?php endwhile; ?>
+                       </select>
+                        </div>
+                        <div class="col-4 mt-2 mb-2">
+                        <select name="estado" id="estado" class="form-control">
+                        <option value="">Seleccione el estado de ticket...</option>
+                            <option value="Pendiente">Pendiente</option>
+                            <option value="En proceso">En proceso</option>
+                            <option value="En proceso">Anulado</option>
+                            <option value="Resuelto">Resuelto</option>
+                        </select>      
+                        </div>
+                        <div class="col-4 mt-2 mb-2">
+                        <!-- FALTA EL AREA -->  
+                        <select class="form-control" name="departamento" id="departamento">
+                                <option value="">Escoja la área de falla...</option>
+                                  <option value="Mantenimiento preventivo">Mantenimiento preventivo</option>
+                                  <option value="Mantenimiento correctivo">Mantenimiento correctivo</option>
+                                  <option value="Instalacion de accesorios">Instalacion de accesorios</option>
+                                  <option value="Instalacion de equipo">Instalacion de equipo</option>
+                                  <option value="Instalacion de red">Instalacion de red</option>
+                                  <option value="Configuracion de equipo">Configuracion de equipo</option>
+                                  <option value="Configuracion de servicio de red">Configuracion de servicio de red</option>
+                                  <option value="Instalacicion, mantenimiento y actualizacion de software">Instalacicion, mantenimiento y actualizacion de software</option>
+                                  <option value="Clave de usuario">Clave de usuario</option>
+                                  <option value="Otros">Otros</option>
+
+
+
+
+                                </select>
+                        </div>
+                        <div class="col-3">
+                            <label for="">Desde fecha: </label>
+                            <input type="date" id="fecha_inicio" name="fecha_inicio" class="form-control">
+                        </div>
+                        <div class="col-3">
+                            <label for="">Hasta fecha: </label>
+                            <input type="date" id="fecha_final" name="fecha_final" class="form-control">
+                        </div>
+                        <div class="col-6">
+                            
+                        </div>
+                        <div class="col-1" style="position:relative;">
+                                <form action="./lib/pdf_ticket.php" method="POST" style="display: inline-block;">
+                                        <textarea name="tickets" style="opacity:0" cols="30" rows="10" id="all_tickets"></textarea>
+                                        <button type="submit" id="toPDF" class="btn btn-success d-none" style="position:absolute; bottom:0; left:0;"><i class="fa-regular fa-file-pdf" style="font-size:30px;"></i></button>
+        
+                                </form>
+                           
+                        </div>
+                        <div class="col-9">
+                            
+                        </div>
+                        <div class="col-2" style="clear:both;" >
+                        <button class="btn btn-dark btn-block" type="button" id="searchButton" style="float:right">Buscar</button>
+                        <button class="btn btn-dark btn-block" type="button" id="clearButton" style="float:right">Limpiar filtro</button>
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="table-responsive">
