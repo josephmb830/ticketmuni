@@ -558,7 +558,8 @@
                     ticket:$('#ticket').val().trim(),
                     searchTerm: searchTerm,
                     startDate: startDate,
-                    endDate: endDate
+                    endDate: endDate,
+                    estado : $('#estado').val()
                 },
                 dataType: 'json',
                 success: function(data) {
