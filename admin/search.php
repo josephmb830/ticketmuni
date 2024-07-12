@@ -10,8 +10,11 @@ $endDate = isset($_POST['endDate']) ? trim($_POST['endDate']) : '';
 ///---------
 $ticket= isset($_POST['ticket']) ? trim($_POST['ticket']) : '';
 $ticket="%$ticket%";
-
 ///----------
+
+$estado= isset($_POST['estado']) ? trim($_POST['estado']) : '';
+$estado="%$estado%";
+
 
 // Preparar el término de búsqueda para LIKE
 $searchTerm = "%$searchTerm%";
@@ -40,7 +43,7 @@ if (!empty($searchTerm)) {
     //----
     $params[] = $ticket;
     //----
-    $params[] = '';
+    $params[] = $estado;
     $params[] = '';
     $params[] = '';
     $params[] = '';
@@ -67,7 +70,7 @@ $result = $stmt->get_result();
 //----
 $tickets = ["ticket"=>$ticket,
             "responsable"=>"",
-            "estado"=>"",
+            "estado"=>$estado,
             "departamento"=>"",
             "fecha_inicio"=>"",
             "fecha_final"=>""];
