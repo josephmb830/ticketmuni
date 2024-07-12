@@ -15,6 +15,9 @@ $ticket="%$ticket%";
 $estado= isset($_POST['estado']) ? trim($_POST['estado']) : '';
 $estado="%$estado%";
 
+$responsable = isset($_POST['responsable']) ? trim($_POST['responsable']) : '';
+$responsable ="%$responsable%";
+
 
 // Preparar el término de búsqueda para LIKE
 $searchTerm = "%$searchTerm%";
@@ -38,11 +41,12 @@ $filter = "";
 
 // Añadir condiciones a la consulta
 if (!empty($searchTerm)) {
-    $sql .= " AND (ticket.serie LIKE ? OR ticket.estado_ticket LIKE ? OR ticket.departamento LIKE ? OR ticket.fecha_solucion LIKE ? OR ticket.fecha LIKE ?)";
-    $filter = "sssss";
+    $sql .= " AND (ticket.serie LIKE ? OR ticket.id_tecnico LIKE ? OR ticket.estado_ticket LIKE ? OR ticket.departamento LIKE ? OR ticket.fecha_solucion LIKE ? OR ticket.fecha LIKE ?)";
+    $filter = "ssssss";
     //----
     $params[] = $ticket;
     //----
+    $params[] = $responsable;
     $params[] = $estado;
     $params[] = '';
     $params[] = '';
@@ -69,7 +73,7 @@ $result = $stmt->get_result();
 // Inicializar el array de tickets
 //----
 $tickets = ["ticket"=>$ticket,
-            "responsable"=>"",
+            "responsable"=>$responsable,
             "estado"=>$estado,
             "departamento"=>"",
             "fecha_inicio"=>"",

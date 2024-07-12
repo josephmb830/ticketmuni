@@ -559,7 +559,8 @@
                     searchTerm: searchTerm,
                     startDate: startDate,
                     endDate: endDate,
-                    estado : $('#estado').val()
+                    estado : $('#estado').val(),
+                    responsable : $('#responsable').val()
                 },
                 dataType: 'json',
                 success: function(data) {
