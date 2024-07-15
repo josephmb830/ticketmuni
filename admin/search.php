@@ -18,6 +18,9 @@ $estado="%$estado%";
 $responsable = isset($_POST['responsable']) ? trim($_POST['responsable']) : '';
 $responsable ="%$responsable%";
 
+$departamento = isset($_POST['departamento']) ? trim($_POST['departamento']) : '';
+$departamento ="%$departamento%";
+
 
 // Preparar el término de búsqueda para LIKE
 $searchTerm = "%$searchTerm%";
@@ -41,16 +44,16 @@ $filter = "";
 
 // Añadir condiciones a la consulta
 if (!empty($searchTerm)) {
-    $sql .= " AND (ticket.serie LIKE ? OR ticket.id_tecnico LIKE ? OR ticket.estado_ticket LIKE ? OR ticket.departamento LIKE ? OR ticket.fecha_solucion LIKE ? OR ticket.fecha LIKE ?)";
+    $sql .= " AND (ticket.serie LIKE ? OR ticket.id_tecnico LIKE ? OR ticket.estado_ticket LIKE ? OR ticket.departamento LIKE ? OR ticket.fecha LIKE ? OR ticket.fecha_solucion LIKE ?)";
     $filter = "ssssss";
     //----
     $params[] = $ticket;
     //----
     $params[] = $responsable;
     $params[] = $estado;
-    $params[] = '';
-    $params[] = '';
-    $params[] = '';
+    $params[] = $departamento;
+    $params[] = $startDate;
+    $params[] = $endDate;;
 }
 
 if (!empty($startDate) && !empty($endDate)) {
@@ -75,9 +78,9 @@ $result = $stmt->get_result();
 $tickets = ["ticket"=>$ticket,
             "responsable"=>$responsable,
             "estado"=>$estado,
-            "departamento"=>"",
-            "fecha_inicio"=>"",
-            "fecha_final"=>""];
+            "departamento"=>$departamento,
+            "fecha_inicio"=>$startDate,
+            "fecha_final"=>$endDate];
 //----
 /*
 if($result->fetch_assoc())

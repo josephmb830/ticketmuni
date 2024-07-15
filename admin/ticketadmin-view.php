@@ -549,18 +549,18 @@
             let endDate = $('#fecha_final').val();
             let responsable = $('#responsable').val();    
             let estado = $('#estado').val();
-            let departament = $('#departamento').val();
+            let departamento = $('#departamento').val();
             
             $.ajax({
                 type: 'POST',
                 url: 'admin/search.php',
                 data: { 
                     ticket:$('#ticket').val().trim(),
-                    searchTerm: searchTerm,
                     startDate: startDate,
                     endDate: endDate,
                     estado : $('#estado').val(),
-                    responsable : $('#responsable').val()
+                    responsable : $('#responsable').val(),
+                    departamento : $('#departamento').val()
                 },
                 dataType: 'json',
                 success: function(data) {
@@ -591,8 +591,8 @@
                             data = data.filter((el) => el.estado_ticket == estado);
                         }
                         // Filtrar por departamento
-                        if (departament) {
-                            data = data.filter((el) => el.departamento == departament);
+                        if (departamento) {
+                            data = data.filter((el) => el.departamento == departamento);
                         }
 
                         // Imprimir datos después de los filtros
