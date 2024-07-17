@@ -21,7 +21,7 @@ $responsable ="%$responsable%";
 $departamento = isset($_POST['departamento']) ? trim($_POST['departamento']) : '';
 $departamento ="%$departamento%";
 
-
+//echo [$ticket, $estado, $responsable, $departamento, $startDate, $endDate];
 // Preparar el término de búsqueda para LIKE
 $searchTerm = "%$searchTerm%";
 // Inicializar la conexión
@@ -44,21 +44,22 @@ $filter = "";
 
 // Añadir condiciones a la consulta
 if (!empty($searchTerm)) {
-    $sql .= " AND (ticket.serie LIKE ? OR ticket.id_tecnico LIKE ? OR ticket.estado_ticket LIKE ? OR ticket.departamento LIKE ? OR ticket.fecha LIKE ? OR ticket.fecha_solucion LIKE ?)";
-    $filter = "ssssss";
+    //$sql .= " AND (ticket.serie LIKE ? OR ticket.id_tecnico LIKE ? OR ticket.estado_ticket LIKE ? OR ticket.departamento LIKE ? OR ticket.fecha LIKE ? OR ticket.fecha_solucion LIKE ?)";
+    $sql .= " AND (ticket.serie LIKE ? OR ticket.id_tecnico LIKE ? OR ticket.estado_ticket LIKE ? OR ticket.departamento LIKE ? )";
+    $filter = "ssss";
     //----
     $params[] = $ticket;
     //----
     $params[] = $responsable;
     $params[] = $estado;
     $params[] = $departamento;
-    $params[] = $startDate;
-    $params[] = $endDate;;
+    //$params[] = $startDate;
+    //$params[] = $endDate;
 }
 
 if (!empty($startDate) && !empty($endDate)) {
     $sql .= " AND (DATE(ticket.fecha) BETWEEN ? AND ?)";
-    $filter = "ss";
+    $filter .= "ss";
     $params[] = $startDate;
     $params[] = $endDate;
 }
@@ -81,16 +82,24 @@ $tickets = ["ticket"=>$ticket,
             "departamento"=>$departamento,
             "fecha_inicio"=>$startDate,
             "fecha_final"=>$endDate];
-//----
-/*
+
+  
+  
+$tickets = array(); 
 if($result->fetch_assoc())
     while ($row = $result->fetch_assoc()) {
-        $tickets[] = $row;
-    }
-*/
+        print_r($row);
 
-// Devolver los resultados como JSON
-echo json_encode($tickets);
+        $tickets[] = ["id"=>$row["id"],
+        "id_cliente"=>$row["id_cliente"],
+        "id_admin"=>$row["id_admin"],
+        "id_tecnico"=>$row["id_tecnico"],
+        "fecha"=>$row["fecha"],
+                     ];
+    }
+// Devolver los resultados como JSON 
+ 
+echo (json_encode($tickets));
 
 // Cerrar la conexión
 $stmt->close();
