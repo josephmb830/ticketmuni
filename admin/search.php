@@ -88,13 +88,42 @@ $tickets = ["ticket"=>$ticket,
 $tickets = array(); 
 if($result->fetch_assoc())
     while ($row = $result->fetch_assoc()) {
-        print_r($row);
+        // print_r($row);
 
         $tickets[] = ["id"=>$row["id"],
         "id_cliente"=>$row["id_cliente"],
         "id_admin"=>$row["id_admin"],
         "id_tecnico"=>$row["id_tecnico"],
         "fecha"=>$row["fecha"],
+        "serie"=>$row["serie"],
+        "estado_ticket"=>$row["estado_ticket"],
+        "departamento"=>$row["departamento"],
+        "asunto"=>$row["asunto"],
+        "mensaje"=>$row["mensaje"],
+        "archivos"=>$row["archivos"],
+        "diagnostico"=>$row["diagnostico"],
+        "solucion"=>$row["solucion"],
+        "observaciones"=>$row["observaciones"],
+        "mes"=>$row["mes"],
+        "area"=>$row["area"],
+        "fecha_solucion"=>$row["fecha_solucion"],
+        "codequipo"=>$row["codequipo"],
+        "dni"=>$row["dni"],
+        "nombre_usuario"=>$row["nombre_usuario"],
+        "nombres"=>$row["nombres"],
+        "a_paterno"=>$row["a_paterno"],
+        "a_materno"=>$row["a_materno"],
+        "cargo"=>$row["cargo"],
+        "email_cliente"=>$row["email_cliente"],
+        "clave"=>$row["clave"],
+        "nombre_tecnico"=>$row["nombre_tecnico"],
+        "nombres_tecnico"=>$row["nombres_tecnico"],
+        "a_paterno_tecnico"=>$row["a_paterno_tecnico"],
+        "a_materno_tecnico"=>$row["a_materno_tecnico"],
+        "email_tecnico"=>$row["email_tecnico"],
+        "nombre_completo"=>$row["nombre_completo"],
+        "nombre_admin"=>$row["nombre_admin"],
+        "email_admin"=>$row["email_admin"],
                      ];
     }
 // Devolver los resultados como JSON 
