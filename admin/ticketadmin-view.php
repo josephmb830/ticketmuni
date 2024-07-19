@@ -544,7 +544,7 @@
         // Escuchar el evento 'click' en el botón de búsqueda
         searchButton.addEventListener('click', () => {
             // Obtener los valores de los campos de entrada
-            let searchTerm = $('#ticket').val().trim();
+            let ticket = $('#ticket').val().trim();
             let startDate = $('#fecha_inicio').val();
             let endDate = $('#fecha_final').val();
             let responsable = $('#responsable').val();    
@@ -555,21 +555,18 @@
                 type: 'POST',
                 url: 'admin/search.php',
                 data: { 
-                    ticket:$('#ticket').val().trim(),
+                    ticket: ticket,
                     startDate: startDate,
                     endDate: endDate,
-                    estado : $('#estado').val(),
-                    responsable : $('#responsable').val(),
-                    departamento : $('#departamento').val()
+                    estado : estado,
+                    responsable : responsable,
+                    departamento : departamento,
                 },
                 dataType: 'json',
                 success: function(data) {
                     console.log(data);
                     // Limpiar la tabla de resultados
                     $('#ticketTable').empty();
- 
-                    // Verificar los datos recibidos
-                    console.log("Datos recibidos: ", data);
                     
                     // Aplicar los filtros
                     if (data && data.length > 0) {

@@ -3,7 +3,6 @@
 require_once '../lib/config.php'; // Asegúrate de que este archivo establece la conexión correctamente
 
 // Obtener las variables POST
-$searchTerm = isset($_POST['searchTerm']) ? trim($_POST['searchTerm']) : '';
 $startDate = isset($_POST['startDate']) ? trim($_POST['startDate']) : '';
 $endDate = isset($_POST['endDate']) ? trim($_POST['endDate']) : '';
 
@@ -23,7 +22,7 @@ $departamento ="%$departamento%";
 
 //echo [$ticket, $estado, $responsable, $departamento, $startDate, $endDate];
 // Preparar el término de búsqueda para LIKE
-$searchTerm = "%$searchTerm%";
+// $searchTerm = "%$searchTerm%";
 // Inicializar la conexión
 $con = mysqli_connect(SERVER, USER, PASS, BD);
 
@@ -43,7 +42,7 @@ $params = [];
 $filter = "";
 
 // Añadir condiciones a la consulta
-if (!empty($searchTerm)) {
+if (!empty($ticket)) {
     //$sql .= " AND (ticket.serie LIKE ? OR ticket.id_tecnico LIKE ? OR ticket.estado_ticket LIKE ? OR ticket.departamento LIKE ? OR ticket.fecha LIKE ? OR ticket.fecha_solucion LIKE ?)";
     $sql .= " AND (ticket.serie LIKE ? OR ticket.id_tecnico LIKE ? OR ticket.estado_ticket LIKE ? OR ticket.departamento LIKE ? )";
     $filter = "ssss";
@@ -88,7 +87,7 @@ $tickets = ["ticket"=>$ticket,
 $tickets = array(); 
 if($result->fetch_assoc())
     while ($row = $result->fetch_assoc()) {
-        // print_r($row);
+         print_r($row);
 
         $tickets[] = ["id"=>$row["id"],
         "id_cliente"=>$row["id_cliente"],
@@ -128,7 +127,9 @@ if($result->fetch_assoc())
     }
 // Devolver los resultados como JSON 
  
-echo (json_encode($tickets));
+$json = json_encode($tickets);
+
+echo $json;
 
 // Cerrar la conexión
 $stmt->close();
