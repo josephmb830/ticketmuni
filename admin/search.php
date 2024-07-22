@@ -126,7 +126,8 @@ if($result->fetch_assoc())
                      ];
     }
 // Devolver los resultados como JSON 
- 
+
+//problema en el json no esta convirtiendo
 $json = json_encode($tickets);
 
 echo $json;
