@@ -564,6 +564,7 @@
                 },
                 dataType: 'json',
                 success: function(data) {
+                    console.log("data");
                     console.log(data);
                     // Limpiar la tabla de resultados
                     $('#ticketTable').empty();
@@ -657,7 +658,7 @@
  
                 },
                 error: function(xhr, status, error) {
-                    console.error('Error al obtener datos:', error);
+                    console.error('Error al obtener datos:', error,status);
                 }
             });
         });
