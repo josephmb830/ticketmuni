@@ -42,22 +42,23 @@ $sql = "SELECT
         LEFT JOIN cliente ON ticket.id_cliente = cliente.id_cliente
         LEFT JOIN tecnico ON ticket.id_tecnico = tecnico.id_tecnico
         LEFT JOIN administrador ON ticket.id_admin = administrador.id_admin
-        WHERE 1=1";
+        WHERE 1=1 ";
 
 $params = [];
 $filter = "";
 
+$sss = "";
+
 // Añadir condiciones a la consulta
-if (!empty($ticket)) {
+if (!empty($ticket) || !empty($responsable) || !empty($estado) || !empty($departamento)) {
     //$sql .= " AND (ticket.serie LIKE ? OR ticket.id_tecnico LIKE ? OR ticket.estado_ticket LIKE ? OR ticket.departamento LIKE ? OR ticket.fecha LIKE ? OR ticket.fecha_solucion LIKE ?)";
-    $sql .= " AND (ticket.serie LIKE ? OR ticket.id_tecnico LIKE ? OR ticket.estado_ticket LIKE ? OR ticket.departamento LIKE ? )";
-    $filter = "ssss";
-    //----
-    $params[] = $ticket;
-    //----
+    $sql .= " AND (ticket.id LIKE ? OR ticket.id_tecnico = ? OR ticket.estado_ticket LIKE ? OR ticket.departamento LIKE ? ) ";
+    $filter = "ssss"; 
+    $params[] = $ticket; 
     $params[] = $responsable;
     $params[] = $estado;
     $params[] = $departamento;
+    $sss="sss";
     //$params[] = $startDate;
     //$params[] = $endDate;
 }
@@ -72,7 +73,7 @@ if (!empty($startDate) && !empty($endDate)) {
 // Preparar la consulta
 $stmt = $con->prepare($sql);
 
-if ($filter) {
+if (!empty($filter)) {
     $stmt->bind_param($filter, ...$params);
 }
 
@@ -81,15 +82,16 @@ $result = $stmt->get_result();
 
 // Inicializar el array de tickets
 //----
-$tickets = ["ticket"=>$ticket,
-            "responsable"=>$responsable,
+
+$tickets = ["ticket"=>$sql,
+            "responsable"=>(!empty($ticket) || !empty($responsable) || !empty($estado) || !empty($departamento)),
             "estado"=>$estado,
             "departamento"=>$departamento,
-            "fecha_inicio"=>$startDate,
-            "fecha_final"=>$endDate];
+            "fecha_inicio"=>$sss,
+            "fecha_final"=>json_encode($params) ];
 
   
-  
+  /*
 $tickets = []; 
 if($result->fetch_assoc())
     while ($row = $result->fetch_assoc()) { 
@@ -129,6 +131,7 @@ if($result->fetch_assoc())
                     "email_admin"=>$row["email_admin"]
                   ];
     }
+                 */
 // Devolver los resultados como JSON 
 
 //problema en el json no esta convirtiendo
