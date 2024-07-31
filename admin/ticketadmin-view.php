@@ -572,7 +572,7 @@
                     // Aplicar los filtros
                     if (data && data.length > 0) {
                         // Filtrar por fechas
-                        if (startDate) {
+                       /* if (startDate) {
                             data = data.filter((el) => Date.parse(el.fecha_solucion) >= Date.parse(startDate));
                             data = data.filter((el) => Date.parse(el.fecha) >= Date.parse(startDate));
                         }
@@ -592,7 +592,7 @@
                         if (departamento) {
                             data = data.filter((el) => el.departamento == departamento);
                         }
-
+*/
                         // Imprimir datos después de los filtros
                         console.log("Datos después de aplicar filtros: ", data);
 

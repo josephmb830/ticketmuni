@@ -52,7 +52,7 @@ $sss = "";
 // Añadir condiciones a la consulta
 if (!empty($ticket) || !empty($responsable) || !empty($estado) || !empty($departamento)) {
     //$sql .= " AND (ticket.serie LIKE ? OR ticket.id_tecnico LIKE ? OR ticket.estado_ticket LIKE ? OR ticket.departamento LIKE ? OR ticket.fecha LIKE ? OR ticket.fecha_solucion LIKE ?)";
-    $sql .= " AND (ticket.id LIKE ? OR ticket.id_tecnico = ? OR ticket.estado_ticket LIKE ? OR ticket.departamento LIKE ? ) ";
+    $sql .= " AND (ticket.id LIKE ? and ticket.id_tecnico = ? and ticket.estado_ticket LIKE ? and ticket.departamento LIKE ? ) ";
     $filter = "ssss"; 
     $params[] = $ticket; 
     $params[] = $responsable;
@@ -82,16 +82,16 @@ $result = $stmt->get_result();
 
 // Inicializar el array de tickets
 //----
-
+ /*
 $tickets = ["ticket"=>$sql,
             "responsable"=>(!empty($ticket) || !empty($responsable) || !empty($estado) || !empty($departamento)),
             "estado"=>$estado,
             "departamento"=>$departamento,
-            "fecha_inicio"=>$sss,
+            "fecha_inicio"=>$filter,
             "fecha_final"=>json_encode($params) ];
 
-  
-  /*
+   */
+ 
 $tickets = []; 
 if($result->fetch_assoc())
     while ($row = $result->fetch_assoc()) { 
@@ -131,7 +131,7 @@ if($result->fetch_assoc())
                     "email_admin"=>$row["email_admin"]
                   ];
     }
-                 */
+                
 // Devolver los resultados como JSON 
 
 //problema en el json no esta convirtiendo
