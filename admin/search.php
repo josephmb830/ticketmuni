@@ -12,10 +12,12 @@ $ticket="%$ticket%";
 ///----------
 
 $estado= isset($_POST['estado']) ? trim($_POST['estado']) : '';
-$estado="%$estado%";
+//$estado="%$estado%";
+$estado="$estado";
 
 $responsable = isset($_POST['responsable']) ? trim($_POST['responsable']) : '';
-$responsable ="%$responsable%";
+//$responsable ="%$responsable%";
+$responsable ="$responsable";
 
 $departamento = isset($_POST['departamento']) ? trim($_POST['departamento']) : '';
 $departamento ="%$departamento%";
@@ -52,7 +54,9 @@ $sss = "";
 // Añadir condiciones a la consulta
 if (!empty($ticket) || !empty($responsable) || !empty($estado) || !empty($departamento)) {
     //$sql .= " AND (ticket.serie LIKE ? OR ticket.id_tecnico LIKE ? OR ticket.estado_ticket LIKE ? OR ticket.departamento LIKE ? OR ticket.fecha LIKE ? OR ticket.fecha_solucion LIKE ?)";
-    $sql .= " AND (ticket.id LIKE ? and ticket.id_tecnico = ? and ticket.estado_ticket LIKE ? and ticket.departamento LIKE ? ) ";
+    //$sql .= " AND (ticket.id LIKE ? and ticket.id_tecnico = ? and ticket.estado_ticket LIKE ? and ticket.departamento LIKE ? ) ";
+    // AND (ticket.serie LIKE "%TK%" and ticket.id_tecnico = "3" and ticket.estado_ticket LIKE "Pendiente" and ticket.departamento LIKE "Mantenimiento correctivo");
+    $sql .= " AND (ticket.serie LIKE ? and ticket.id_tecnico = ? and ticket.estado_ticket LIKE ? and ticket.departamento LIKE ? ) ";
     $filter = "ssss"; 
     $params[] = $ticket; 
     $params[] = $responsable;
@@ -64,6 +68,7 @@ if (!empty($ticket) || !empty($responsable) || !empty($estado) || !empty($depart
 }
 
 if (!empty($startDate) && !empty($endDate)) {
+    // AND (DATE(ticket.fecha) BETWEEN "%2024-04-23%" AND "%2024-05-15%");
     $sql .= " AND (DATE(ticket.fecha) BETWEEN ? AND ?)";
     $filter .= "ss";
     $params[] = $startDate;
