@@ -122,6 +122,7 @@
     <!-- Estilos CSS personalizados -->
     <link rel="stylesheet" href="./css/styles.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/fontawesome.min.css" integrity="sha384-BY+fdrpOd3gfeRvTSMT+VUZmA728cfF9Z2G42xpaRkUGu2i3DyzpTURDo5A6CaLK" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.3/css/dataTables.dataTables.css">
     <style>
         body{
             overflow-x:auto;
@@ -513,10 +514,14 @@
   src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
   crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/2.1.3/js/dataTables.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <script type="text/javascript">
     $(document).ready(function(){
+
+        new DataTable('#pdf');
+
         var tickets;
         // Obtener referencia al botón de búsqueda
         const searchButton = document.getElementById('searchButton');
@@ -664,6 +669,8 @@
         });
     });
 </script>
+<!-- custom js -->
+<script src="./js/datatable.js"></script>
 
 
 
