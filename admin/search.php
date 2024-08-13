@@ -13,11 +13,11 @@ $ticket="%$ticket%";
 
 $estado= isset($_POST['estado']) ? trim($_POST['estado']) : '';
 //$estado="%$estado%";
-$estado="$estado";
+$estado="%$estado%";
 
 $responsable = isset($_POST['responsable']) ? trim($_POST['responsable']) : '';
 //$responsable ="%$responsable%";
-$responsable ="$responsable";
+$responsable ="%$responsable%";
 
 $departamento = isset($_POST['departamento']) ? trim($_POST['departamento']) : '';
 $departamento ="%$departamento%";
@@ -56,7 +56,7 @@ if (!empty($ticket) || !empty($responsable) || !empty($estado) || !empty($depart
     //$sql .= " AND (ticket.serie LIKE ? OR ticket.id_tecnico LIKE ? OR ticket.estado_ticket LIKE ? OR ticket.departamento LIKE ? OR ticket.fecha LIKE ? OR ticket.fecha_solucion LIKE ?)";
     //$sql .= " AND (ticket.id LIKE ? and ticket.id_tecnico = ? and ticket.estado_ticket LIKE ? and ticket.departamento LIKE ? ) ";
     // AND (ticket.serie LIKE "%TK%" and ticket.id_tecnico = "3" and ticket.estado_ticket LIKE "Pendiente" and ticket.departamento LIKE "Mantenimiento correctivo");
-    $sql .= " AND (ticket.serie LIKE ? and ticket.id_tecnico = ? and ticket.estado_ticket LIKE ? and ticket.departamento LIKE ? ) ";
+    $sql .= " AND (ticket.serie LIKE ? and ticket.id_tecnico like ? and ticket.estado_ticket LIKE ? and ticket.departamento LIKE ? ) ";
     $filter = "ssss"; 
     $params[] = $ticket; 
     $params[] = $responsable;
@@ -69,7 +69,7 @@ if (!empty($ticket) || !empty($responsable) || !empty($estado) || !empty($depart
 
 if (!empty($startDate) && !empty($endDate)) {
     // AND (DATE(ticket.fecha) BETWEEN "%2024-04-23%" AND "%2024-05-15%");
-    $sql .= " AND (DATE(ticket.fecha) BETWEEN ? AND ?)";
+    $sql .= " AND (DATE(ticket.fecha) BETWEEN ? AND ?) ";
     $filter .= "ss";
     $params[] = $startDate;
     $params[] = $endDate;
@@ -96,11 +96,12 @@ $tickets = ["ticket"=>$sql,
             "fecha_final"=>json_encode($params) ];
 
    */
- 
 $tickets = []; 
+$tickets_ = []; 
 if($result->fetch_assoc())
     while ($row = $result->fetch_assoc()) { 
-             $tickets[] = ["id"=>$row["id"],
+        array_push($tickets, array( 
+                    "id"=>$row["id"],
                     "id_cliente"=>$row["id_cliente"],
                     "id_admin"=>$row["id_admin"],
                     "id_tecnico"=>$row["id_tecnico"],
@@ -134,13 +135,28 @@ if($result->fetch_assoc())
                     "nombre_completo"=>$row["nombre_completo"],
                     "nombre_admin"=>$row["nombre_admin"],
                     "email_admin"=>$row["email_admin"]
-                  ];
+             )); 
+
     }
                 
 // Devolver los resultados como JSON 
 
-//problema en el json no esta convirtiendo
-$json = json_encode($tickets);
+//problema en el json no esta convirtiendo 
+
+function utf8ize($data) {
+    if (is_array($data)) {
+        foreach ($data as $key => $value) {
+            $data[$key] = utf8ize($value);
+        }
+    } elseif (is_string($data)) {
+        return utf8_encode($data);
+    }
+    return $data;
+}
+
+$utf8_tickets = utf8ize($tickets);
+$json = json_encode($utf8_tickets);
+ 
 
 echo $json ;
 

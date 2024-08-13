@@ -575,7 +575,7 @@
                     $('#ticketTable').empty();
                     
                     // Aplicar los filtros
-                    if (data && data.length > 0) {
+                    if (data && data.length > 0 ) {
                         // Filtrar por fechas
                        /* if (startDate) {
                             data = data.filter((el) => Date.parse(el.fecha_solucion) >= Date.parse(startDate));
