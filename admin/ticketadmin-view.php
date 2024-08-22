@@ -443,49 +443,49 @@
                                 $ticketselected="all";
                             }
                         ?>
-                        <nav aria-label="Page navigation" class="text-center">
-                            <ul class="pagination">
-                                <?php if($pagina == 1): ?>
-                                    <li class="disabled">
-                                        <a aria-label="Previous">
-                                            <span aria-hidden="true">&laquo;</span>
-                                        </a>
-                                    </li>
-                                <?php else: ?>
-                                    <li>
-                                        <a href="./admin.php?view=ticketadmin&ticket=<?php echo $ticketselected; ?>&pagina=<?php echo $pagina-1; ?>" aria-label="Previous">
-                                            <span aria-hidden="true">&laquo;</span>
-                                        </a>
-                                    </li>
-                                <?php endif; ?>
-                                
-                                
-                                <?php
-                                    for($i=1; $i <= $numeropaginas; $i++ ){
-                                        if($pagina == $i){
-                                            echo '<li class="active"><a href="./admin.php?view=ticketadmin&ticket='.$ticketselected.'&pagina='.$i.'">'.$i.'</a></li>';
-                                        }else{
-                                            echo '<li><a href="./admin.php?view=ticketadmin&ticket='.$ticketselected.'&pagina='.$i.'">'.$i.'</a></li>';
+                            <!-- <nav aria-label="Page navigation" class="text-center">
+                                <ul class="pagination">
+                                    <?php if($pagina == 1): ?>
+                                        <li class="disabled">
+                                            <a aria-label="Previous">
+                                                <span aria-hidden="true">&laquo;</span>
+                                            </a>
+                                        </li>
+                                    <?php else: ?>
+                                        <li>
+                                            <a href="./admin.php?view=ticketadmin&ticket=<?php echo $ticketselected; ?>&pagina=<?php echo $pagina-1; ?>" aria-label="Previous">
+                                                <span aria-hidden="true">&laquo;</span>
+                                            </a>
+                                        </li>
+                                    <?php endif; ?>
+                                    
+                                    
+                                    <?php
+                                        for($i=1; $i <= $numeropaginas; $i++ ){
+                                            if($pagina == $i){
+                                                echo '<li class="active"><a href="./admin.php?view=ticketadmin&ticket='.$ticketselected.'&pagina='.$i.'">'.$i.'</a></li>';
+                                            }else{
+                                                echo '<li><a href="./admin.php?view=ticketadmin&ticket='.$ticketselected.'&pagina='.$i.'">'.$i.'</a></li>';
+                                            }
                                         }
-                                    }
-                                ?>
-                                
-                                
-                                <?php if($pagina == $numeropaginas): ?>
-                                    <li class="disabled">
-                                        <a aria-label="Previous">
-                                            <span aria-hidden="true">&raquo;</span>
-                                        </a>
-                                    </li>
-                                <?php else: ?>
-                                    <li>
-                                        <a href="./admin.php?view=ticketadmin&ticket=<?php echo $ticketselected; ?>&pagina=<?php echo $pagina+1; ?>" aria-label="Previous">
-                                            <span aria-hidden="true">&raquo;</span>
-                                        </a>
-                                    </li>
-                                <?php endif; ?>
-                            </ul>
-                        </nav>
+                                    ?>
+                                    
+                                    
+                                    <?php if($pagina == $numeropaginas): ?>
+                                        <li class="disabled">
+                                            <a aria-label="Previous">
+                                                <span aria-hidden="true">&raquo;</span>
+                                            </a>
+                                        </li>
+                                    <?php else: ?>
+                                        <li>
+                                            <a href="./admin.php?view=ticketadmin&ticket=<?php echo $ticketselected; ?>&pagina=<?php echo $pagina+1; ?>" aria-label="Previous">
+                                                <span aria-hidden="true">&raquo;</span>
+                                            </a>
+                                        </li>
+                                    <?php endif; ?>
+                                </ul>
+                            </nav> -->
                         <?php endif; ?>
                     </div>
                 </div>
