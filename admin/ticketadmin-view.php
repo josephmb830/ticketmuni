@@ -268,8 +268,8 @@
                                 mysqli_set_charset($mysqli, "utf8");
 
                                 $pagina = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
-                                $regpagina = 15;
-                                $inicio = ($pagina > 1) ? (($pagina * $regpagina) - $regpagina) : 0;
+                                $regpagina = 1000000;
+                                $inicio = 0;//($pagina > 1) ? (($pagina * $regpagina) - $regpagina) : 0;
 
                                 //$num_ticket_all=Mysql::consulta("SELECT ticket.*, cliente.* FROM ticket INNER JOIN cliente ON ticket.id_cliente = cliente.id_cliente WHERE ticket.estado_ticket = 'Pendiente';");
                                 if(isset($_GET['ticket'])){
@@ -521,7 +521,7 @@
     $(document).ready(function(){
 
         new DataTable('#pdf');
-
+        var table = $('#pdf').DataTable({});
         var tickets;
         // Obtener referencia al botón de búsqueda
         const searchButton = document.getElementById('searchButton');
@@ -572,7 +572,11 @@
                     console.log("data");
                     console.log(data);
                     // Limpiar la tabla de resultados
-                    $('#ticketTable').empty();
+
+
+                    $('#pdf').html(' <thead><tr><th class="text-center">#</th><th class="text-center">Fecha</th><th class="text-center">Serie</th><th class="text-center">Estado</th><th class="text-center">Nombre</th><th class="text-center">Email</th><th class="text-center">Tipo de falla</th><th class="text-center">Tecnico</th><th class="text-center">Opciones</th></tr></thead><tbody id="ticketTable"></tbody></table>');
+ 
+  
                     
                     // Aplicar los filtros
                     if (data && data.length > 0 ) {
@@ -647,19 +651,27 @@
                                     </td>
                                 </tr>`;
                             }
-                            $('#ticketTable').append(tr);
+
+
+                            $('#pdf').append(tr);
                         });
 
                         // Mostrar botón para exportar a PDF si hay tickets
                         tickets = JSON.stringify(data);
                         $('#toPDF').removeClass('d-none').addClass('d-block');
+
+                        
                         $('#all_tickets').append(tickets);
+                        
 
                     } else {
                         // Mostrar mensaje de "No se encontraron resultados"
                         const tr = '<tr><td colspan="10">No se encontraron resultados</td></tr>';
                         $('#ticketTable').append(tr);
                     }
+ 
+                    
+                   
  
                 },
                 error: function(xhr, status, error) {
