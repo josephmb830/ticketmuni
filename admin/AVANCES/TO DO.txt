@@ -1,0 +1,8 @@
+tarea 1 #15/10/2024
+    * Eliminar mensjae de Warning de libreria Datatable JS (Leerr documentacion https://datatables.net/manual )
+    * Que funcione el boton filtrar
+        utilizar AJAX, y sus funciones de espera, completado, Finalizado, Error
+
+
+
+    
