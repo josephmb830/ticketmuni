@@ -520,7 +520,6 @@
 <script type="text/javascript">
     $(document).ready(function(){
 
-        new DataTable('#pdf');
         var table = $('#pdf').DataTable({});
         var tickets;
         // Obtener referencia al botón de búsqueda
