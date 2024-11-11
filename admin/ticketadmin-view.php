@@ -573,7 +573,7 @@
                     // Limpiar la tabla de resultados
 
 
-                    $('#pdf').html(' <thead><tr><th class="text-center">#</th><th class="text-center">Fecha</th><th class="text-center">Serie</th><th class="text-center">Estado</th><th class="text-center">Nombre</th><th class="text-center">Email</th><th class="text-center">Tipo de falla</th><th class="text-center">Tecnico</th><th class="text-center">Opciones</th></tr></thead><tbody id="ticketTable"></tbody></table>');
+                    $('#pdf').html(' <thead><tr><th class="text-center">#</th><th class="text-center">Fecha de creación</th><th class="text-center">Serie</th><th class="text-center">Estado</th><th class="text-center">Nombre</th><th class="text-center">Email</th><th class="text-center">Tipo de falla</th><th class="text-center">Técnico</th><th class="text-center">Fecha solución</th><th class="text-center">Área</th><th class="text-center">Opciones</th></tr></thead><tbody id="ticketTable"></tbody></table>');
  
   
                     
@@ -605,11 +605,11 @@
                         console.log("Datos después de aplicar filtros: ", data);
 
                         // Agregar filas a la tabla
-                        data.forEach(row => {
+                        data.forEach((row, index) => {
                             let tr = '';
                             if (row.id_cliente != null) {
                                 tr = `<tr>
-                                    <td class="text-center"></td>
+                                    <td class="text-center">${index + 1}</td>
                                     <td>${row.fecha}</td>
                                     <td>${row.serie}</td>
                                     <td>${row.estado_ticket}</td>
