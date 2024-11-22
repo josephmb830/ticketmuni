@@ -208,7 +208,7 @@
                         <option value="">Seleccione el estado de ticket...</option>
                             <option value="Pendiente">Pendiente</option>
                             <option value="En proceso">En proceso</option>
-                            <option value="En proceso">Anulado</option>
+                            <option value="Anulado">Anulado</option>
                             <option value="Resuelto">Resuelto</option>
                         </select>      
                         </div>
